@@ -5,8 +5,8 @@ namespace qoqo.Model;
 public class QoqoContext : DbContext
 {
     public DbSet<User> Users { get; set; }
-    
-    public string DbPath { get; }
+
+    private string DbPath { get; }
 
     public QoqoContext()
     {

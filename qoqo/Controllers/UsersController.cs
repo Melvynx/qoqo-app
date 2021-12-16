@@ -10,11 +10,11 @@ namespace qoqo.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserController : ControllerBase
+public class UsersController : ControllerBase
 {
     private readonly QoqoContext _context;
 
-    public UserController(QoqoContext qoqoContext)
+    public UsersController(QoqoContext qoqoContext)
     {
         _context = qoqoContext;
     }
@@ -22,8 +22,6 @@ public class UserController : ControllerBase
     [HttpGet]
     public List<User> Get()
     {
-        /*var user = new User { UserId = 1, Firstname = "John", Lastname = "Doe", Usernamne = "Jojo", PasswordHash = "abcdefghijklmnopqrstuvwxyz" };
-        _context.Users.Add(user);*/
         return _context.Users.ToList();
     }
 }
