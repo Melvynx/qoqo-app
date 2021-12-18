@@ -5,13 +5,15 @@ namespace qoqo.Model;
 public class QoqoContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Offer> Offers { get; set; }
+    public DbSet<Click> Clicks { get; set; }
+    public DbSet<Order> Orders { get; set; }
 
     private string DbPath { get; }
 
     public QoqoContext()
     {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
+        var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         DbPath = Path.Join(path, "qoqo.db");
     }
 

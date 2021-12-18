@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using qoqo.Model;
 
@@ -10,9 +11,10 @@ using qoqo.Model;
 namespace qoqo.Migrations
 {
     [DbContext(typeof(QoqoContext))]
-    partial class QoqoContextModelSnapshot : ModelSnapshot
+    [Migration("20211218204510_AddOrders")]
+    partial class AddOrders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
@@ -22,9 +24,6 @@ namespace qoqo.Migrations
                     b.Property<int>("ClickId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
 
                     b.Property<int>("OfferId")
                         .HasColumnType("INTEGER");
@@ -130,9 +129,6 @@ namespace qoqo.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")

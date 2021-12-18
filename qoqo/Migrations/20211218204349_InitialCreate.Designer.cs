@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using qoqo.Model;
 
@@ -10,9 +11,10 @@ using qoqo.Model;
 namespace qoqo.Migrations
 {
     [DbContext(typeof(QoqoContext))]
-    partial class QoqoContextModelSnapshot : ModelSnapshot
+    [Migration("20211218204349_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
@@ -22,9 +24,6 @@ namespace qoqo.Migrations
                     b.Property<int>("ClickId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
 
                     b.Property<int>("OfferId")
                         .HasColumnType("INTEGER");
@@ -93,33 +92,6 @@ namespace qoqo.Migrations
                     b.ToTable("Offers");
                 });
 
-            modelBuilder.Entity("qoqo.Model.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ClickId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("ClickId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
-                });
-
             modelBuilder.Entity("qoqo.Model.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -130,9 +102,6 @@ namespace qoqo.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -182,25 +151,6 @@ namespace qoqo.Migrations
                         .IsRequired();
 
                     b.Navigation("Offer");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("qoqo.Model.Order", b =>
-                {
-                    b.HasOne("qoqo.Model.Click", "Click")
-                        .WithMany()
-                        .HasForeignKey("ClickId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("qoqo.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Click");
 
                     b.Navigation("User");
                 });

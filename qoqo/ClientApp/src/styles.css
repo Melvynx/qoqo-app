@@ -8,7 +8,6 @@ a {
   color: #0366d6;
 }
 
-
 code {
   color: #e01a76;
 }
@@ -17,4 +16,14 @@ code {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+
+body,
+html {
+  background-color: #292929;
+  @apply text-white;
+}
+
+.btn.primary {
+  @apply bg-pink-600 px-4 py-3 rounded-full text-white hover:bg-pink-700 transition active:bg-pink-900;
 }

@@ -20,6 +20,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
+    
     public List<User> Get()
     {
         return _context.Users.ToList();

@@ -1,0 +1,4 @@
+{
+  // tailwind rule @apply made errors
+  "css.lint.unknownAtRules": "ignore"
+}

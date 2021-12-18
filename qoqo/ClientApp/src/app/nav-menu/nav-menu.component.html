@@ -1,85 +1,16 @@
-<!-- <header>
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-  >
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">qoqo</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-        [ngClass]="{ show: isExpanded }"
-      >
-        <ul class="navbar-nav flex-grow">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
-              >Counter</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
-              >Fetch data</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/users']"
-            >Users</a
-            >
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header> -->
-<nav class="bg-white shadow-lg">
+<nav class="">
   <div class="max-w-6xl mx-auto px-4">
-    <div class="flex justify-between">
-      <div class="flex space-x-7">
-        <div>
-          <a href="#" class="flex items-center py-4 px-2">
-            <img src="logo.png" alt="Logo" class="h-8 w-8 mr-2" />
-            <span class="font-semibold text-gray-500 text-lg">Navigation</span>
-          </a>
-        </div>
-        <div class="hidden md:flex items-center space-x-1">
-          <a
-            class="py-4 px-2 text-green-500 border-green-500 font-semibold"
-            [routerLinkActive]="['border-b-4']"
-            [routerLink]="['/users']"
-          >
-            Users
-          </a>
-          <a
-            class="py-4 px-2 text-green-500 border-green-500 font-semibold"
-            [routerLinkActive]="['border-b-4']"
-            [routerLink]="['/home']"
-          >
-            Home
-          </a>
-          <a
-            class="py-4 px-2 text-green-500 border-green-500 font-semibold"
-            [routerLinkActive]="['border-b-4']"
-            [routerLink]="['/fetch-data']"
-          >
-            Fetch data
-          </a>
-        </div>
+    <div class="flex justify-between items-center w-full">
+      <div>
+        <a href="#" class="flex items-center py-4 px-2">
+          <img src="assets/qoqo-logo.svg" alt="Logo" class="sm:w-28 w-16" />
+        </a>
+      </div>
+      <div>
+        <button class="btn primary flex items-center gap-2">
+          Mon compte
+          <img src="assets/icon/login.svg" alt="Login" class="w-4 text-white" />
+        </button>
       </div>
     </div>
   </div>
