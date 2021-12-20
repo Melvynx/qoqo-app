@@ -14,7 +14,9 @@ public class UserProvider
     {
         _context = context;
     }
-
+    
+    // use bcrypt to hash password
+    // https://jasonwatmore.com/post/2020/07/16/aspnet-core-3-hash-and-verify-passwords-with-bcrypt
     public async Task<User?> Login(LoginDto loginDto)
     {
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(loginDto.Password);
@@ -22,25 +24,5 @@ public class UserProvider
             .Where(u => u.UserName == loginDto.Username && u.PasswordHash == passwordHash);
 
         return await query.FirstOrDefaultAsync();
-    }
-
-    private static string HashPassword(string password)
-    {
-        var salt = new byte[128 / 8];
-        using (var rngCsp = new RNGCryptoServiceProvider())
-        {
-            rngCsp.GetNonZeroBytes(salt);
-        }
-
-        Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
-
-        var hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: password,
-            salt: salt,
-            prf: KeyDerivationPrf.HMACSHA256,
-            iterationCount: 100000,
-            numBytesRequested: 256 / 8));
-
-        return hashed;
     }
 }
