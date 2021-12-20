@@ -23,6 +23,8 @@ code {
 :root {
   --primary-gradiant: linear-gradient(95deg, #eb008d 0.06%, #f15c08 98.42%);
   --background-color: hsl(0, 0%, 16%);
+  --tw-ring-offset-shadow: 4px;
+  --tw-ring-shadow: 4px;
 }
 
 body,
