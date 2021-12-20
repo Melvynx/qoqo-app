@@ -1,0 +1,18 @@
+.border-container {
+  background: var(--primary-gradiant);
+  max-width: 640px;
+  @apply p-1 m-auto shadow-md;
+}
+
+.border-container.disabled {
+  background: linear-gradient(90deg, #3c3c3c 50%, #303030 100%);
+}
+
+.click-container {
+  background-color: var(--background-color);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @apply gap-6 sm:gap-8;
+}

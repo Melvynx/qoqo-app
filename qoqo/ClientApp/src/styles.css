@@ -18,12 +18,27 @@ code {
   border-color: #1861ac;
 }
 
+:root {
+  --primary-gradiant: linear-gradient(95deg, #eb008d 0.06%, #f15c08 98.42%);
+  --background-color: hsl(0, 0%, 16%);
+}
+
 body,
 html {
-  background-color: #292929;
+  background-color: var(--background-color);
   @apply text-white;
 }
 
 .btn.primary {
   @apply bg-pink-600 px-4 py-3 rounded-full text-white hover:bg-pink-700 transition active:bg-pink-900;
+}
+
+.primary-text-gradiant {
+  background: var(--primary-gradiant);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+
+  @apply font-bold text-center;
 }
