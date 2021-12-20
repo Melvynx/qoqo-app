@@ -1,4 +1,10 @@
-<button class="click-btn" [class.disabled]="disabled" (click)="handleClick()">
+<button
+  class="click-btn"
+  [class.disabled]="disabled"
+  (click)="handleClick()"
+  #root
+>
+  <canvas class="confetti-canvas" #canvas></canvas>
   <span class="click-shadow"></span>
   <span class="click-edge"></span>
   <span class="click-main" #main>

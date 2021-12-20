@@ -9,6 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import * as confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-click-button',
@@ -19,6 +20,8 @@ export class ClickButtonComponent implements OnInit {
   @ViewChild('next') next?: ElementRef;
   @ViewChild('current') curr?: ElementRef;
   @ViewChild('main') main?: ElementRef;
+  @ViewChild('root') root?: ElementRef;
+  @ViewChild('canvas') canvas?: ElementRef;
 
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
@@ -52,6 +55,18 @@ export class ClickButtonComponent implements OnInit {
 
   handleClick() {
     this.onClick.emit();
+    const canvas: { confetti: typeof confetti } & HTMLCanvasElement =
+      this.canvas?.nativeElement;
+    canvas.confetti = confetti.create(canvas, {
+      resize: true,
+    }) as typeof confetti;
+
+    canvas.confetti({
+      particleCount: 100,
+      spread: 60,
+      drift: 0.1,
+      origin: { y: 1 },
+    });
   }
 
   handleTransitionEnd() {

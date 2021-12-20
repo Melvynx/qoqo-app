@@ -39,10 +39,10 @@
   --color-deg: 20deg;
   background: linear-gradient(
     to left,
-    hsl(var(--color-deg) 50% 16%) 0%,
-    hsl(var(--color-deg) 50% 32%) 8%,
-    hsl(var(--color-deg) 50% 32%) 92%,
-    hsl(var(--color-deg) 50% 16%) 100%
+    hsl(var(--color-deg) 20% 16%) 0%,
+    hsl(var(--color-deg) 20% 32%) 8%,
+    hsl(var(--color-deg) 20% 32%) 92%,
+    hsl(var(--color-deg) 20% 16%) 100%
   );
 }
 
@@ -151,4 +151,16 @@
     translateY(calc(var(--translate-x) * -1));
   opacity: 0;
   transition: var(--transition);
+}
+
+/* Confetti */
+.confetti-canvas {
+  position: absolute;
+  pointer-events: none;
+  bottom: 0;
+  left: 0;
+  width: 500%;
+  transform: translateX(-40%);
+  height: 550%;
+  z-index: -1;
 }
