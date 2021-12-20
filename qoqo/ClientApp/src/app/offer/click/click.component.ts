@@ -8,6 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ClickComponent implements OnInit {
   @Input() variant: ClickComponentVariant = 'enabled';
 
+  sentence: string =
+    'Avec un score de 22 click, @JeanMichel a fait le 722ème click. Il a donc fait 3% des clicks total!';
+
   clickCounter: number = 55;
 
   constructor() {}

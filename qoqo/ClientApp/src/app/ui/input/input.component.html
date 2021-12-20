@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-2">
+  <label class="text-base font-bold">{{ label }}</label>
+  <input
+    class="input"
+    [class.error]="error"
+    [class.disabled]="disabled"
+    [disabled]="disabled"
+    [value]="value"
+    [placeholder]="placeholder"
+    #input
+  />
+  <p *ngIf="error" class="text-base text-red-500">{{ error }}</p>
+</div>

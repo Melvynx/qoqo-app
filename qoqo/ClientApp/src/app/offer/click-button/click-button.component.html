@@ -1,7 +1,7 @@
 <button
   class="click-btn"
   [class.disabled]="disabled"
-  (click)="handleClick()"
+  (click)="!disabled && !loading && handleClick()"
   #root
 >
   <canvas class="confetti-canvas" #canvas></canvas>

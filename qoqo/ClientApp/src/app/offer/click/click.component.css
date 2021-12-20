@@ -8,6 +8,14 @@
   background: linear-gradient(90deg, #3c3c3c 50%, #303030 100%);
 }
 
+.border-container.wine {
+  background: linear-gradient(90deg, #27ae60 50%, #14af91 100%);
+}
+
+.border-container.lose {
+  background: linear-gradient(90deg, #c0392b 50%, #ea2027 100%);
+}
+
 .click-container {
   background-color: var(--background-color);
 

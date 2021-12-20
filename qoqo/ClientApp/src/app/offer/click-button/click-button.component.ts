@@ -40,6 +40,7 @@ export class ClickButtonComponent implements OnInit {
       this.handleTransitionEnd.bind(this)
     );
   }
+  
   ngOnDestroy() {
     this.next?.nativeElement.removeEventListener(
       'transitionend',

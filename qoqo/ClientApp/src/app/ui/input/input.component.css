@@ -1,0 +1,16 @@
+.input {
+  @apply bg-black py-4 px-6 border-2 border-neutral-500 rounded-full  focus:outline-1 outline-offset-4 outline-white;
+}
+
+.input:focus {
+  outline: 2px solid;
+  @apply outline-white border-white shadow-lg;
+}
+
+.input.error {
+  @apply border-red-600 outline-red-600;
+}
+
+.input.disabled {
+  @apply bg-neutral-800 border-neutral-600;
+}

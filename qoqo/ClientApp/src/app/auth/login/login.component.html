@@ -1,0 +1,19 @@
+<div
+  class="bg-neutral-700 flex flex-col gap-8 py-8 px-16 rounded-3xl w-min m-auto my-8"
+>
+  <p class="text-5xl text-center">Login</p>
+  <app-input
+    [error]="errors.username"
+    value=""
+    label="Username"
+    #username
+  ></app-input>
+  <app-input
+    [inputAttr]="{ type: 'password' }"
+    value=""
+    [error]="errors.password"
+    label="Password"
+    #password
+  ></app-input>
+  <button (click)="onSubmit()" class="btn primary">Submit</button>
+</div>
