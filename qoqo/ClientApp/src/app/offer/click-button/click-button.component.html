@@ -1,5 +1,12 @@
-<button class="click-btn" [class.disabled]="disabled">
+<button class="click-btn" [class.disabled]="disabled" (click)="handleClick()">
   <span class="click-shadow"></span>
   <span class="click-edge"></span>
-  <span class="click-span">Click</span>
+  <span class="click-main" #main>
+    <span class="value current" #current>
+      {{ localValue }}
+    </span>
+    <span class="value next" #next>
+      {{ value }}
+    </span>
+  </span>
 </button>

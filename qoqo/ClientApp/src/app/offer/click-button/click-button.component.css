@@ -36,16 +36,17 @@
   height: 100%;
   border-radius: var(--radius);
 
+  --color-deg: 20deg;
   background: linear-gradient(
     to left,
-    hsl(300deg 50% 16%) 0%,
-    hsl(300deg 50% 32%) 8%,
-    hsl(300deg 50% 32%) 92%,
-    hsl(300deg 50% 16%) 100%
+    hsl(var(--color-deg) 50% 16%) 0%,
+    hsl(var(--color-deg) 50% 32%) 8%,
+    hsl(var(--color-deg) 50% 32%) 92%,
+    hsl(var(--color-deg) 50% 16%) 100%
   );
 }
 
-.click-span {
+.click-main {
   background: var(--primary-gradiant);
   border-radius: var(--radius);
   display: inline-block;
@@ -56,7 +57,8 @@
   @apply px-12 py-8 text-3xl sm:text-4xl font-bold;
 }
 
-.click-btn:hover .click-span {
+/* State update */
+.click-btn:hover .click-main {
   transform: translateY(-8px);
   transition-duration: 100ms;
 }
@@ -68,7 +70,7 @@
   transition-duration: 250ms;
 }
 
-.click-btn:active .click-span {
+.click-btn:active .click-main {
   transform: translateY(-1px);
   transition-duration: 25ms;
   box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.25);
@@ -77,17 +79,16 @@
   transform: translateY(1px);
   transition: transform 34ms;
 }
-
 .click-btn:active:hover .front {
   transition-duration: 25ms;
 }
 
+/* Disabled */
 .click-btn.disabled {
   filter: brightness(80%);
   cursor: not-allowed;
 }
-
-.click-btn.disabled .click-span {
+.click-btn.disabled .click-main {
   transition: unset;
   transform: translateY(-2px);
   box-shadow: inset -4px -4px 8px rgba(0, 0, 0, 0.25);
@@ -107,4 +108,47 @@
     hsl(300deg 0% 32%) 92%,
     hsl(300deg 0% 16%) 100%
   );
+}
+
+/* Animations */
+.click-main {
+  position: relative;
+  perspective: 500px;
+  font-family: "DM Mono", monospace;
+}
+
+.value {
+  --transition-ms: 250ms;
+  --translate-x: 64px;
+  --rotation-x: 50deg;
+  --transition: transform var(--transition-ms), opacity var(--transition-ms);
+}
+
+.value.next {
+  font-family: inherit;
+  position: absolute;
+  right: 0;
+  left: 0;
+  opacity: 0; /* 0 */
+  transform: rotateX(calc(var(--rotation-x) * -1))
+    translateY(var(--translate-x));
+}
+
+.value.current {
+  font-family: inherit;
+  position: relative;
+  display: inline-block;
+}
+
+.roll > .next {
+  opacity: 1;
+  transform: rotateX(0deg) translateY(0px);
+  transition: var(--transition);
+}
+
+.roll > .current {
+  transform: rotateX(var(--rotation-x))
+    translateY(calc(var(--translate-x) * -1));
+  opacity: 0;
+  transition: var(--transition);
 }

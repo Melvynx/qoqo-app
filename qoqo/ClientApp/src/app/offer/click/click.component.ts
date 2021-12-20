@@ -8,9 +8,16 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ClickComponent implements OnInit {
   @Input() variant: ClickComponentVariant = 'enabled';
 
+  clickCounter: number = 55;
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  handleTest() {
+    this.clickCounter++;
+    console.log('handle test');
+  }
 }
 
 type ClickComponentVariant = 'disabled' | 'enabled' | 'wine' | 'lose';

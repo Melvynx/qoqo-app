@@ -9,6 +9,10 @@
       Pour le gagné il te suffit d'être la personne qui cliquera lorsque le
       compteur sera a <span class="primary-text-gradiant">722</span>
     </p>
-    <app-click-button [disabled]="variant === 'disabled'"></app-click-button>
+    <app-click-button
+      (onClick)="handleTest()"
+      [value]="clickCounter"
+      [disabled]="variant === 'disabled'"
+    ></app-click-button>
   </div>
 </div>
