@@ -5,18 +5,12 @@ namespace qoqo.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController : ControllerBase
+public class OrdersController : ControllerBase
 {
     private readonly QoqoContext _context;
 
-    public UsersController(QoqoContext qoqoContext)
+    public OrdersController(QoqoContext qoqoContext)
     {
         _context = qoqoContext;
-    }
-
-    [HttpGet]
-    public List<User> Get()
-    {
-        return _context.Users.ToList();
     }
 }
