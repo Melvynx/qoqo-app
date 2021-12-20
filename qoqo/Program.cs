@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using qoqo.Hubs;
 using qoqo.Model;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,8 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 );
 
 builder.Services.AddDbContext<QoqoContext>();
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -47,5 +50,7 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");
+
+app.MapHub<OfferHub>("/offerHub");
 
 app.Run();
