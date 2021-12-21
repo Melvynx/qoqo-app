@@ -3,11 +3,17 @@
   <input
     class="input"
     [class.error]="error"
+    [class.helper]="helper"
     [class.disabled]="disabled"
     [disabled]="disabled"
     [value]="value"
     [placeholder]="placeholder"
     #input
   />
-  <p *ngIf="error" class="text-base text-red-500">{{ error }}</p>
+  <p *ngIf="error" class="text-xs text-red-500 w-min min-w-full">
+    {{ error }}
+  </p>
+  <p *ngIf="!error && helper" class="text-xs text-neutral-400 w-min min-w-full">
+    {{ helper }}
+  </p>
 </div>

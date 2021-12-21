@@ -8,12 +8,13 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 export class InputComponent implements OnInit {
   @ViewChild('input') input?: ElementRef;
 
-  @Input('label') label: string = '';
-  @Input('value') value: string = '';
-  @Input('error') error: string = '';
-  @Input('placeholder') placeholder: string = '';
-  @Input('disabled') disabled: boolean = false;
-  @Input('inputAttr') inputAttr: any = {};
+  @Input('label') label = '';
+  @Input('value') value = '';
+  @Input('error') error = '';
+  @Input('helper') helper = '';
+  @Input('placeholder') placeholder = '';
+  @Input('disabled') disabled = false;
+  @Input('inputAttr') inputAttr = {};
 
   constructor() {}
 
@@ -25,7 +26,7 @@ export class InputComponent implements OnInit {
     Object.assign(this.input?.nativeElement, this.inputAttr);
   }
 
-  getValue() {
+  public getValue() {
     return this.input?.nativeElement.value;
   }
 }

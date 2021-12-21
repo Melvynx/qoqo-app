@@ -16,6 +16,10 @@ import { ClickButtonComponent } from './offer/click-button/click-button.componen
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './auth/login/login.component';
 import { InputComponent } from './ui/input/input.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { AuthMainComponent } from './auth/main/auth-main.component';
+import { ViewComponent } from './auth/view/view.component';
+import { AuthButtonComponent } from './auth/button/auth-button.component';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -23,7 +27,7 @@ const ROUTES: Routes = [
   { path: 'fetch-data', component: FetchDataComponent },
   { path: 'users', component: UsersComponent },
   { path: 'offer', component: OfferPageComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'auth', component: AuthMainComponent },
 ];
 
 @NgModule({
@@ -38,8 +42,12 @@ const ROUTES: Routes = [
     ClickComponent,
     ClickButtonComponent,
     FooterComponent,
-    LoginComponent,
     InputComponent,
+    AuthMainComponent,
+    ViewComponent,
+    LoginComponent,
+    RegisterComponent,
+    AuthButtonComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -34,7 +34,7 @@ html {
 }
 
 .btn.primary {
-  @apply bg-pink-600 px-4 py-3 rounded-full text-white hover:bg-pink-700 transition active:bg-pink-900;
+  @apply bg-pink-600 px-4 py-3 rounded-full text-white hover:bg-pink-700 transition active:bg-pink-900 focus:outline outline-offset-2;
 }
 
 .primary-text-gradiant {

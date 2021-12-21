@@ -1,9 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { InputComponent } from 'src/app/ui/input/input.component';
-import { getBaseUrl } from 'src/main';
+import { client } from '../../../utils/client';
+import { User } from '../../../types/users';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'auth-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -11,12 +19,18 @@ export class LoginComponent implements OnInit {
   @ViewChild('username') username?: InputComponent;
   @ViewChild('password') password?: InputComponent;
 
+  @Output() onRegister = new EventEmitter();
+
+  private _authService: AuthService;
+
   errors = {
     username: '',
     password: '',
   };
 
-  constructor() {}
+  constructor(authService: AuthService) {
+    this._authService = authService;
+  }
 
   ngOnInit(): void {}
 
@@ -34,22 +48,12 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    fetch(`${getBaseUrl()}api/users/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(user),
-    })
-      .then((r) => {
-        if (r.status !== 200) {
-          this.errors.password = 'Username or password is incorrect';
-        }
-        return r.json();
+    client<User>('users/login', { data: user })
+      .then((user) => {
+        this._authService.login(user);
       })
-      .then((r) => {
-        console.log(r);
+      .catch(() => {
+        this.errors.password = 'Username or password is incorrect';
       });
   }
 }

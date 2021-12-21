@@ -23,12 +23,12 @@ export class ClickButtonComponent implements OnInit {
   @ViewChild('root') root?: ElementRef;
   @ViewChild('canvas') canvas?: ElementRef;
 
-  @Input() disabled: boolean = false;
-  @Input() loading: boolean = false;
-  @Input() value: number = 0;
-  @Output() onClick: EventEmitter<any> = new EventEmitter();
+  @Input() disabled = false;
+  @Input() loading = false;
+  @Input() value = 0;
+  @Output() onClick = new EventEmitter();
 
-  localValue: number = 0;
+  localValue = 0;
 
   ngOnInit(): void {
     this.localValue = this.value;
@@ -40,7 +40,7 @@ export class ClickButtonComponent implements OnInit {
       this.handleTransitionEnd.bind(this)
     );
   }
-  
+
   ngOnDestroy() {
     this.next?.nativeElement.removeEventListener(
       'transitionend',
