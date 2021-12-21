@@ -11,6 +11,8 @@ public class Order
     
     public int UserId { get; set; }
     public User User { get; set; }
+
+    public int Id => OrderId;
 }
 
 public enum OrderStatus

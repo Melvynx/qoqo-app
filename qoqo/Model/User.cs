@@ -14,6 +14,10 @@ public class User
     public int? Npa { get; set; }
     public string? City { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+    
+    public List<Click> Clicks { get; set; }
+    public List<Order> Orders { get; set; }
+    public List<Token> Tokens { get; set; }
 
     public int Id => UserId;
 }
