@@ -71,10 +71,10 @@ public class UsersController : ControllerBase
         var token = GetToken();
         if (token == null)
         {
-            return BadRequest();
+            return BadRequest("No token found");
         }
 
-        Response.Cookies.Delete("Token");
+        Response.Cookies.Delete(TokenKey);
 
         return await _userProvider.Logout(token) ? Ok("Logout") : BadRequest("Invalid token");
     }

@@ -118,7 +118,7 @@ public class UserProvider
         {
             errors.UserName = UserNameRegexError;
         }
-
+        
         if (!PasswordRegex.IsMatch(registerDto.Password))
         {
             errors.Password = PasswordRegexError;
