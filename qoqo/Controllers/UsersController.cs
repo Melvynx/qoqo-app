@@ -13,10 +13,10 @@ public class UsersController : ControllerBase
     private readonly QoqoContext _context;
     private readonly UserProvider _userProvider;
 
-    public UsersController(QoqoContext qoqoContext)
+    public UsersController(QoqoContext qoqoContext, UserProvider userProvider)
     {
         _context = qoqoContext;
-        _userProvider = new UserProvider(_context);
+        _userProvider = userProvider;
     }
 
     [HttpGet]
