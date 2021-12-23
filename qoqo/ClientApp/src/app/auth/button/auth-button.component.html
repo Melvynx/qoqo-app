@@ -1,15 +1,15 @@
 <div class="flex items-baseline gap-4">
   <a
-    *ngIf="_authService.isAuthenticated"
-    routerLink="/auth"
+    *ngIf="authService.isAuthenticated"
+    routerLink="/auth/view"
     class="text-base text-white underline underline-offset-2 font-bold"
   >
-    @{{ _authService.user?.userName }}
+    @{{ authService.user?.userName }}
   </a>
   <button
-    *ngIf="!_authService.isAuthenticated"
+    *ngIf="!authService.isAuthenticated"
     class="btn primary flex items-center gap-2"
-    routerLink="/auth"
+    routerLink="/auth/login"
   >
     Login
     <img src="assets/icon/login.svg" alt="Login" class="w-4 text-white" />

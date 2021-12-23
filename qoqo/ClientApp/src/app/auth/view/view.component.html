@@ -1,5 +1,13 @@
 <div class="flex flex-col gap-4">
-  <p class="text-4xl">Hi {{ authService.user?.userName }}</p>
+  <div class="flex justify-between w-full items-center">
+    <p class="text-4xl">Hi {{ authService.user?.userName }}</p>
+    <button
+      class="text-md font-bold underline text-white cursor-pointer focus:outline"
+      (click)="onLogout()"
+    >
+      Logout
+    </button>
+  </div>
   <div class="flex gap-4 items-start flex-wrap">
     <app-input
       #firstname
@@ -37,7 +45,5 @@
     </a>
     <button (click)="onSubmit()" class="btn primary">Submit</button>
   </div>
-  <div class="flex justify-end">
-    <button class="btn gray" (click)="onLogout()">Logout</button>
-  </div>
+  <div class="flex justify-end"></div>
 </div>

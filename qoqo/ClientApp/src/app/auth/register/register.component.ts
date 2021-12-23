@@ -1,10 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { InputComponent } from 'src/app/ui/input/input.component';
 import { User } from 'src/types/users';
@@ -15,7 +10,7 @@ import { client } from 'src/utils/client';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   @ViewChild('username') username?: InputComponent;
   @ViewChild('firstname') firstname?: InputComponent;
   @ViewChild('lastname') lastname?: InputComponent;
@@ -24,16 +19,12 @@ export class RegisterComponent implements OnInit {
   @ViewChild('password') password?: InputComponent;
 
   errors: Record<string, string> = {};
-  _authService: AuthService;
 
-  @Output() onLogin = new EventEmitter();
-
-  constructor(authService: AuthService) {
-    this._authService = authService;
+  constructor(private authService: AuthService, private location: Location) {
+    if (this.authService.isAuthenticated) {
+      this.location.replaceState('/auth/view');
+    }
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  ngOnInit(): void {}
 
   onSubmit() {
     const user = {
@@ -62,7 +53,8 @@ export class RegisterComponent implements OnInit {
 
     client<User>('users/register', { data: user })
       .then((user) => {
-        this._authService.login(user);
+        this.authService.login(user);
+        window.location.pathname = '/auth/view';
       })
       .catch((err) => {
         this.errors = err;

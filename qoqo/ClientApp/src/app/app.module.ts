@@ -20,6 +20,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AuthMainComponent } from './auth/main/auth-main.component';
 import { ViewComponent } from './auth/view/view.component';
 import { AuthButtonComponent } from './auth/button/auth-button.component';
+import { AuthGuard } from './guard/auth.guard';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -27,7 +28,22 @@ const ROUTES: Routes = [
   { path: 'fetch-data', component: FetchDataComponent },
   { path: 'users', component: UsersComponent },
   { path: 'offer', component: OfferPageComponent },
-  { path: 'auth', component: AuthMainComponent },
+  {
+    path: 'auth',
+    component: AuthMainComponent,
+    children: [
+      { path: 'login', component: LoginComponent },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+      {
+        path: 'view',
+        component: ViewComponent,
+        canActivate: [AuthGuard],
+      },
+    ],
+  },
 ];
 
 @NgModule({

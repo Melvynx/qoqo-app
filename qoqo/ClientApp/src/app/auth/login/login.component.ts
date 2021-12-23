@@ -1,13 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { InputComponent } from 'src/app/ui/input/input.component';
-import { client } from '../../../utils/client';
 import { User } from '../../../types/users';
+import { client } from '../../../utils/client';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -15,24 +11,20 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   @ViewChild('username') username?: InputComponent;
   @ViewChild('password') password?: InputComponent;
-
-  @Output() onRegister = new EventEmitter();
-
-  private _authService: AuthService;
 
   errors = {
     username: '',
     password: '',
   };
 
-  constructor(authService: AuthService) {
-    this._authService = authService;
+  constructor(private authService: AuthService, private router: Router) {
+    if (this.authService.isAuthenticated) {
+      this.router.navigate(['/auth/view']);
+    }
   }
-
-  ngOnInit(): void {}
 
   onSubmit() {
     const user = {
@@ -50,7 +42,8 @@ export class LoginComponent implements OnInit {
 
     client<User>('users/login', { data: user })
       .then((user) => {
-        this._authService.login(user);
+        this.authService.login(user);
+        this.router.navigate(['/auth/view']);
       })
       .catch(() => {
         this.errors.password = 'Username or password is incorrect';

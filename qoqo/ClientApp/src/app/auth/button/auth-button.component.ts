@@ -7,16 +7,12 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./auth-button.component.css'],
 })
 export class AuthButtonComponent implements OnInit {
-  _authService: AuthService;
-
-  constructor(authService: AuthService) {
-    this._authService = authService;
-  }
+  constructor(public authService: AuthService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 
   getButtonText() {
-    return this._authService.isAuthenticated ? 'Logout' : 'Login';
+    return this.authService.isAuthenticated ? 'Logout' : 'Login';
   }
 }

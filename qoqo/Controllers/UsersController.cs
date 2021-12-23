@@ -1,7 +1,9 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using qoqo.DataTransferObjects;
 using qoqo.Model;
 using qoqo.Providers;
+using qoqo.Services;
 
 namespace qoqo.Controllers;
 
@@ -9,7 +11,6 @@ namespace qoqo.Controllers;
 [ApiController]
 public class UsersController : ControllerBase
 {
-    private const string TokenKey = "Token";
     private readonly QoqoContext _context;
     private readonly UserProvider _userProvider;
 
@@ -58,7 +59,7 @@ public class UsersController : ControllerBase
             return NotFound("Invalid username or password");
         }
 
-        SetToken(user.Token);
+        new TokenService(HttpContext).SetToken(user.Token);
 
         return user;
     }
@@ -67,37 +68,23 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<UserDto?>> Register(RegisterDto registerDto)
     {
         var result = await _userProvider.Register(registerDto);
-        SetToken(result.Value?.Token);
+        new TokenService(HttpContext).SetToken(result.Value?.Token);
         return result;
     }
 
     [HttpPost("logout")]
     public async Task<ActionResult<User?>> Logout()
     {
-        var token = GetToken();
+        var tokenService = new TokenService(HttpContext);
+        var token = tokenService.GetToken();
+
         if (token == null)
         {
             return BadRequest("No token found");
         }
 
-        Response.Cookies.Delete(TokenKey);
+        tokenService.DeleteToken();
 
         return await _userProvider.Logout(token) ? Ok("Logout") : BadRequest("Invalid token");
-    }
-
-    // TokenService -> Services
-    private void SetToken(string? token)
-    {
-        if (token == null)
-        {
-            return;
-        }
-
-        Response.Cookies.Append(TokenKey, token);
-    }
-
-    private string? GetToken()
-    {
-        return Request.Cookies[TokenKey];
     }
 }

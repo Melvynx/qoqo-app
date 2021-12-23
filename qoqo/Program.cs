@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using qoqo.Authorization;
 using qoqo.Hubs;
 using qoqo.Model;
+using qoqo.Providers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,8 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 );
 
 builder.Services.AddDbContext<QoqoContext>();
+builder.Services.AddTransient<UserProvider>();
+builder.Services.AddTransient<IAuthenticationService, AuthorizationService>();
 
 builder.Services.AddSignalR();
 
@@ -44,6 +49,7 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

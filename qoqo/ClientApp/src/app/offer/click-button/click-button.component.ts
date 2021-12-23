@@ -49,7 +49,7 @@ export class ClickButtonComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes?.value?.previousValue) {
+    if (changes?.value?.previousValue !== undefined) {
       this.handleNewValueAnimation(changes.value.currentValue);
     }
   }

@@ -1,12 +1,9 @@
-<div class="pt-4">
+<div class="pt-4" *ngIf="_offerService.offer">
   <h1 class="font-sans text-5xl font-bold text-center px-2 mb-4 sm:mb-8">
-    MacBook Pro 16 pouces
+    {{ _offerService.offer?.title }}
   </h1>
 
-  <img
-    class="cover w-full"
-    src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-pro-13-og-202011?wid=1200&hei=630&fmt=jpeg&qlt=95&.v=1604347427000"
-  />
+  <img class="cover w-full" [src]="_offerService.offer?.imageUrl" />
   <div class="px-2 my-2 sm:my-4 gap-8 flex flex-col max-w-4xl m-auto">
     <div class="flex items-baseline justify-end my-2 sm:my-4">
       <p class="primary-text-gradiant text-center text-6xl sm:text-7xl">
@@ -15,25 +12,14 @@
       <p
         class="text-xl sm:text-2xl text-center ml-2 line-through text-neutral-400"
       >
-        1765.-
+        {{ _offerService.offer?.barredPrice }}.-
       </p>
     </div>
     <div>
-      <p class="text-lg">Le nouveau MacBook pro gratuit pour l'heureux élu!</p>
-      <p class="text-lg">
-        Ce bijou de technologie, parfait pour le travail vous est offert..
-      </p>
-      <p class="text-lg">
-        Le plus puissant des MacBook Pro est arrivé. Avec la puce M1 Pro ou M1
-        Max, la première conçue par Apple pour les pros, vous bénéficiez de
-        performances exceptionnelles et d'une incroyable autonomie. Ajoutez à
-        cela un sublime écran Liquid Retina XDR , la meilleure caméra et le
-        meilleur système audio jamais intégrés à un portable Mac et tous les
-        ports dont vous avez besoin. Premier portable du genre, le MacBook Pro
-        est un véritable monstre.
-      </p>
+      <p class="text-lg">{{ _offerService.offer?.description }}</p>
     </div>
 
     <app-click variant="enabled"></app-click>
   </div>
 </div>
+<div *ngIf="!_offerService.offer">Loading...</div>

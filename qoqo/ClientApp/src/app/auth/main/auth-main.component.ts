@@ -7,7 +7,6 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./auth-main.component.css'],
 })
 export class AuthMainComponent implements OnInit {
-  type: 'register' | 'login' = 'login';
   _authService: AuthService;
 
   constructor(authService: AuthService) {
@@ -16,8 +15,4 @@ export class AuthMainComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {}
-
-  handle() {
-    this.type = this.type === 'register' ? 'login' : 'register';
-  }
 }

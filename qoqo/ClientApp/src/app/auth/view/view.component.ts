@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InputComponent } from 'src/app/ui/input/input.component';
 import { User } from 'src/types/users';
@@ -13,18 +14,17 @@ export class ViewComponent implements OnInit {
   @ViewChild('firstname') firstname?: InputComponent;
   @ViewChild('lastname') lastname?: InputComponent;
   @ViewChild('email') email?: InputComponent;
-  authService: AuthService;
   errors: Record<string, string> = {};
 
-  constructor(authService: AuthService) {
-    this.authService = authService;
-  }
+  constructor(public authService: AuthService, private location: Location) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 
   onLogout() {
-    this.authService.logout().then();
+    this.authService
+      .logout()
+      .then(() => this.location.replaceState('/auth/login'));
   }
 
   onSubmit() {
