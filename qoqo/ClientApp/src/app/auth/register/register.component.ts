@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit {
     this._authService = authService;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 
   onSubmit() {

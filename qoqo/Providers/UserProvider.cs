@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,38 @@ public class UserProvider
     {
         _context = context;
     }
+    
+    // update user function
+    public async Task<ActionResult<UserDto>> UpdateUser(UserDto userDto, int userId)
+    {
+        var user = await _context.Users.FindAsync(userId);
+
+        if (user == null)
+        {
+            return new BadRequestObjectResult(new {message= "User not found."});
+        }
+
+        var errors = new UserErrorDto
+        {
+            UserName = CheckUserName(userDto.UserName, userId),
+            Email = CheckEmail(userDto.Email, userId)
+        };
+
+        if (!errors.IsValid())
+        {
+            return new BadRequestObjectResult(errors);
+        }
+        
+        user.UserName = userDto.UserName;
+        user.Email = userDto.Email;
+        user.FirstName = userDto.FirstName;
+        user.LastName = userDto.LastName;
+        user.AvatarUrl = userDto.AvatarUrl;
+
+        await _context.SaveChangesAsync();
+        return UserDto.FromUser(user);
+    }
+    
 
     public async Task<UserDto?> GetUserByToken(string value)
     {
@@ -76,7 +109,7 @@ public class UserProvider
     
     public async Task<ActionResult<UserDto?>> Register(RegisterDto registerDto)
     {
-        var userError = await ValidateUser(registerDto);
+        var userError = ValidateUser(registerDto);
 
         if (!userError.IsValid())
         {
@@ -103,7 +136,7 @@ public class UserProvider
         userDto.Token = await GenerateToken(userDto.Id);
         return userDto;
     }
-
+    
     private async Task<string> GenerateToken(int userId)
     {
         var token = await _context.Tokens.AddAsync(Token.GenerateToken(userId));
@@ -111,34 +144,51 @@ public class UserProvider
         return token.Entity.Value;
     }
 
-    private async Task<UserErrorDto> ValidateUser(RegisterDto registerDto)
+    private UserErrorDto ValidateUser(RegisterDto registerDto)
     {
-        var errors = new UserErrorDto();
-        if (!UsernameRegex.IsMatch(registerDto.UserName))
+        var errors = new UserErrorDto
         {
-            errors.UserName = UserNameRegexError;
-        }
-        
-        if (!PasswordRegex.IsMatch(registerDto.Password))
-        {
-            errors.Password = PasswordRegexError;
-        }
-
-        if (!EmailRegex.IsMatch(registerDto.Email))
-        {
-            errors.Email = EmailRegexError;
-        }
-
-        if (errors.UserName == null && await _context.Users.AnyAsync(u => u.UserName == registerDto.UserName))
-        {
-            errors.UserName = UsernameAlreadyExist;
-        }
-
-        if (errors.Email == null && await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
-        {
-            errors.Email = EmailAlreadyExist;
-        }
+            UserName = CheckUserName(registerDto.UserName),
+            Email = CheckUserName(registerDto.Email),
+            Password = CheckPassword(registerDto.Password)
+        };
 
         return errors;
+    }
+    
+    private string? CheckUserName(string? userName, int? userId = null)
+    {
+        if (userName == null)
+        {
+            return "User name is required";
+        }
+        if (_context.Users.Any(u => u.UserName == userName && u.UserId != userId))
+        {
+            return UsernameAlreadyExist;
+        }
+        
+        return !UsernameRegex.IsMatch(userName) ? UserNameRegexError : null;
+    }
+    
+    private string? CheckPassword(string? password)
+    {
+        if (password == null)
+        {
+            return "Password is required";
+        }
+        return !PasswordRegex.IsMatch(password) ? PasswordRegexError : null;
+    }
+    
+    private string? CheckEmail(string? email, int? userId = null)
+    {
+        if (email == null)
+        {
+            return "Email is required";
+        }
+        if (_context.Users.Any(u => u.Email == email && u.UserId != userId))
+        {
+            return EmailAlreadyExist;
+        }
+        return !EmailRegex.IsMatch(email) ? EmailRegexError : null;
     }
 }

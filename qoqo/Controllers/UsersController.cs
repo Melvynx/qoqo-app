@@ -24,6 +24,12 @@ public class UsersController : ControllerBase
     {
         return _context.Users.ToList();
     }
+    
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult<UserDto>> Patch(int id, [FromBody] UserDto user)
+    {
+        return await _userProvider.UpdateUser(user, id);
+    }
 
     [HttpGet("me")]
     public async Task<ActionResult<UserDto?>> Me()
@@ -79,6 +85,7 @@ public class UsersController : ControllerBase
         return await _userProvider.Logout(token) ? Ok("Logout") : BadRequest("Invalid token");
     }
 
+    // TokenService -> Services
     private void SetToken(string? token)
     {
         if (token == null)

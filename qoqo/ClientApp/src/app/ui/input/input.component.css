@@ -14,3 +14,7 @@
 .input.disabled {
   @apply bg-neutral-800 border-neutral-600;
 }
+
+app-input {
+  @apply w-full;
+}

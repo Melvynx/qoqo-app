@@ -14,6 +14,7 @@ public class QoqoContext : DbContext
 
     public QoqoContext()
     {
+        // for test -> sqlite memory
         var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         DbPath = Path.Join(path, "qoqo.db");
     }

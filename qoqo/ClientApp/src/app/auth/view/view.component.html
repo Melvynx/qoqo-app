@@ -1,3 +1,43 @@
-<div>Hi {{ authService.user?.userName }}</div>
-
-<button class="btn primary" (click)="onLogout()">Logout</button>
+<div class="flex flex-col gap-4">
+  <p class="text-4xl">Hi {{ authService.user?.userName }}</p>
+  <div class="flex gap-4 items-start flex-wrap">
+    <app-input
+      #firstname
+      [error]="errors.firstname"
+      [value]="authService.user?.firstName || ''"
+      label="First name"
+      class="w-full sm:w-fit"
+    ></app-input>
+    <app-input
+      #lastname
+      [error]="errors.lastname"
+      [value]="authService.user?.lastName || ''"
+      value=""
+      label="Last name"
+      class="w-full sm:w-fit"
+    ></app-input>
+  </div>
+  <div class="flex gap-4 items-start flex-wrap">
+    <app-input
+      #email
+      [error]="errors.email"
+      [inputAttr]="{ type: 'email' }"
+      [value]="authService.user?.email || ''"
+      value=""
+      label="Email"
+      class="w-full sm:w-fit"
+    ></app-input>
+  </div>
+  <div class="flex items-baseline gap-4 justify-between flex-wrap">
+    <a
+      tabindex="0"
+      class="text-md font-bold underline text-white cursor-pointer focus:outline mr-auto"
+    >
+      Send password reset email
+    </a>
+    <button (click)="onSubmit()" class="btn primary">Submit</button>
+  </div>
+  <div class="flex justify-end">
+    <button class="btn gray" (click)="onLogout()">Logout</button>
+  </div>
+</div>

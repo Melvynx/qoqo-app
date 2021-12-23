@@ -1,12 +1,28 @@
-<div
-  class="bg-neutral-700 flex flex-col gap-8 py-8 px-16 rounded-3xl m-auto my-8 w-fit"
->
-  <div *ngIf="!_authService.isAuthenticated">
-    <auth-login (onRegister)="handle()" *ngIf="type === 'login'"></auth-login>
-    <auth-register
-      (onLogin)="handle()"
-      *ngIf="type === 'register'"
-    ></auth-register>
+<div class="flex">
+  <div
+    *ngIf="_authService.isAuthenticated"
+    class="bg-neutral-700 w-fit flex-col gap-2 nav-menu absolute left-0 hidden sm:flex"
+  >
+    <ul class="list-none">
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a [routerLink]="['/auth']"> My AQount </a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a [routerLink]="['/auth/click']"> My Qlick </a>
+      </li>
+    </ul>
   </div>
-  <auth-view *ngIf="_authService.isAuthenticated"></auth-view>
+
+  <div
+    class="bg-neutral-700 flex flex-col gap-8 py-8 px-16 rounded-3xl m-auto my-8 w-fit"
+  >
+    <div *ngIf="!_authService.isAuthenticated">
+      <auth-login (onRegister)="handle()" *ngIf="type === 'login'"></auth-login>
+      <auth-register
+        (onLogin)="handle()"
+        *ngIf="type === 'register'"
+      ></auth-register>
+    </div>
+    <auth-view *ngIf="_authService.isAuthenticated"></auth-view>
+  </div>
 </div>

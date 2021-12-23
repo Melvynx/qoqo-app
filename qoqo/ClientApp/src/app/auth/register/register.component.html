@@ -1,11 +1,12 @@
 <div class="flex gap-8 flex-col">
   <p class="text-5xl text-center">Register</p>
-  <div class="flex gap-4 items-start">
+  <div class="flex gap-4 items-start flex-wrap">
     <app-input
       #firstname
       [error]="errors.firstname"
       value=""
       label="First name"
+      class="w-full sm:w-fit"
     ></app-input>
     <app-input
       #lastname
@@ -13,15 +14,17 @@
       [inputAttr]="{ type: 'lastname' }"
       value=""
       label="Last name"
+      class="w-full sm:w-fit"
     ></app-input>
   </div>
-  <div class="flex gap-4 items-start">
+  <div class="flex gap-4 items-start flex-wrap">
     <app-input
       #username
       [error]="errors.userName"
       helper="Username must be between 3 and 30 characters and only contain letters, numbers and underscores."
       value=""
       label="Username"
+      class="w-full sm:w-fit"
     ></app-input>
     <app-input
       #email
@@ -29,9 +32,10 @@
       [inputAttr]="{ type: 'email' }"
       value=""
       label="Email"
+      class="w-full sm:w-fit"
     ></app-input>
   </div>
-  <div class="flex gap-4 items-start">
+  <div class="flex gap-4 items-start flex-wrap">
     <app-input
       #password
       [error]="errors.password"
@@ -39,6 +43,7 @@
       helper="Password must be at least 8 characters and contain at least one lowercase letter, one uppercase letter and one number."
       value=""
       label="Password"
+      class="w-full sm:w-fit"
     ></app-input>
     <app-input
       #confirmPassword
@@ -46,11 +51,13 @@
       [inputAttr]="{ type: 'password' }"
       value=""
       label="Confirm password"
+      class="w-full sm:w-fit"
     ></app-input>
   </div>
   <div class="flex items-baseline gap-4 justify-between">
     <a
       (click)="onLogin.emit()"
+      tabindex="0"
       class="text-lg font-bold underline text-white cursor-pointer focus:outline"
     >
       Already an account?
