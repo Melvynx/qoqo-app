@@ -1,0 +1,17 @@
+<h2 class="text-2xl text-bold">Clicks by Offers</h2>
+
+<div class="flex align-baseline justify-between gap-8 mt-8">
+  <p class="text-base m-0">Offer title</p>
+  <p class="m-0" class="text-base">Count</p>
+</div>
+<div
+  *ngFor="let click of clicks"
+  class="flex align-baseline justify-between gap-8 border-2 border-gray-500 rounded-sm my-4 p-2"
+>
+  <a
+    [routerLink]="'admin/click/' + click.offerId"
+    class="text-blue-500 text-base m-0"
+    >{{ click.offerTitle }}</a
+  >
+  <p class="m-0" class="text-base">{{ click.count }}</p>
+</div>

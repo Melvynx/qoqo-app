@@ -28,11 +28,28 @@ public class ClicksController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<User>> Get()
+    public async Task<ActionResult<List<UserClick>>> Get()
     {
-        await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Hello from the server");
+        var tokenService = new TokenService(HttpContext);
+        var user = tokenService.GetUser(_context);
 
-        return _context.Users.ToList();
+        if (user == null)
+        {
+            return BadRequest();
+        }
+        
+        var clicks = await _context.Clicks
+            .Include(c => c.Offer)
+            .Where(c => c.UserId == user.Id)
+            .GroupBy(c => new {c.Offer.Title, c.OfferId})
+            .Select(g => new UserClick
+            {
+                Count =  g.Count(), 
+                OfferTitle = g.Key.Title, 
+                OfferId = g.Key.OfferId
+            })
+            .ToListAsync(); 
+        return clicks;
     }
 
     [HttpGet("offers/{id:int}")]

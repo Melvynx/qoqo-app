@@ -23,6 +23,8 @@ import { AuthButtonComponent } from './auth/button/auth-button.component';
 import { AuthGuard } from './guard/auth.guard';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthClickComponent } from './auth/auth-click/auth-click.component';
+import { AuthOrderComponent } from './auth/auth-order/auth-order.component';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -42,6 +44,11 @@ const ROUTES: Routes = [
       {
         path: 'view',
         component: ViewComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'click',
+        component: AuthClickComponent,
         canActivate: [AuthGuard],
       },
     ],
@@ -66,6 +73,8 @@ const ROUTES: Routes = [
     LoginComponent,
     RegisterComponent,
     AuthButtonComponent,
+    AuthClickComponent,
+    AuthOrderComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
