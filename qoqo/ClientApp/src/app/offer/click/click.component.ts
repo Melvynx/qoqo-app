@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { OfferService } from 'src/app/services/offer.service';
@@ -12,7 +12,7 @@ import { client } from 'src/utils/client';
   styleUrls: ['./click.component.css'],
 })
 export class ClickComponent implements OnInit {
-  @Input() variant: ClickComponentVariant = 'enabled';
+  variant: ClickComponentVariant = 'enabled';
 
   sentence =
     'Avec un score de 22 click, @JeanMichel a fait le 722ème click. Il a donc fait 3% des clicks total!';

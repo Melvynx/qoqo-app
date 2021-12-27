@@ -5,3 +5,9 @@ export type Click = {
   };
   clickCount: number;
 };
+
+export type ClickList = {
+  count: number;
+  offerTitle: string;
+  offerId: number;
+}[];

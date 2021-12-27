@@ -1,3 +1,4 @@
+<div *ngIf="!_offerService.offer">Loading...</div>
 <div class="pt-4" *ngIf="_offerService.offer">
   <h1 class="font-sans text-5xl font-bold text-center px-2 mb-4 sm:mb-8">
     {{ _offerService.offer?.title }}
@@ -19,7 +20,54 @@
       <p class="text-lg">{{ _offerService.offer?.description }}</p>
     </div>
 
-    <app-click variant="enabled"></app-click>
+    <app-click></app-click>
+
+    <div class="border-2 p-3 sm:p-6">
+      <h2 class="text-4xl font-bold">Specification</h2>
+      <ul class="list-disc pl-4">
+        <li
+          class="text-base"
+          *ngFor="
+            let item of _offerService.offer?.specificationText?.split(',')
+          "
+        >
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="text-4xl text-neutral-400 font-bold">How it's work?</h2>
+      <p class="text-base text-neutral-500">
+        When you click on the button the counter increments by 1, then 10
+        seconds later you have the opportunity to reincrement the button by 1.
+      </p>
+      <p class="text-base text-neutral-500">
+        To be the winner you will have to click the button at the
+        <b>right time</b>.
+      </p>
+      <p class="text-base text-neutral-500 m-0">Example:</p>
+      <p class="text-base text-neutral-500">
+        The objective is to have a <span class="primary-text-gradiant">54</span>
+      </p>
+      <ul class="list-disc pl-8 inline-block">
+        <li class="text-base text-neutral-500">
+          The button is currently at 52
+        </li>
+        <li class="text-base text-neutral-500">
+          You click on the button, it changes to 53 and you have to wait 10
+          seconds
+        </li>
+        <li class="text-base text-neutral-500">
+          10 seconds later you click and it changes to
+          <span class="primary-text-gradiant">54</span> so you just won!
+        </li>
+      </ul>
+      <p class="text-base text-neutral-500 mt-2">
+        But be <b>careful</b>, all users are connected and can all click at the
+        right time. Let's say you clicked on the button at 53 and
+        <b>another</b> user clicks on the button at
+        <span class="primary-text-gradiant">54</span>, he will win...
+      </p>
+    </div>
   </div>
 </div>
-<div *ngIf="!_offerService.offer">Loading...</div>
