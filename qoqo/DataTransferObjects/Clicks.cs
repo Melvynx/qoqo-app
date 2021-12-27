@@ -1,3 +1,5 @@
+using qoqo.Model;
+
 namespace qoqo.DataTransferObjects;
 
 public class ClickDto
@@ -19,4 +21,13 @@ public class UserClickDto
 {
     public int Id { get; set; }
     public string UserName { get; set; }
+    
+    public static UserClickDto FromUser(User user)
+    {
+        return new UserClickDto
+        {
+            Id = user.Id,
+            UserName = user.UserName
+        };
+    }
 }

@@ -22,6 +22,7 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 
 builder.Services.AddDbContext<QoqoContext>();
 builder.Services.AddTransient<UserProvider>();
+builder.Services.AddTransient<ClickProvider>();
 builder.Services.AddTransient<IAuthenticationService, AuthorizationService>();
 
 builder.Services.AddSignalR();
