@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using qoqo.DataTransferObjects;
 using qoqo.Model;
+using qoqo.Ressources;
 
 namespace qoqo.Providers;
 
@@ -13,17 +14,7 @@ public class UserProvider
     private static readonly Regex PasswordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,1000}$");
     private static readonly Regex UsernameRegex = new Regex(@"^[a-zA-Z0-9_]{3,30}$");
     private static readonly Regex EmailRegex = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-
-    private const string PasswordRegexError =
-        "Password must be at least 8 characters and contain at least one lowercase letter, one uppercase letter and one number.";
-
-    private const string UserNameRegexError =
-        "Username must be between 3 and 30 characters and only contain letters, numbers and underscores.";
-
-    private const string EmailRegexError = "Email must be a valid email address.";
-    private const string UsernameAlreadyExist = "Username already exist.";
-    private const string EmailAlreadyExist = "Email already exist.";
-
+    
     public UserProvider(QoqoContext context)
     {
         _context = context;
@@ -160,35 +151,35 @@ public class UserProvider
     {
         if (userName == null)
         {
-            return "User name is required";
+            return StringRes.UserNameRequired;
         }
         if (_context.Users.Any(u => u.UserName == userName && u.UserId != userId))
         {
-            return UsernameAlreadyExist;
+            return StringRes.UsernameAlreadyExist;
         }
         
-        return !UsernameRegex.IsMatch(userName) ? UserNameRegexError : null;
+        return !UsernameRegex.IsMatch(userName) ? StringRes.UserNameRegexError : null;
     }
     
     private string? CheckPassword(string? password)
     {
         if (password == null)
         {
-            return "Password is required";
+            return StringRes.PasswordRequired;
         }
-        return !PasswordRegex.IsMatch(password) ? PasswordRegexError : null;
+        return !PasswordRegex.IsMatch(password) ? StringRes.PasswordRegexError : null;
     }
     
     private string? CheckEmail(string? email, int? userId = null)
     {
         if (email == null)
         {
-            return "Email is required";
+            return StringRes.EmailRequired;
         }
         if (_context.Users.Any(u => u.Email == email && u.UserId != userId))
         {
-            return EmailAlreadyExist;
+            return StringRes.EmailAlreadyExist;
         }
-        return !EmailRegex.IsMatch(email) ? EmailRegexError : null;
+        return !EmailRegex.IsMatch(email) ? StringRes.EmailRegexError : null;
     }
 }

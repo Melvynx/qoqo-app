@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using qoqo.Model;
+
 namespace qoqo.Services;
 
 public class TokenService
@@ -29,5 +32,21 @@ public class TokenService
     public void DeleteToken()
     {
         _httpContext.Response.Cookies.Delete(TokenKey);
+    }
+
+    public User? GetUser(QoqoContext context)
+    {
+        var token = GetToken();
+
+        if (token == null)
+        {
+            return null;
+        }
+
+        var userToken = context.Tokens
+            .Include(t => t.User)
+            .SingleOrDefault(t => t.Value == token);
+
+        return userToken?.User;
     }
 }
