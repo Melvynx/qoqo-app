@@ -21,6 +21,8 @@ import { AuthMainComponent } from './auth/main/auth-main.component';
 import { ViewComponent } from './auth/view/view.component';
 import { AuthButtonComponent } from './auth/button/auth-button.component';
 import { AuthGuard } from './guard/auth.guard';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -70,6 +72,8 @@ const ROUTES: Routes = [
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(ROUTES),
+    NoopAnimationsModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -24,3 +24,8 @@
   align-items: center;
   @apply gap-6 sm:gap-8;
 }
+
+.animated-user {
+  position: absolute;
+  top: var(--random);
+}

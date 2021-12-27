@@ -1,5 +1,4 @@
-import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { InputComponent } from 'src/app/ui/input/input.component';
 import { User } from '../../../types/users';

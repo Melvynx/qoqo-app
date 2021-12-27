@@ -30,5 +30,12 @@
       [value]="clickCounter"
       [disabled]="variant === 'disabled'"
     ></app-click-button>
+
+    <p
+      class="text-base text-neutral-500"
+      *ngIf="variant === 'disabled' && remainingTime > 0"
+    >
+      You can retry in {{ remainingTime }} seconds!
+    </p>
   </div>
 </div>

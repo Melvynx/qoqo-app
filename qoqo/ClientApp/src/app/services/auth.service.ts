@@ -19,7 +19,7 @@ export class AuthService {
           this.user = user;
         })
         .catch(() => {
-          this.isAuthenticated = false;
+          this.setLoggedIn(false);
         });
     }
   }

@@ -56,18 +56,19 @@ export class ClickButtonComponent implements OnInit {
 
   handleClick() {
     this.onClick.emit();
-    const canvas: { confetti: typeof confetti } & HTMLCanvasElement =
-      this.canvas?.nativeElement;
-    canvas.confetti = confetti.create(canvas, {
-      resize: true,
-    }) as typeof confetti;
 
-    canvas.confetti({
-      particleCount: 100,
-      spread: 60,
-      drift: 0.1,
-      origin: { y: 1 },
-    });
+    // const canvas: { confetti: typeof confetti } & HTMLCanvasElement =
+    //   this.canvas?.nativeElement;
+    // canvas.confetti = confetti.create(canvas, {
+    //   resize: true,
+    // }) as typeof confetti;
+
+    // canvas.confetti({
+    //   particleCount: 100,
+    //   spread: 60,
+    //   drift: 0.1,
+    //   origin: { y: 1 },
+    // });
   }
 
   handleTransitionEnd() {

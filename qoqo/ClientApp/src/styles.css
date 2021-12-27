@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono&display=swap");
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 @import "tailwindcss/base";
 @import "tailwindcss/components";
@@ -34,7 +35,8 @@ html {
 }
 
 .btn {
-  @apply px-4 py-3 rounded-full text-white  transition  outline-offset-2;
+  line-height: 1;
+  @apply px-4 py-4 rounded-full text-white  transition  outline-offset-2 text-base flex justify-center items-center;
 }
 
 .btn.primary {
@@ -65,4 +67,13 @@ html {
   display: inline-block;
 
   @apply font-bold text-center;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

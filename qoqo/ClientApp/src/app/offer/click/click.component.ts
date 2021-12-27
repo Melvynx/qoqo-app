@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { OfferService } from 'src/app/services/offer.service';
 import { getBaseUrl } from 'src/main';
@@ -17,12 +18,14 @@ export class ClickComponent implements OnInit {
     'Avec un score de 22 click, @JeanMichel a fait le 722ème click. Il a donc fait 3% des clicks total!';
 
   clickCounter = 0;
+  remainingTime = 0;
   loading = true;
-  _offerService: OfferService;
   _hubConnection: HubConnection;
 
-  constructor(offerService: OfferService) {
-    this._offerService = offerService;
+  constructor(
+    private _offerService: OfferService,
+    private _matSnackBar: MatSnackBar
+  ) {
     this._hubConnection = new HubConnectionBuilder()
       .withUrl(`${getBaseUrl()}offerHub`)
       .build();
@@ -33,12 +36,12 @@ export class ClickComponent implements OnInit {
       .start()
       .then(() => {
         console.log('Connected....');
-        client<{ click: number }>(
+        client<{ click: number; remainingTime: number }>(
           `clicks/offers/${this._offerService.offer?.id}`
         )
-          .then(({ click }) => {
+          .then(({ click, remainingTime }) => {
             this.clickCounter = click;
-            console.log({ click });
+            this.setRemainingTime(remainingTime);
           })
           .catch((err) => {
             console.error('err', err);
@@ -51,6 +54,25 @@ export class ClickComponent implements OnInit {
       console.log('CLICK', click);
       this.handleNewClick(click);
     });
+  }
+
+  decreaseRemainingTime() {
+    this.remainingTime--;
+    if (this.remainingTime === 0) {
+      this.variant = 'enabled';
+    } else {
+      setTimeout(() => {
+        this.decreaseRemainingTime();
+      }, 1000);
+    }
+  }
+
+  setRemainingTime(time: number) {
+    this.remainingTime = time || 0;
+    if (this.remainingTime > 0) {
+      this.variant = 'disabled';
+      setTimeout(() => this.decreaseRemainingTime(), 1000);
+    }
   }
 
   handleNewClick(click: Click) {
@@ -66,11 +88,14 @@ export class ClickComponent implements OnInit {
 
   handleClick() {
     client(`clicks/offers/${this._offerService.offer?.id}`, {
-      json: false,
       method: 'POST',
-    }).then(() => {
-      console.log('OK');
-    });
+    })
+      .then(() => {
+        this.setRemainingTime(10);
+      })
+      .catch(({ message }) => {
+        this._matSnackBar.open(message, 'Close', { duration: 5000 });
+      });
   }
 }
 
