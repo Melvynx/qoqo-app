@@ -38,9 +38,3 @@ public class UserClick
     public int OfferId { get; set; }
     public string OfferTitle { get; set; }
 }
-
-public class ClickOrderDto
-{
-    public DateTime CreatedAt { get; set; }
-    public int ClickCount { get; set; }
-}

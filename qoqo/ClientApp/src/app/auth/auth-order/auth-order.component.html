@@ -1,1 +1,19 @@
-<p>auth-order works!</p>
+<h2 class="text-2xl text-bold">Orders</h2>
+
+<div class="flex align-baseline justify-between gap-8 mt-8">
+  <p class="text-base m-0">Offer title</p>
+  <p class="text-base m-0">Created at</p>
+  <p class="m-0" class="text-base">Count</p>
+</div>
+<div
+  *ngFor="let order of orders"
+  class="flex align-baseline justify-between gap-8 border-2 border-gray-500 rounded-sm my-4 p-2"
+>
+  <a
+    [routerLink]="'admin/offer/' + order.offer.id"
+    class="text-blue-500 text-base m-0"
+    >{{ order.offer.title }}</a
+  >
+  <p class="m-0" class="text-base">{{ getCreatedAt(order.createdAt) }}</p>
+  <p class="m-0" class="text-base">{{ order.status }}</p>
+</div>

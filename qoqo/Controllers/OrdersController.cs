@@ -39,10 +39,7 @@ public class OrdersController : ControllerBase
                     Title = o.Click.Offer.Title,
                     Id = o.Click.Offer.Id
                 },
-                Click = new ClickOrderDto
-                {
-                    CreatedAt = o.Click.CreatedAt
-                },
+                CreatedAt = o.CreatedAt,
                 Status = o.Status
             }).ToListAsync();
         return orders;

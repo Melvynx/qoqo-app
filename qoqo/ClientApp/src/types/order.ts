@@ -5,4 +5,4 @@ export type OrderList = {
   };
   createdAt: string;
   status: string;
-};
+}[];

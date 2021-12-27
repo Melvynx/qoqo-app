@@ -1,3 +1,6 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace qoqo.Model;
 
 public class Order
@@ -15,6 +18,8 @@ public class Order
     public int Id => OrderId;
 }
 
+[Serializable]
+[JsonConverter(typeof(StringEnumConverter))]
 public enum OrderStatus
 {
     PENDING,

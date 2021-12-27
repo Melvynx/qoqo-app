@@ -51,6 +51,11 @@ const ROUTES: Routes = [
         component: AuthClickComponent,
         canActivate: [AuthGuard],
       },
+      {
+        path: 'order',
+        component: AuthOrderComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];
