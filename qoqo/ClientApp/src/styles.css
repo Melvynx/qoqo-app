@@ -77,3 +77,7 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+a {
+  @apply text-blue-500 m-0;
+}

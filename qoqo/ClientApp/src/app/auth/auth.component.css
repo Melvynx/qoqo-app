@@ -1,0 +1,32 @@
+.nav-item {
+  border-radius: 0 8px 8px 0;
+  @apply bg-neutral-600 text-white cursor-pointer hover:bg-neutral-500;
+}
+
+.nav-item.active {
+  @apply bg-pink-600 hover:bg-pink-500;
+}
+
+.nav-item a:focus {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.nav-item a {
+  padding: 16px;
+  display: inline-block;
+
+  @apply text-white w-full rounded-lg;
+}
+
+.nav-menu {
+  border-radius: 0 8px 8px 0;
+  padding: 16px 0;
+}
+
+.outlet-container {
+  @apply w-fit sm:w-96 sm:min-w-fit;
+}
+
+/* .outlet-container[_ngcontent-ng-cli-universal-c89] {
+} */

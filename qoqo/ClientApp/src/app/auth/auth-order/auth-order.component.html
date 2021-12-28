@@ -9,11 +9,9 @@
   *ngFor="let order of orders"
   class="flex align-baseline justify-between gap-8 border-2 border-gray-500 rounded-sm my-4 p-2"
 >
-  <a
-    [routerLink]="'admin/offer/' + order.offer.id"
-    class="text-blue-500 text-base m-0"
-    >{{ order.offer.title }}</a
-  >
+  <a [routerLink]="'admin/offer/' + order.offer.id" class="text-base">{{
+    order.offer.title
+  }}</a>
   <p class="text-base">{{ getCreatedAt(order.createdAt) }}</p>
   <p class="text-base">{{ order.status }}</p>
 </div>

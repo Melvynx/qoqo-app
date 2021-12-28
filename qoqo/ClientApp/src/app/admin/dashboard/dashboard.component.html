@@ -1,0 +1,42 @@
+<p class="text-base">Here is the current offer:</p>
+<div
+  class="mt-2 p-2 border-neutral-600 rounded-md border-2 flex flex-col gap-4"
+>
+  <div class="flex items-center justify-between">
+    <h3 class="text-2xl">
+      <a [routerLink]="'admin/offers/' + dashboard?.offerId">{{
+        dashboard?.offerTitle
+      }}</a>
+    </h3>
+    <p class="text-base">Id: {{ dashboard?.offerId }}</p>
+  </div>
+  <div class="flex flex-col gap-2">
+    <div class="gauge">
+      <div
+        [style]="{ '--percentage': getPercentage() + '%' }"
+        class="gauge-fill"
+      ></div>
+      <p class="relative">
+        {{ dashboard?.clickCount }} / {{ dashboard?.clickObjective }}
+      </p>
+    </div>
+    <p>
+      Remaining clicks:
+      {{ (dashboard?.clickObjective || 0) - (dashboard?.clickCount || 0) }}
+    </p>
+    <p>Active user: {{ dashboard?.countOfActiveUser }}</p>
+    <div *ngIf="dashboard?.order" class="mt-2 border-t-2 pt-2">
+      <p>
+        <a [routerLink]="'admin/orders/' + dashboard?.order?.orderId"
+          >Order id: {{ dashboard?.order?.orderId }}</a
+        >
+      </p>
+      <p>Order status: {{ dashboard?.order?.status }}</p>
+      <p>
+        <a [routerLink]="'admin/users' + dashboard?.order?.user?.id"
+          >UserName: {{ dashboard?.order?.user?.userName }}</a
+        >
+      </p>
+    </div>
+  </div>
+</div>

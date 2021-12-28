@@ -1,17 +1,14 @@
 <div class="flex">
   <div
-    *ngIf="_authService.isAuthenticated"
+    *ngIf="authService.isAuthenticated"
     class="w-fit flex-col nav-menu absolute left-0 hidden sm:flex"
   >
     <ul class="list-none gap-2 flex flex-col">
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a [routerLink]="['/auth/view']"> My AQount </a>
+        <a [routerLink]="['/admin/offers']"> Offers </a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a [routerLink]="['/auth/click']"> My Qlick </a>
-      </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
-        <a [routerLink]="['/auth/order']"> My Orders </a>
+        <a [routerLink]="['/admin/orders']"> Orders </a>
       </li>
     </ul>
   </div>

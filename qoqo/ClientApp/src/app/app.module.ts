@@ -15,7 +15,7 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './auth/login/login.component';
 import { InputComponent } from './ui/input/input.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { AuthMainComponent } from './auth/main/auth-main.component';
+import { AuthComponent } from './auth/auth.component';
 import { ViewComponent } from './auth/view/view.component';
 import { AuthButtonComponent } from './auth/button/auth-button.component';
 import { AuthGuard } from './guard/auth.guard';
@@ -23,6 +23,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthClickComponent } from './auth/auth-click/auth-click.component';
 import { AuthOrderComponent } from './auth/auth-order/auth-order.component';
+import { AdminComponent } from './admin/admin.component';
+import { AdminGuard } from './guard/admin.guard';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -30,7 +33,7 @@ const ROUTES: Routes = [
   { path: 'users', component: UsersComponent },
   {
     path: 'auth',
-    component: AuthMainComponent,
+    component: AuthComponent,
     children: [
       { path: 'login', component: LoginComponent },
       {
@@ -54,6 +57,12 @@ const ROUTES: Routes = [
       },
     ],
   },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AdminGuard],
+    children: [{ path: '', component: DashboardComponent }],
+  },
 ];
 
 @NgModule({
@@ -67,13 +76,15 @@ const ROUTES: Routes = [
     ClickButtonComponent,
     FooterComponent,
     InputComponent,
-    AuthMainComponent,
+    AuthComponent,
     ViewComponent,
     LoginComponent,
     RegisterComponent,
     AuthButtonComponent,
     AuthClickComponent,
     AuthOrderComponent,
+    AdminComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

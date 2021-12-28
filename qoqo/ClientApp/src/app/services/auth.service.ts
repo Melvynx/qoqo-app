@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { User } from '../../types/users';
 import { getLocalStorage, setLocalStorage } from '../../utils/localStorage';
 import { client } from '../../utils/client';
@@ -10,17 +10,26 @@ export class AuthService {
   user?: User = undefined;
   // keep isLoggedIn in localStorage to avoid useless request
   isAuthenticated: boolean;
+  isLoading = true;
+  userLoadFinish = new EventEmitter<User>();
 
   constructor() {
     this.isAuthenticated = getLocalStorage<boolean>('isLoggedIn', false);
     if (this.isAuthenticated) {
       client<User>('users/me')
         .then((user) => {
+          this.userLoadFinish.emit(user);
           this.user = user;
         })
         .catch(() => {
           this.setLoggedIn(false);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
+    } else {
+      this.isLoading = false;
+      this.userLoadFinish.emit();
     }
   }
 

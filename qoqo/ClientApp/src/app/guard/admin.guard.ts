@@ -11,7 +11,7 @@ import { User } from '../../types/users';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
@@ -21,17 +21,17 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isLoading) {
       return new Promise((r) =>
         this.authService.userLoadFinish.subscribe((user) =>
-          r(this.checkUser(user))
+          r(this.checkAdmin(user))
         )
       );
     } else {
-      return this.checkUser(this.authService.user);
+      return this.checkAdmin(this.authService.user);
     }
   }
 
-  checkUser(user?: User): boolean {
-    if (!user) {
-      this.router.navigateByUrl('/auth/login');
+  checkAdmin(user?: User): boolean {
+    if (!user?.isAdmin) {
+      this.router.navigateByUrl('/');
       return false;
     }
     return true;
