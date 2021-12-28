@@ -10,6 +10,7 @@ public class Offer
     public int ClickObjective { get; set; } = 0;
     public string SpecificationText { get; set; } = "";
     public string ImageUrl { get; set; } = "";
+    public string? WinnerText { get; set; }
     public bool IsOver { get; set; } = false;
     public bool IsDraft { get; set; } = true;
     public DateTime StartAt { get; set; } 
@@ -17,6 +18,7 @@ public class Offer
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     
     public List<Click> Clicks { get; set; }
+    public List<Order> Orders { get; set; }
 
     public int Id => OfferId;
 }

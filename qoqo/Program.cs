@@ -5,6 +5,7 @@ using qoqo.Authorization;
 using qoqo.Hubs;
 using qoqo.Model;
 using qoqo.Providers;
+using qoqo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +24,11 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 builder.Services.AddDbContext<QoqoContext>();
 builder.Services.AddTransient<UserProvider>();
 builder.Services.AddTransient<ClickProvider>();
+builder.Services.AddTransient<HubService>();
 builder.Services.AddTransient<IAuthenticationService, AuthorizationService>();
 
 builder.Services.AddSignalR();
+builder.Services.AddResponseCaching();
 
 var app = builder.Build();
 
@@ -51,6 +54,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
+app.UseResponseCaching();
 
 app.MapControllerRoute(
     name: "default",
