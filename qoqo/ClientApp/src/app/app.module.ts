@@ -8,9 +8,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { UsersComponent } from './users/users.component';
-import { OfferPageComponent } from './offer-page/offer-page.component';
 import { ClickComponent } from './offer/click/click.component';
 import { ClickButtonComponent } from './offer/click-button/click-button.component';
 import { FooterComponent } from './footer/footer.component';
@@ -29,9 +27,7 @@ import { AuthOrderComponent } from './auth/auth-order/auth-order.component';
 const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
-  { path: 'fetch-data', component: FetchDataComponent },
   { path: 'users', component: UsersComponent },
-  { path: 'offer', component: OfferPageComponent },
   {
     path: 'auth',
     component: AuthMainComponent,
@@ -66,9 +62,7 @@ const ROUTES: Routes = [
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent,
     UsersComponent,
-    OfferPageComponent,
     ClickComponent,
     ClickButtonComponent,
     FooterComponent,

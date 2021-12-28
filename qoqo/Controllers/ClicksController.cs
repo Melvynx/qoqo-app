@@ -137,14 +137,22 @@ public class ClicksController : ControllerBase
         
         if (clickCount == offer.ClickObjective)
         {
-            return Ok(new ClickEventResult(false));
+            return ErrorService.BadRequest("The offer has been clicked enough times");
         }
 
         var click = await _clickProvider.Add(user.UserId, id);
         clickCount += 1;
 
-        
         var clickDto = ClickDto.FromUserClick(userDto, clickCount);
-        return Ok(clickCount == offer.ClickObjective ? await _hubContext.Finish(clickDto, click) : await _hubContext.Click(clickDto));
+        try
+        {
+            return Ok(clickCount == offer.ClickObjective
+                ? await _hubContext.Finish(clickDto, click)
+                : await _hubContext.Click(clickDto));
+        }
+        catch (DbUpdateException)
+        {
+            return ErrorService.BadRequest("An error is occurred while saving order to database");
+        }
     }
 }

@@ -41,7 +41,7 @@ public class HubService
         offer.WinnerText = await GetWinnerSentence(user.UserId, offer.Id, offer.ClickObjective, user.UserName);
 
         await _context.SaveChangesAsync();
-      
+
         var result = new ClickEventFinishResult(user.UserId, user.UserName, offer.WinnerText, clickDto.ClickCount);
         await SendAsync("FINISH", result);
         return new ClickEventResult(true);

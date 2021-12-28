@@ -18,3 +18,9 @@ export type ClickFinishResult = {
   userName: string;
   finishSentence: string;
 };
+
+export type ClickState = {
+  click: number;
+  remainingTime: number;
+  userId: number;
+};
