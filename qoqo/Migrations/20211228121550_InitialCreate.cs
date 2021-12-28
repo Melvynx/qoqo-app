@@ -19,9 +19,10 @@ namespace qoqo.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     BarredPrice = table.Column<double>(type: "REAL", nullable: false),
                     Price = table.Column<double>(type: "REAL", nullable: false),
-                    ClickObjective = table.Column<string>(type: "TEXT", nullable: false),
+                    ClickObjective = table.Column<int>(type: "INTEGER", nullable: false),
                     SpecificationText = table.Column<string>(type: "TEXT", nullable: false),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: false),
+                    WinnerText = table.Column<string>(type: "TEXT", nullable: true),
                     IsOver = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsDraft = table.Column<bool>(type: "INTEGER", nullable: false),
                     StartAt = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -48,7 +49,8 @@ namespace qoqo.Migrations
                     IsAdmin = table.Column<bool>(type: "INTEGER", nullable: false),
                     Street = table.Column<string>(type: "TEXT", nullable: true),
                     Npa = table.Column<int>(type: "INTEGER", nullable: true),
-                    City = table.Column<string>(type: "TEXT", nullable: true)
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,6 +63,7 @@ namespace qoqo.Migrations
                 {
                     ClickId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     OfferId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -81,6 +84,55 @@ namespace qoqo.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    OfferId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
+                    table.ForeignKey(
+                        name: "FK_Orders_Offers_OfferId",
+                        column: x => x.OfferId,
+                        principalTable: "Offers",
+                        principalColumn: "OfferId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tokens",
+                columns: table => new
+                {
+                    TokenId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Value = table.Column<string>(type: "TEXT", nullable: false),
+                    ExpiredAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tokens", x => x.TokenId);
+                    table.ForeignKey(
+                        name: "FK_Tokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Clicks_OfferId",
                 table: "Clicks",
@@ -90,12 +142,33 @@ namespace qoqo.Migrations
                 name: "IX_Clicks_UserId",
                 table: "Clicks",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_OfferId",
+                table: "Orders",
+                column: "OfferId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_UserId",
+                table: "Orders",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tokens_UserId",
+                table: "Tokens",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Clicks");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Tokens");
 
             migrationBuilder.DropTable(
                 name: "Offers");

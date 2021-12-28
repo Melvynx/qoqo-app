@@ -11,8 +11,8 @@ using qoqo.Model;
 namespace qoqo.Migrations
 {
     [DbContext(typeof(QoqoContext))]
-    [Migration("20211223095531_OfferClickColumnToInt")]
-    partial class OfferClickColumnToInt
+    [Migration("20211228121550_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -89,6 +89,9 @@ namespace qoqo.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("WinnerText")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("OfferId");
 
                     b.ToTable("Offers");
@@ -100,11 +103,11 @@ namespace qoqo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ClickId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("OfferId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Status")
                         .HasColumnType("INTEGER");
@@ -114,7 +117,7 @@ namespace qoqo.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("ClickId");
+                    b.HasIndex("OfferId");
 
                     b.HasIndex("UserId");
 
@@ -212,9 +215,9 @@ namespace qoqo.Migrations
 
             modelBuilder.Entity("qoqo.Model.Order", b =>
                 {
-                    b.HasOne("qoqo.Model.Click", "Click")
+                    b.HasOne("qoqo.Model.Offer", "Offer")
                         .WithMany("Orders")
-                        .HasForeignKey("ClickId")
+                        .HasForeignKey("OfferId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -224,7 +227,7 @@ namespace qoqo.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Click");
+                    b.Navigation("Offer");
 
                     b.Navigation("User");
                 });
@@ -240,14 +243,11 @@ namespace qoqo.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("qoqo.Model.Click", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
             modelBuilder.Entity("qoqo.Model.Offer", b =>
                 {
                     b.Navigation("Clicks");
+
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("qoqo.Model.User", b =>
