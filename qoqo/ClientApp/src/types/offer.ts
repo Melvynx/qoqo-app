@@ -6,6 +6,7 @@ export type Offer = {
   price: number;
   clickObjective: string;
   specificationText: string;
+  winnerText: string;
   imageUrl: string;
   isOver: boolean;
   isDraft: boolean;

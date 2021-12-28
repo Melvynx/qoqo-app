@@ -6,6 +6,7 @@ public class OfferClickDto
 {
     public int Click { get; set; }
     public int RemainingTime { get; set; }
+    public int UserId { get; set; }
 }
 
 public class OfferOrderDto

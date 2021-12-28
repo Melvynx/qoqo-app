@@ -30,7 +30,7 @@ public class OffersController : ControllerBase
     public async Task<ActionResult<Offer>> GetCurrentOffer()
     {
         var today = DateTime.Today;
-        var offer = await _context.Offers.FirstOrDefaultAsync(o => o.StartAt <= today && o.EndAt >= today);
+        var offer = await _context.Offers.FirstOrDefaultAsync(o => o.StartAt <= today && o.EndAt >= today && !o.IsDraft);
         if (offer == null)
         {
             return NotFound("No current offer");

@@ -17,13 +17,13 @@ namespace qoqo.Controllers;
 public class ClicksController : ControllerBase
 {
     private readonly QoqoContext _context;
-    private readonly IHubContext<OfferHub> _hubContext;
+    private readonly HubService _hubContext;
     private readonly ClickProvider _clickProvider;
 
-    public ClicksController(QoqoContext qoqoContext, IHubContext<OfferHub> hubContext, ClickProvider clickProvider)
+    public ClicksController(QoqoContext qoqoContext, HubService hubService, ClickProvider clickProvider)
     {
         _context = qoqoContext;
-        _hubContext = hubContext;
+        _hubContext = hubService;
         _clickProvider = clickProvider;
     }
 
@@ -56,12 +56,20 @@ public class ClicksController : ControllerBase
     public async Task<ActionResult<OfferClickDto>> GetOfferClick(int id)
     {
         var offer = await _context.Offers
-            .Select(o => new {Id = o.OfferId, o.ClickObjective})
+            .Select(o => new {Id = o.OfferId, o.ClickObjective, WinnerSentence = o.WinnerText, o.IsOver})
             .FirstOrDefaultAsync(o => o.Id == id);
 
         if (offer == null)
         {
             return NotFound();
+        }
+
+        if (offer.IsOver)
+        {
+            var userId = await _context.Orders
+                .Where(o => o.OfferId == offer.Id)
+                .Select(o => o.UserId).FirstOrDefaultAsync();
+            return new OfferClickDto {Click = offer.ClickObjective, UserId = userId};
         }
 
         var clickCount = await _clickProvider.GetCountForOffer(id);
@@ -125,18 +133,18 @@ public class ClicksController : ControllerBase
             return ErrorService.BadRequest(StringRes.ClickMinimum10Seconds);
         }            
 
-        await _clickProvider.Add(user.UserId, id);
         var clickCount = await _clickProvider.GetCountForOffer(id);
-        var clickDto = ClickDto.FromUserClick(userDto, clickCount);
-
+        
         if (clickCount == offer.ClickObjective)
         {
-            // TODO: Handle victory
-            Console.WriteLine("Wine!");
+            return Ok(new ClickEventResult(false));
         }
 
-        await _hubContext.Clients.All.SendAsync("CLICK", JsonService.Serialize(clickDto));
+        var click = await _clickProvider.Add(user.UserId, id);
+        clickCount += 1;
 
-        return Ok(clickDto);
+        
+        var clickDto = ClickDto.FromUserClick(userDto, clickCount);
+        return Ok(clickCount == offer.ClickObjective ? await _hubContext.Finish(clickDto, click) : await _hubContext.Click(clickDto));
     }
 }

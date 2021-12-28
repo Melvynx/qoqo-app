@@ -140,7 +140,7 @@ public class UserProvider
         var errors = new UserErrorDto
         {
             UserName = CheckUserName(registerDto.UserName),
-            Email = CheckUserName(registerDto.Email),
+            Email = CheckEmail(registerDto.Email),
             Password = CheckPassword(registerDto.Password)
         };
 

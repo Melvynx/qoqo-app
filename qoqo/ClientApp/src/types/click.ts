@@ -11,3 +11,10 @@ export type ClickList = {
   offerTitle: string;
   offerId: number;
 }[];
+
+export type ClickFinishResult = {
+  userId: number;
+  clickCount: number;
+  userName: string;
+  finishSentence: string;
+};

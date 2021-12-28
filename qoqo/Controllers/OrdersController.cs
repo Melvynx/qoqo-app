@@ -30,14 +30,13 @@ public class OrdersController : ControllerBase
 
         var orders = await _context.Orders
             .Where(o => o.UserId == user.Id)
-            .Include(o => o.Click)
-            .Include(o => o.Click.Offer)
+            .Include(o => o.Offer)
             .Select(o => new OrderDto
             {
                 Offer = new OfferOrderDto
                 {
-                    Title = o.Click.Offer.Title,
-                    Id = o.Click.Offer.Id
+                    Title = o.Offer.Title,
+                    Id = o.Offer.Id
                 },
                 CreatedAt = o.CreatedAt,
                 Status = o.Status
