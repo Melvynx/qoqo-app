@@ -2,8 +2,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using qoqo.DataTransferObjects;
 using qoqo.Hubs;
 using qoqo.Model;
+using qoqo.Providers;
+using qoqo.Ressources;
+using qoqo.Services;
 
 namespace qoqo.Controllers;
 
@@ -12,12 +16,12 @@ namespace qoqo.Controllers;
 public class OffersController : ControllerBase
 {
     private readonly QoqoContext _context;
-    private readonly IHubContext<OfferHub> _hubContext;
+    private readonly OfferProvider _offerProvider;
 
-    public OffersController(QoqoContext qoqoContext, IHubContext<OfferHub> hubContext)
+    public OffersController(QoqoContext qoqoContext, OfferProvider offerProvider)
     {
         _context = qoqoContext;
-        _hubContext = hubContext;
+        _offerProvider = offerProvider;
     }
     
     [HttpGet]
@@ -29,13 +33,24 @@ public class OffersController : ControllerBase
     [HttpGet("current")]
     public async Task<ActionResult<Offer>> GetCurrentOffer()
     {
-        var today = DateTime.Today;
-        var offer = await _context.Offers.FirstOrDefaultAsync(o => o.StartAt <= today && o.EndAt >= today && !o.IsDraft);
+        var offer = await _offerProvider.GetCurrentOffer();
         if (offer == null)
         {
-            return NotFound("No current offer");
+            return ErrorService.BadRequest(StringRes.OfferNotFound);
         }
 
         return offer;
+    }
+
+    [HttpGet("dashboard")]
+    public async Task<ActionResult<DashboardDto>> GetDashboard()
+    {
+        var dashboard = await _offerProvider.GetDashboard();
+        if (dashboard == null)
+        {
+            return ErrorService.BadRequest(StringRes.OfferNotFound);
+        }
+
+        return dashboard;
     }
 }

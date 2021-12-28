@@ -29,6 +29,7 @@ public class UserDto
     public string? LastName { get; set; }
     public string? AvatarUrl { get; set; }
     public string? Token { get; set; }
+    public bool? IsAdmin { get; set; }
     
     public static UserDto FromUser(User user)
     {
@@ -39,7 +40,8 @@ public class UserDto
             Email = user.Email,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            AvatarUrl = user.AvatarUrl
+            AvatarUrl = user.AvatarUrl,
+            IsAdmin = user.IsAdmin
         };
     }
 }
