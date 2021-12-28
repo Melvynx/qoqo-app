@@ -1,9 +1,9 @@
-import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InputComponent } from 'src/app/ui/input/input.component';
 import { User } from 'src/types/users';
 import { client } from 'src/utils/client';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'auth-view',
@@ -16,15 +16,13 @@ export class ViewComponent implements OnInit {
   @ViewChild('email') email?: InputComponent;
   errors: Record<string, string> = {};
 
-  constructor(public authService: AuthService, private location: Location) {}
+  constructor(public authService: AuthService, private router: Router) {}
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 
   onLogout() {
-    this.authService
-      .logout()
-      .then(() => this.location.replaceState('/auth/login'));
+    this.authService.logout().then(() => this.router.navigate(['/auth/login']));
   }
 
   onSubmit() {

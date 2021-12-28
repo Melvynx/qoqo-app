@@ -30,7 +30,7 @@ export class ClickButtonComponent implements OnInit {
 
   localValue = 0;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.localValue = this.value;
   }
 
@@ -56,27 +56,29 @@ export class ClickButtonComponent implements OnInit {
 
   handleClick() {
     this.onClick.emit();
-
-    // const canvas: { confetti: typeof confetti } & HTMLCanvasElement =
-    //   this.canvas?.nativeElement;
-    // canvas.confetti = confetti.create(canvas, {
-    //   resize: true,
-    // }) as typeof confetti;
-
-    // canvas.confetti({
-    //   particleCount: 100,
-    //   spread: 60,
-    //   drift: 0.1,
-    //   origin: { y: 1 },
-    // });
   }
 
-  handleTransitionEnd() {
+  runConfetti() {
+    const canvas: { confetti: typeof confetti } & HTMLCanvasElement =
+      this.canvas?.nativeElement;
+    canvas.confetti = confetti.create(canvas, {
+      resize: true,
+    }) as typeof confetti;
+
+    canvas.confetti({
+      particleCount: 100,
+      spread: 60,
+      drift: 0.1,
+      origin: { y: 1 },
+    });
+  }
+
+  private handleTransitionEnd() {
     this.localValue = this.value;
     this.main?.nativeElement.classList.remove('roll');
   }
 
-  handleNewValueAnimation(newValue: number) {
+  private handleNewValueAnimation(newValue: number) {
     this.value = newValue;
     this.main?.nativeElement.classList.add('roll');
   }

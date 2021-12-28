@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { AuthService } from 'src/app/services/auth.service';
 import { OfferService } from 'src/app/services/offer.service';
 import { getBaseUrl } from 'src/main';
-import { Click } from 'src/types/click';
+import { Click, ClickFinishResult } from 'src/types/click';
 import { client } from 'src/utils/client';
+import { ClickButtonComponent } from '../click-button/click-button.component';
 
 @Component({
   selector: 'app-click',
@@ -12,10 +14,10 @@ import { client } from 'src/utils/client';
   styleUrls: ['./click.component.css'],
 })
 export class ClickComponent implements OnInit {
+  @ViewChild('clickButton') clickButton?: ClickButtonComponent;
   variant: ClickComponentVariant = 'enabled';
 
-  sentence =
-    'Avec un score de 22 click, @JeanMichel a fait le 722ème click. Il a donc fait 3% des clicks total!';
+  sentence?: string = '';
 
   clickCounter = 0;
   remainingTime = 0;
@@ -23,9 +25,11 @@ export class ClickComponent implements OnInit {
   _hubConnection: HubConnection;
 
   constructor(
-    private _offerService: OfferService,
-    private _matSnackBar: MatSnackBar
+    public offerService: OfferService,
+    private _matSnackBar: MatSnackBar,
+    private _authService: AuthService
   ) {
+    this.sentence = this.offerService.offer?.winnerText;
     this._hubConnection = new HubConnectionBuilder()
       .withUrl(`${getBaseUrl()}offerHub`)
       .build();
@@ -36,12 +40,16 @@ export class ClickComponent implements OnInit {
       .start()
       .then(() => {
         console.log('Connected....');
-        client<{ click: number; remainingTime: number }>(
-          `clicks/offers/${this._offerService.offer?.id}`
+        client<{ click: number; remainingTime: number; userId: number }>(
+          `clicks/offers/${this.offerService.offer?.id}`
         )
-          .then(({ click, remainingTime }) => {
+          .then(({ click, remainingTime, userId }) => {
             this.clickCounter = click;
-            this.setRemainingTime(remainingTime);
+            if (userId) {
+              this.handleFinishVariant(userId, true);
+            } else {
+              this.setRemainingTime(remainingTime);
+            }
           })
           .catch((err) => {
             console.error('err', err);
@@ -51,14 +59,35 @@ export class ClickComponent implements OnInit {
 
     this._hubConnection.on('CLICK', (data) => {
       const click: Click = JSON.parse(data);
-      console.log('CLICK', click);
       this.handleNewClick(click);
     });
+    this._hubConnection.on('FINISH', (data) => {
+      const finishInformations: ClickFinishResult = JSON.parse(data);
+      this.handleFinish(finishInformations);
+    });
+  }
+
+  handleFinish(finishInformations: ClickFinishResult) {
+    this.sentence = finishInformations.finishSentence;
+    this.clickCounter = finishInformations.clickCount;
+    this.handleFinishVariant(finishInformations.userId);
+  }
+
+  handleFinishVariant(userId: number, isSave = false) {
+    console.log({ userId, x: this._authService.user?.id });
+    const newVariant = userId === this._authService.user?.id ? 'wine' : 'lose';
+    if (newVariant === 'wine' && !isSave) {
+      setTimeout(() => {
+        this.variant = newVariant;
+      }, 2500);
+    } else {
+      this.variant = newVariant;
+    }
   }
 
   decreaseRemainingTime() {
     this.remainingTime--;
-    if (this.remainingTime === 0) {
+    if (this.remainingTime === 0 && this.variant === 'disabled') {
       this.variant = 'enabled';
     } else {
       setTimeout(() => {
@@ -76,6 +105,9 @@ export class ClickComponent implements OnInit {
   }
 
   handleNewClick(click: Click) {
+    if (click.user.id === this._authService.user?.id) {
+      this.setRemainingTime(10);
+    }
     this.clickCounter = click.clickCount;
   }
 
@@ -87,11 +119,14 @@ export class ClickComponent implements OnInit {
   }
 
   handleClick() {
-    client(`clicks/offers/${this._offerService.offer?.id}`, {
-      method: 'POST',
-    })
-      .then(() => {
-        this.setRemainingTime(10);
+    client<{ confetti: boolean }>(
+      `clicks/offers/${this.offerService.offer?.id}`,
+      {
+        method: 'POST',
+      }
+    )
+      .then(({ confetti }) => {
+        confetti && this.clickButton?.runConfetti();
       })
       .catch(({ message }) => {
         this._matSnackBar.open(message, 'Close', { duration: 5000 });

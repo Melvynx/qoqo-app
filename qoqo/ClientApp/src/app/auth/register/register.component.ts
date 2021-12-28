@@ -1,9 +1,9 @@
-import { Location } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { InputComponent } from 'src/app/ui/input/input.component';
 import { User } from 'src/types/users';
 import { client } from 'src/utils/client';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'auth-register',
@@ -20,9 +20,9 @@ export class RegisterComponent {
 
   errors: Record<string, string> = {};
 
-  constructor(private authService: AuthService, private location: Location) {
+  constructor(private authService: AuthService, private router: Router) {
     if (this.authService.isAuthenticated) {
-      this.location.replaceState('/auth/view');
+      this.router.navigate(['/auth/view']);
     }
   }
 
@@ -54,7 +54,7 @@ export class RegisterComponent {
     client<User>('users/register', { data: user })
       .then((user) => {
         this.authService.login(user);
-        window.location.pathname = '/auth/view';
+        this.router.navigate(['/auth/view']);
       })
       .catch((err) => {
         this.errors = err;

@@ -14,21 +14,24 @@
     <p
       *ngIf="variant === 'lose' || variant === 'wine'"
       class="text-lg text-neutral-400 text-center"
-    >
-      {{ sentence }}
-    </p>
+      innerHTML="{{ sentence }}"
+    ></p>
     <p
       class="text-lg text-center"
       *ngIf="variant === 'enabled' || variant === 'disabled'"
     >
       Pour le gagné il te suffit d'être la personne qui cliquera lorsque le
-      compteur sera a <span class="primary-text-gradiant">722</span>
+      compteur sera a
+      <span class="primary-text-gradiant">{{
+        offerService.offer?.clickObjective
+      }}</span>
     </p>
     <app-click-button
       *ngIf="variant === 'enabled' || variant === 'disabled'"
       (onClick)="handleClick()"
       [value]="clickCounter"
       [disabled]="variant === 'disabled'"
+      #clickButton
     ></app-click-button>
 
     <p
