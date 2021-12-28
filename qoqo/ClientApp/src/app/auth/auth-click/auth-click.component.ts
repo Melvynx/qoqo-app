@@ -11,8 +11,7 @@ export class AuthClickComponent {
 
   constructor() {
     client<ClickList>('clicks').then((clicks) => {
-      console.log('clicks', clicks);
-      this.clicks = [...clicks, ...clicks, ...clicks, ...clicks, ...clicks];
+      this.clicks = clicks;
     });
   }
 }

@@ -12,8 +12,7 @@ export class AuthOrderComponent {
 
   constructor() {
     client<OrderList>('orders').then((orders) => {
-      console.log('clicks', orders);
-      this.orders = [...orders, ...orders, ...orders, ...orders, ...orders];
+      this.orders = orders;
     });
   }
 

@@ -15,3 +15,6 @@
   >
   <p class="m-0" class="text-base">{{ click.count }}</p>
 </div>
+<div *ngIf="clicks.length === 0" class="mt-4">
+  <p class="text-base text-center text-neutral-400">No clicks yet</p>
+</div>

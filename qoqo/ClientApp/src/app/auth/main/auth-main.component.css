@@ -1,5 +1,6 @@
 .nav-item {
-  @apply bg-neutral-600 rounded-lg text-white cursor-pointer hover:bg-neutral-500;
+  border-radius: 0 8px 8px 0;
+  @apply bg-neutral-600 text-white cursor-pointer hover:bg-neutral-500;
 }
 
 .nav-item.active {
@@ -22,3 +23,10 @@
   border-radius: 0 8px 8px 0;
   padding: 16px 0;
 }
+
+.outlet-container {
+  @apply w-fit sm:w-96 sm:min-w-fit;
+}
+
+/* .outlet-container[_ngcontent-ng-cli-universal-c89] {
+} */
