@@ -4,7 +4,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { AuthService } from 'src/app/services/auth.service';
 import { OfferService } from 'src/app/services/offer.service';
 import { getBaseUrl } from 'src/main';
-import { Click, ClickFinishResult } from 'src/types/click';
+import { Click, ClickFinishResult, ClickState } from 'src/types/click';
 import { client } from 'src/utils/client';
 import { ClickButtonComponent } from '../click-button/click-button.component';
 
@@ -33,48 +33,36 @@ export class ClickComponent implements OnInit {
     this._hubConnection = new HubConnectionBuilder()
       .withUrl(`${getBaseUrl()}offerHub`)
       .build();
+    this.offerService.offerEvent.subscribe(
+      ({ click, userId, remainingTime }: ClickState) => {
+        this.clickCounter = click;
+        if (userId) {
+          this.handleFinishVariant(userId, true);
+        } else {
+          this.setRemainingTime(remainingTime);
+        }
+      }
+    );
   }
 
   ngOnInit(): void {
-    this._hubConnection
-      .start()
-      .then(() => {
-        console.log('Connected....');
-        client<{ click: number; remainingTime: number; userId: number }>(
-          `clicks/offers/${this.offerService.offer?.id}`
-        )
-          .then(({ click, remainingTime, userId }) => {
-            this.clickCounter = click;
-            if (userId) {
-              this.handleFinishVariant(userId, true);
-            } else {
-              this.setRemainingTime(remainingTime);
-            }
-          })
-          .catch((err) => {
-            console.error('err', err);
-          });
-      })
-      .catch((err) => console.error(err.toString()));
-
-    this._hubConnection.on('CLICK', (data) => {
+    this.offerService.hubConnection.on('CLICK', (data) => {
       const click: Click = JSON.parse(data);
       this.handleNewClick(click);
     });
-    this._hubConnection.on('FINISH', (data) => {
+    this.offerService.hubConnection.on('FINISH', (data) => {
       const finishInformations: ClickFinishResult = JSON.parse(data);
       this.handleFinish(finishInformations);
     });
   }
 
-  handleFinish(finishInformations: ClickFinishResult) {
-    this.sentence = finishInformations.finishSentence;
-    this.clickCounter = finishInformations.clickCount;
-    this.handleFinishVariant(finishInformations.userId);
+  handleFinish(finishInformation: ClickFinishResult) {
+    this.sentence = finishInformation.finishSentence;
+    this.clickCounter = finishInformation.clickCount;
+    this.handleFinishVariant(finishInformation.userId);
   }
 
   handleFinishVariant(userId: number, isSave = false) {
-    console.log({ userId, x: this._authService.user?.id });
     const newVariant = userId === this._authService.user?.id ? 'wine' : 'lose';
     if (newVariant === 'wine' && !isSave) {
       setTimeout(() => {
@@ -109,13 +97,6 @@ export class ClickComponent implements OnInit {
       this.setRemainingTime(10);
     }
     this.clickCounter = click.clickCount;
-  }
-
-  setClickCounter(click: number) {
-    if (this.loading) {
-      this.loading = false;
-    }
-    this.clickCounter = click;
   }
 
   handleClick() {

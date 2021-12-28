@@ -26,7 +26,6 @@ export class AuthService {
 
   login(user: User) {
     this.user = user;
-    console.log({ user });
 
     const token = user.token;
     if (token) {
@@ -39,7 +38,6 @@ export class AuthService {
       client('users/logout', { method: 'POST', json: false })
         .then(() => {
           this.user = undefined;
-          console.log('Logged out', this);
           this.setLoggedIn(false);
           resolve();
         })
