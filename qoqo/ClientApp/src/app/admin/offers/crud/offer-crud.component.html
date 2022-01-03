@@ -1,0 +1,99 @@
+<div class="flex items-center justify-between w-full">
+  <h2 class="text-2xl text-bold">
+    {{ isNewOffer() ? "Create" : "Edit" }}
+    {{ isNewOffer() ? "" : "Offer " + offerId }}
+  </h2>
+  <a routerLink="/admin/offers" class="btn gray cursor-pointer"><- Back</a>
+</div>
+
+<form [formGroup]="offerForm" (ngSubmit)="onSubmit()" class="mt-2">
+  <div class="flex flex-col w-96 min-w-full gap-4">
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput name="title" formControlName="title" />
+    </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        name="description"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Image url</mat-label>
+      <textarea matInput formControlName="imageUrl" name="imageUrl"></textarea>
+    </mat-form-field>
+
+    <div class="flex gap-2">
+      <mat-form-field class="w-full" appearance="fill">
+        <mat-label>Barred price</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="barredPrice"
+          name="barredPrice"
+        />
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="price" name="price" />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Click objective</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="clickObjective"
+        name="clickObjective"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="w-full" appearance="fill">
+      <mat-label>Specification</mat-label>
+      <textarea
+        matInput
+        formControlName="specificationText"
+        name="specificationText"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-checkbox name="isDraft" formControlName="isDraft"
+      >Is Draft?</mat-checkbox
+    >
+
+    <div class="flex gap-2">
+      <mat-form-field appearance="fill">
+        <mat-label>Start at</mat-label>
+        <input
+          matInput
+          formControlName="startAt"
+          [matDatepicker]="startPicker"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="startPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>End at</mat-label>
+        <input matInput formControlName="endAt" [matDatepicker]="endPicker" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="endPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="flex justify-between">
+      <a routerLink="/admin/offers" class="btn gray cursor-pointer"><- Back</a>
+      <button type="submit" class="btn primary">Save</button>
+    </div>
+  </div>
+</form>
