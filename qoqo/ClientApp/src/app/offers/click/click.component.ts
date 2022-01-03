@@ -61,7 +61,8 @@ export class ClickComponent implements OnInit {
   }
 
   handleFinishVariant(userId: number, isSave = false) {
-    const newVariant = userId === this._authService.user?.id ? 'wine' : 'lose';
+    const newVariant =
+      userId === this._authService.user?.userId ? 'wine' : 'lose';
     if (newVariant === 'wine' && !isSave) {
       setTimeout(() => {
         this.variant = newVariant;
@@ -91,7 +92,7 @@ export class ClickComponent implements OnInit {
   }
 
   handleNewClick(click: Click) {
-    if (click.user.id === this._authService.user?.id) {
+    if (click.user.id === this._authService.user?.userId) {
       this.setRemainingTime(10);
     }
     this.clickCounter = click.clickCount;
