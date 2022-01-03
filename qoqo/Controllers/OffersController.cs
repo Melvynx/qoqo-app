@@ -23,13 +23,35 @@ public class OffersController : ControllerBase
         _context = qoqoContext;
         _offerProvider = offerProvider;
     }
-    
+
     [HttpGet]
-    public async Task<ActionResult<Offer>> GetOffers()
+    public async Task<List<OfferIndex>> Get()
     {
-        return Ok("Todo");
+        return await _offerProvider.GetOffers();
     }
-    
+
+    // TODO: Add authorization
+    [HttpGet("{id:int}")]
+    public async Task<OfferDto?> Get(int id)
+    {
+        return await _offerProvider.GetOffer(id);
+    }
+
+    [HttpPatch("{id:int}")]
+    public async Task<ActionResult> Patch(int id, [FromBody] OfferBody offer)
+    {
+        return await _offerProvider.UpdateOffer(id, offer);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Post([FromBody] OfferBody offer)
+    {
+        var createdOffer = await _offerProvider.CreateOffer(offer);
+        return createdOffer == null
+            ? ErrorService.BadRequest(StringRes.ErrorDuringOfferCreation)
+            : SuccessService.Ok(StringRes.OfferCreated);
+    }
+
     [HttpGet("current")]
     public async Task<ActionResult<Offer>> GetCurrentOffer()
     {

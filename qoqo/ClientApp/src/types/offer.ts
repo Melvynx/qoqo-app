@@ -1,20 +1,37 @@
 import { OrderDashboard } from './order';
 
 export type Offer = {
-  id: number;
+  offerId?: number;
+  id?: number;
   title: string;
   description: string;
   barredPrice: number;
   price: number;
-  clickObjective: string;
-  specificationText: string;
-  winnerText: string;
-  imageUrl: string;
-  isOver: boolean;
-  isDraft: boolean;
-  startAt: Date;
-  endAt: Date;
-  createdAt: Date;
+  clickObjective: number;
+  specificationText?: string;
+  winnerText?: string;
+  imageUrl?: string;
+  isOver?: boolean;
+  isDraft?: boolean;
+  isLive?: boolean;
+  startAt?: string;
+  endAt?: string;
+  createdAt?: string;
+};
+
+export const EmptyOffer: Offer = {
+  id: 0,
+  title: '',
+  description: '',
+  imageUrl: '',
+  specificationText: '',
+  barredPrice: 0,
+  price: 0,
+  clickObjective: 0,
+  isOver: false,
+  isDraft: true,
+  startAt: undefined,
+  endAt: undefined,
 };
 
 export type Dashboard = {
