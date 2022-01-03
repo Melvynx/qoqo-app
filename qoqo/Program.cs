@@ -25,6 +25,7 @@ builder.Services.AddDbContext<QoqoContext>();
 builder.Services.AddTransient<UserProvider>();
 builder.Services.AddTransient<ClickProvider>();
 builder.Services.AddTransient<OfferProvider>();
+builder.Services.AddTransient<OrderProvider>();
 builder.Services.AddTransient<HubService>();
 builder.Services.AddTransient<IAuthenticationService, AuthorizationService>();
 

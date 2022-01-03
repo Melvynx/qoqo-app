@@ -60,7 +60,7 @@ namespace qoqo.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("EndAt")
+                    b.Property<DateTime?>("EndAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImageUrl")
@@ -80,7 +80,7 @@ namespace qoqo.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("StartAt")
+                    b.Property<DateTime?>("StartAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")

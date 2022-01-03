@@ -8,7 +8,9 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: var(--percentage);
+  width: 100%;
+  transform: scaleX(var(--percentage));
+  transform-origin: left center;
   background: var(--primary-gradiant);
-  @apply rounded-md;
+  @apply rounded-md transition;
 }

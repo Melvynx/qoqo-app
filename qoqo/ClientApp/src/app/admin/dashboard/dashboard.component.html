@@ -4,7 +4,7 @@
 >
   <div class="flex items-center justify-between">
     <h3 class="text-2xl">
-      <a [routerLink]="'admin/offers/' + dashboard?.offerId">{{
+      <a [routerLink]="'/admin/offers/' + dashboard?.offerId">{{
         dashboard?.offerTitle
       }}</a>
     </h3>
@@ -17,7 +17,7 @@
         class="gauge-fill"
       ></div>
       <p class="relative">
-        {{ dashboard?.clickCount }} / {{ dashboard?.clickObjective }}
+        {{ dashboard?.clickCount }} / {{ dashboard?.clickObjective }} clicks
       </p>
     </div>
     <p>
@@ -25,15 +25,15 @@
       {{ (dashboard?.clickObjective || 0) - (dashboard?.clickCount || 0) }}
     </p>
     <p>Active user: {{ dashboard?.countOfActiveUser }}</p>
-    <div *ngIf="dashboard?.order" class="mt-2 border-t-2 pt-2">
+    <div *ngIf="dashboard?.order" class="border-t-2 pt-2">
       <p>
-        <a [routerLink]="'admin/orders/' + dashboard?.order?.orderId"
+        <a [routerLink]="'/admin/orders/' + dashboard?.order?.orderId"
           >Order id: {{ dashboard?.order?.orderId }}</a
         >
       </p>
       <p>Order status: {{ dashboard?.order?.status }}</p>
       <p>
-        <a [routerLink]="'admin/users' + dashboard?.order?.user?.id"
+        <a [routerLink]="'/admin/users' + dashboard?.order?.user?.id"
           >UserName: {{ dashboard?.order?.user?.userName }}</a
         >
       </p>
