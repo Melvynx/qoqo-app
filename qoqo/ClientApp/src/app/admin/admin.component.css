@@ -1,10 +1,10 @@
 .nav-item {
-  border-radius: 0 8px 8px 0;
-  @apply bg-neutral-600 text-white cursor-pointer hover:bg-neutral-500;
+  display: block;
+  align-self: flex-start;
 }
 
 .nav-item.active {
-  @apply bg-pink-600 hover:bg-pink-500;
+  @apply text-pink-400;
 }
 
 .nav-item a:focus {
@@ -13,10 +13,10 @@
 }
 
 .nav-item a {
-  padding: 16px;
+  text-decoration: underline;
   display: inline-block;
 
-  @apply text-white w-full rounded-lg;
+  @apply text-inherit rounded-lg;
 }
 
 .nav-menu {
@@ -25,7 +25,13 @@
 }
 
 .outlet-container {
-  @apply w-fit sm:w-96 sm:min-w-fit;
+  @apply w-fit sm:min-w-fit;
+}
+
+@media (min-width: 340px) {
+  .outlet-container {
+    width: 640px;
+  }
 }
 
 /* .outlet-container[_ngcontent-ng-cli-universal-c89] {

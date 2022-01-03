@@ -1,9 +1,9 @@
-<div class="flex">
-  <div
-    *ngIf="authService.isAuthenticated"
-    class="w-fit flex-col nav-menu absolute left-0 hidden sm:flex"
-  >
-    <ul class="list-none gap-2 flex flex-col">
+<div class="w-full flex pb-8">
+  <div *ngIf="authService.isAuthenticated" class="">
+    <ul class="list-none gap-2 flex flex-col pl-8 pt-8">
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a [routerLink]="['/admin/dashboard']"> Dashboard </a>
+      </li>
       <li class="nav-item" [routerLinkActive]="['active']">
         <a [routerLink]="['/admin/offers']"> Offers </a>
       </li>
@@ -12,10 +12,7 @@
       </li>
     </ul>
   </div>
-
-  <div
-    class="bg-neutral-700 flex flex-col gap-8 sm:py-8 py-4 sm:px-16 px-8 rounded-3xl m-auto my-4 sm:my-8 outlet-container"
-  >
+  <div class="w-full ml-8 pl-8 border-l-2 border-neutral-400 pr-8">
     <router-outlet class="hidden"></router-outlet>
   </div>
 </div>
