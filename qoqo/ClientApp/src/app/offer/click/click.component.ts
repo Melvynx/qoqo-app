@@ -7,6 +7,7 @@ import { getBaseUrl } from 'src/main';
 import { Click, ClickFinishResult, ClickState } from 'src/types/click';
 import { client } from 'src/utils/client';
 import { ClickButtonComponent } from '../click-button/click-button.component';
+import { ClickHubService } from '../../services/click-hub.service';
 
 @Component({
   selector: 'app-click',
@@ -22,17 +23,14 @@ export class ClickComponent implements OnInit {
   clickCounter = 0;
   remainingTime = 0;
   loading = true;
-  _hubConnection: HubConnection;
 
   constructor(
     public offerService: OfferService,
+    public clickHubService: ClickHubService,
     private _matSnackBar: MatSnackBar,
     private _authService: AuthService
   ) {
     this.sentence = this.offerService.offer?.winnerText;
-    this._hubConnection = new HubConnectionBuilder()
-      .withUrl(`${getBaseUrl()}offerHub`)
-      .build();
     this.offerService.offerEvent.subscribe(
       ({ click, userId, remainingTime }: ClickState) => {
         this.clickCounter = click;
@@ -46,13 +44,13 @@ export class ClickComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.offerService.hubConnection.on('CLICK', (data) => {
+    this.clickHubService.hubConnection.on('CLICK', (data) => {
       const click: Click = JSON.parse(data);
       this.handleNewClick(click);
     });
-    this.offerService.hubConnection.on('FINISH', (data) => {
-      const finishInformations: ClickFinishResult = JSON.parse(data);
-      this.handleFinish(finishInformations);
+    this.clickHubService.hubConnection.on('FINISH', (data) => {
+      const finishInformation: ClickFinishResult = JSON.parse(data);
+      this.handleFinish(finishInformation);
     });
   }
 

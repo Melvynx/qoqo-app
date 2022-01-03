@@ -1,9 +1,10 @@
 import { User } from './users';
 
 export type OrderList = {
+  orderId: number;
   offer: {
     title: string;
-    id: number;
+    offerId: number;
   };
   createdAt: string;
   status: string;

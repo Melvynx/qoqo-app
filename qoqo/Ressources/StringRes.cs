@@ -13,9 +13,32 @@ public class StringRes
     public const string UserNameRequired = "Username is required.";
     public const string EmailRequired = "Email is required.";
     public const string PasswordRequired = "Password is required.";
+    public const string Logout = "Logout";
+    public const string LogoutFailed = "Logout failed";
+    public const string LoginFailed = "Invalid username or password";
 
     // ClickController
     public const string ClickMinimum10Seconds = "You can't click this offer more than once every 10 seconds";
     public const string OfferNotFound = "Offer not found";
     public const string NeedToBeLoggedToClick = "You can't click this offer if you are not logged in";
+    
+    // OfferController
+    public const string ErrorDuringOfferCreation = "Error during offer creation";
+    public const string ErrorDuringOfferUpdate = "Error during offer update";
+    public const string OfferUpdated = "Offer updated";
+    public const string OfferCreated = "Offer created";
+    
+    
+    // OfferProvider
+    public const string OfferStartAtDateRequired = "Offer start at date is required.";
+    public const string OfferEndAtDateRequired = "Offer start at date is required.";
+    public const string OfferEndAtBeforeStartAt = "Offer end at date must be after start at date.";
+    public const string OfferClickObjectiveMustBeUpperThan10 = "Offer click objective must be upper than 10.";
+
+    public const string OfferSameTime = "Offer already exist at this time";
+    
+    // OrderProvider
+    public const string OrderUpdated = "Order updated";
+    public const string ErrorDuringOrderUpdate = "Error during order update";
+
 }

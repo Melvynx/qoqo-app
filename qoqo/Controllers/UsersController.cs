@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using qoqo.DataTransferObjects;
 using qoqo.Model;
 using qoqo.Providers;
+using qoqo.Ressources;
 using qoqo.Services;
 
 namespace qoqo.Controllers;
@@ -25,7 +26,7 @@ public class UsersController : ControllerBase
     {
         return _context.Users.ToList();
     }
-    
+
     [HttpPatch("{id:int}")]
     public async Task<ActionResult<UserDto>> Patch(int id, [FromBody] UserDto user)
     {
@@ -35,19 +36,8 @@ public class UsersController : ControllerBase
     [HttpGet("me")]
     public async Task<ActionResult<UserDto?>> Me()
     {
-        var token = Request.Cookies["token"];
-        if (token == null)
-        {
-            return BadRequest();
-        }
-
-        var user = await _userProvider.GetUserByToken(token);
-        if (user == null)
-        {
-            return BadRequest();
-        }
-
-        return user;
+        var user = new TokenService(HttpContext).GetUser(_context);
+        return user == null ? ErrorService.BadRequest("Invalid Token") : UserDto.FromUser(user);
     }
 
     [HttpPost("login")]
@@ -56,7 +46,7 @@ public class UsersController : ControllerBase
         var user = await _userProvider.Login(loginDto);
         if (user == null)
         {
-            return NotFound("Invalid username or password");
+            return NotFound(StringRes.LoginFailed);
         }
 
         new TokenService(HttpContext).SetToken(user.Token);
@@ -85,6 +75,8 @@ public class UsersController : ControllerBase
 
         tokenService.DeleteToken();
 
-        return await _userProvider.Logout(token) ? Ok("Logout") : BadRequest("Invalid token");
+        return await _userProvider.Logout(token)
+            ? SuccessService.Ok(StringRes.Logout)
+            : ErrorService.BadRequest(StringRes.LogoutFailed);
     }
 }

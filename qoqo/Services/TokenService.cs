@@ -45,7 +45,7 @@ public class TokenService
 
         var userToken = context.Tokens
             .Include(t => t.User)
-            .SingleOrDefault(t => t.Value == token);
+            .SingleOrDefault(t => t.ExpiredAt == null && t.Value == token);
 
         return userToken?.User;
     }

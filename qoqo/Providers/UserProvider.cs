@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using qoqo.DataTransferObjects;
 using qoqo.Model;
 using qoqo.Ressources;
+using qoqo.Services;
 
 namespace qoqo.Providers;
 

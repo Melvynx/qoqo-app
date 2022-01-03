@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono&display=swap");
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
 
 @import "tailwindcss/base";
 @import "tailwindcss/components";
