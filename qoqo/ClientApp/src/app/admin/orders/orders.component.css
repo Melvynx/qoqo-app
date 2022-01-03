@@ -1,0 +1,15 @@
+.orders-container {
+  --items: 4;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(var(--items), 1fr);
+}
+
+.orders-container > p:nth-child(-n + 4) {
+  border-bottom: 2px solid white;
+  margin-bottom: 4px;
+}
+
+.orders-container > p {
+  text-align: center;
+}

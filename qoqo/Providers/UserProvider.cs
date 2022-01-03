@@ -125,7 +125,7 @@ public class UserProvider
         await _context.SaveChangesAsync();
 
         var userDto = UserDto.FromUser(newUser.Entity);
-        userDto.Token = await GenerateToken(userDto.Id);
+        userDto.Token = await GenerateToken(userDto.UserId);
         return userDto;
     }
     

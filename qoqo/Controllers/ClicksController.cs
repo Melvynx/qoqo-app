@@ -114,10 +114,11 @@ public class ClicksController : ControllerBase
 
         var userDto = UserClickDto.FromUser(user);
         var offer = await _context.Offers
-            .Select(o => new {Id = o.OfferId, o.ClickObjective})
+            .Select(o => new {Id = o.OfferId, o.ClickObjective, o.IsDraft, o.StartAt, o.EndAt})
             .FirstOrDefaultAsync(o => o.Id == id);
 
-        if (offer == null)
+        var now = DateTime.Now;
+        if (offer is not {IsDraft: false} || offer.StartAt > now || offer.EndAt < now)
         {
             return ErrorService.BadRequest(StringRes.OfferNotFound);
         }

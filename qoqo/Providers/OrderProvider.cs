@@ -26,7 +26,7 @@ public class OrderProvider
             {
                 OrderId = o.OrderId,
                 Status = o.Status,
-                user = UserDto.FromUser(o.User),
+                user = UserDto.FromUser(o.User, true),
                 offer = new OfferOrderDto
                 {
                     OfferId = o.OfferId,

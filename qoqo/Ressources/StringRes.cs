@@ -30,10 +30,10 @@ public class StringRes
     
     
     // OfferProvider
-    public const string OfferStartAtDateRequired = "Offer start at date is required.";
-    public const string OfferEndAtDateRequired = "Offer start at date is required.";
-    public const string OfferEndAtBeforeStartAt = "Offer end at date must be after start at date.";
-    public const string OfferClickObjectiveMustBeUpperThan10 = "Offer click objective must be upper than 10.";
+    public const string OfferStartAtDateRequired = "Offer start at date is required";
+    public const string OfferEndAtDateRequired = "Offer start at date is required";
+    public const string OfferEndAtBeforeStartAt = "Offer end at date must be after start at date";
+    public const string OfferClickObjectiveMustBeUpperThan10 = "Offer click objective must be upper than 10";
 
     public const string OfferSameTime = "Offer already exist at this time";
     

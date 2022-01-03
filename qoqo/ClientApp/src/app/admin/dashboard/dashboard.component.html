@@ -33,7 +33,7 @@
       </p>
       <p>Order status: {{ dashboard?.order?.status }}</p>
       <p>
-        <a [routerLink]="'/admin/users' + dashboard?.order?.user?.id"
+        <a [routerLink]="'/admin/users' + dashboard?.order?.user?.userId"
           >UserName: {{ dashboard?.order?.user?.userName }}</a
         >
       </p>

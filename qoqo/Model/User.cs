@@ -20,4 +20,9 @@ public class User
     public List<Token> Tokens { get; set; }
 
     public int Id => UserId;
+
+    public string GetFullAddress()
+    {
+        return $"{Street} {Npa} {City}";
+    }
 }

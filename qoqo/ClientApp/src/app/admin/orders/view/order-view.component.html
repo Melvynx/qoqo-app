@@ -1,0 +1,36 @@
+<div class="flex items-center justify-between w-full">
+  <h2 class="text-2xl text-bold">Order {{ orderId }}</h2>
+</div>
+
+<div class="pt-4">
+  <div class="flex items-center gap-4">
+    <p>
+      Status: <b>{{ order?.status }}</b>
+    </p>
+    <button class="btn success" (click)="setStatus('DELIVERED')">
+      Set to delivered
+    </button>
+    <button class="btn error" (click)="setStatus('CANCELLED')">Cancel</button>
+  </div>
+  <div class="my-4 border-l-pink-600 border-l-4 p-4 bg-pink-900 max-w-fit">
+    <p>Offer: {{ order?.offer?.offerId }}</p>
+    <p>
+      Title: <b>{{ order?.offer?.title }}</b>
+    </p>
+  </div>
+  <div class="my-4 border-l-green-600 border-l-4 p-4 bg-green-900 max-w-fit">
+    <p>User: {{ order?.user?.userId }}</p>
+    <p>
+      User name: <b>{{ order?.user?.userName }}</b>
+    </p>
+    <p>
+      Full name: <b>{{ order?.user?.firstName }} {{ order?.user?.lastName }}</b>
+    </p>
+    <p>
+      Address: <b> {{ order?.user?.fullAddress }} </b>
+    </p>
+    <p>
+      Email: <b> {{ order?.user?.email }} </b>
+    </p>
+  </div>
+</div>

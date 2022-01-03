@@ -22,20 +22,21 @@ public class RegisterDto
 
 public class UserDto
 {
-    public int Id { get; set; }
+    public int UserId { get; set; }
     public string UserName { get; set; }
     public string Email { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? AvatarUrl { get; set; }
     public string? Token { get; set; }
+    public string? FullAddress { get; set; }
     public bool? IsAdmin { get; set; }
     
-    public static UserDto FromUser(User user)
+    public static UserDto FromUser(User user, bool configureFullAddress = false)
     {
-        return new UserDto
+        var userDto = new UserDto
         {
-            Id = user.Id,
+            UserId = user.Id,
             UserName = user.UserName,
             Email = user.Email,
             FirstName = user.FirstName,
@@ -43,6 +44,13 @@ public class UserDto
             AvatarUrl = user.AvatarUrl,
             IsAdmin = user.IsAdmin
         };
+
+        if (configureFullAddress)
+        {
+            userDto.FullAddress = user.GetFullAddress();
+        }
+
+        return userDto;
     }
 }
 

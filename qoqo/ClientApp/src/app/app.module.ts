@@ -9,8 +9,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { UsersComponent } from './users/users.component';
-import { ClickComponent } from './offer/click/click.component';
-import { ClickButtonComponent } from './offer/click-button/click-button.component';
+import { ClickComponent } from './offers/click/click.component';
+import { ClickButtonComponent } from './offers/click-button/click-button.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './auth/login/login.component';
 import { InputComponent } from './ui/input/input.component';
@@ -33,9 +33,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { OrdersComponent } from './admin/orders/orders.component';
+import { OrderViewComponent } from './admin/orders/view/order-view.component';
+import { NoOfferComponent } from './offers/no-offer/no-offer.component';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'offers/:id', component: HomeComponent },
   { path: 'counter', component: CounterComponent },
   { path: 'users', component: UsersComponent },
   {
@@ -81,7 +84,11 @@ const ROUTES: Routes = [
       },
       {
         path: 'orders/:id',
-        component: OfferCrudComponent,
+        component: OrderViewComponent,
+      },
+      {
+        path: 'orders',
+        component: OrdersComponent,
       },
     ],
   },
@@ -110,6 +117,8 @@ const ROUTES: Routes = [
     OffersComponent,
     OfferCrudComponent,
     OrdersComponent,
+    OrderViewComponent,
+    NoOfferComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -33,7 +33,7 @@ export class ViewComponent implements OnInit {
       username: this.authService.user?.userName,
     };
 
-    client<User>(`users/${this.authService.user?.id}`, {
+    client<User>(`users/${this.authService.user?.userId}`, {
       method: 'PATCH',
       data: user,
     })

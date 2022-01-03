@@ -1,6 +1,6 @@
 .gauge {
   position: relative;
-  @apply p-4 border-2 border-pink-800 rounded-lg;
+  @apply p-4 rounded-lg bg-neutral-500;
 }
 
 .gauge-fill {
