@@ -1,26 +1,25 @@
 <div class="flex items-center justify-between">
-  <h2 class="text-2xl text-bold">Offers</h2>
+  <h2 class="text-2xl text-bold">Orders</h2>
   <a routerLink="/admin/offers/new" class="btn primary cursor-pointer"
     >Create</a
   >
 </div>
 
-<div class="offers-container">
+<div class="orders-container">
   <p class="text-base m-0">Id</p>
-  <p class="text-base">Click objective</p>
-  <p class="text-base">Is draft</p>
-  <p class="text-base">Is over</p>
-  <p class="text-base">Is live</p>
+  <p class="text-base">Offer</p>
+  <p class="text-base">Status</p>
+  <p class="text-base">Created at</p>
   <ng-container *ngFor="let order of orders">
     <a
       [routerLink]="'/admin/orders/' + order.orderId"
       class="text-blue-500 text-base m-0"
-      >{{ order.orderId }}</a
+      >Order: {{ order.orderId }}</a
     >
     <a
       [routerLink]="'/admin/offers/' + order.offer.offerId"
       class="text-blue-500 text-base m-0"
-    >{{ order.offer.title }}</a
+      >{{ order.offer.title }}</a
     >
     <p class="text-base">{{ order.status }}</p>
     <p class="text-base">{{ getLocaleDate(order.createdAt) }}</p>

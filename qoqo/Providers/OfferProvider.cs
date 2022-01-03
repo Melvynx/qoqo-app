@@ -46,14 +46,31 @@ public class OfferProvider
             CreatedAt = o.CreatedAt,
             ImageUrl = o.ImageUrl,
             Price = o.Price,
-            BarredPrice = o.BarredPrice
+            BarredPrice = o.BarredPrice,
+            WinnerText = o.WinnerText
         }).FirstOrDefaultAsync(o => o.Id == id);
     }
 
-    public async Task<Offer?> GetCurrentOffer()
+    public async Task<OfferDto?> GetCurrentOffer()
     {
         var today = DateTime.Today;
-        var offer = await _context.Offers.FirstOrDefaultAsync(o =>
+        var offer = await _context.Offers.Select(o => new OfferDto
+        {
+            Id = o.OfferId,
+            Title = o.Title,
+            Description = o.Description,
+            IsDraft = o.IsDraft,
+            IsOver = o.IsOver,
+            ClickObjective = o.ClickObjective,
+            SpecificationText = o.SpecificationText,
+            StartAt = o.StartAt,
+            EndAt = o.EndAt,
+            CreatedAt = o.CreatedAt,
+            ImageUrl = o.ImageUrl,
+            Price = o.Price,
+            BarredPrice = o.BarredPrice,
+            WinnerText = o.WinnerText
+        }).FirstOrDefaultAsync(o =>
             o.StartAt <= today && o.EndAt >= today && !o.IsDraft);
 
         return offer;
@@ -96,28 +113,22 @@ public class OfferProvider
     {
         var offer = Offer.FromOfferBody(offerBody);
         var errors = Validate(offer);
-        if (!errors.Any())
+        if (errors.Any())
         {
-            return new BadRequestObjectResult(errors);
+            return ErrorService.BadRequest(string.Join(", ", errors));
         }
 
         var entity = await _context.Offers.AddAsync(offer);
         await _context.SaveChangesAsync();
         return new OkObjectResult(entity.Entity);
     }
-    
+
     // update offer
     public async Task<ActionResult> UpdateOffer(int id, OfferBody offerBody)
     {
         var offer = await _context.Offers.FindAsync(id);
         if (offer == null) return ErrorService.BadRequest(StringRes.ErrorDuringOfferUpdate);
-        
-        var errors = Validate(offer);
-        if (!errors.Any())
-        {
-            return new BadRequestObjectResult(errors);
-        }
-        
+
         offer.Title = offerBody.Title;
         offer.Description = offerBody.Description;
         offer.IsDraft = offerBody.IsDraft;
@@ -128,16 +139,24 @@ public class OfferProvider
         offer.EndAt = offerBody.EndAt;
         offer.StartAt = offerBody.StartAt;
         offer.SpecificationText = offerBody.SpecificationText;
+
+        var errors = Validate(offer);
+        if (errors.Any())
+        {
+            return ErrorService.BadRequest(string.Join(", ", errors));
+        }
+
         await _context.SaveChangesAsync();
-        return new OkObjectResult(offer);
+        return SuccessService.Ok(StringRes.OfferUpdated);
     }
 
-    private IEnumerable<string> Validate(Offer offer)
+    private List<string> Validate(Offer offer)
     {
         if (offer.IsDraft)
         {
             return new List<string>();
         }
+
         var errors = offer.Validate();
         var sameTimeOffer = _context.Offers.FirstOrDefault(o => o.StartAt < offer.StartAt && o.EndAt < offer.StartAt ||
                                                                 o.StartAt > offer.EndAt && o.EndAt > offer.EndAt);

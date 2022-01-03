@@ -1,12 +1,15 @@
-<div class="flex items-center justify-between w-full">
+<div class="flex items-center justify-between w-full gap-4">
   <h2 class="text-2xl text-bold">
     {{ isNewOffer() ? "Create" : "Edit" }}
     {{ isNewOffer() ? "" : "Offer " + offerId }}
   </h2>
+  <a class="text-sm text-blue-500 ml-auto" [routerLink]="['/offers/' + offerId]">
+    Show offer</a
+  >
   <a routerLink="/admin/offers" class="btn gray cursor-pointer"><- Back</a>
 </div>
 
-<form [formGroup]="offerForm" (ngSubmit)="onSubmit()" class="mt-2">
+<form [formGroup]="offerForm" (ngSubmit)="onSubmit()" class="mt-4">
   <div class="flex flex-col w-96 min-w-full gap-4">
     <mat-form-field class="w-full" appearance="fill">
       <mat-label>Title</mat-label>
@@ -63,8 +66,8 @@
     </mat-form-field>
 
     <mat-checkbox name="isDraft" formControlName="isDraft"
-      >Is Draft?</mat-checkbox
-    >
+      >Is Draft?
+    </mat-checkbox>
 
     <div class="flex gap-2">
       <mat-form-field appearance="fill">

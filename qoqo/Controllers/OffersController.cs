@@ -31,10 +31,27 @@ public class OffersController : ControllerBase
     }
 
     // TODO: Add authorization
-    [HttpGet("{id:int}")]
-    public async Task<OfferDto?> Get(int id)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<OfferDto?>> Get(string id)
     {
-        return await _offerProvider.GetOffer(id);
+        if (id == "current")
+        {
+            return await _offerProvider.GetCurrentOffer();
+        }
+
+        if (!int.TryParse(id, out var offerId)) return BadRequest();
+
+        var tokenProvider = new TokenService(HttpContext);
+        var user = tokenProvider.GetUser(_context);
+        var offer = await _offerProvider.GetOffer(offerId);
+
+        if (user is not {IsAdmin: true} && offer?.IsDraft == true)
+        {
+            return Unauthorized();
+        }
+
+        return offer;
+
     }
 
     [HttpPatch("{id:int}")]
@@ -46,22 +63,7 @@ public class OffersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] OfferBody offer)
     {
-        var createdOffer = await _offerProvider.CreateOffer(offer);
-        return createdOffer == null
-            ? ErrorService.BadRequest(StringRes.ErrorDuringOfferCreation)
-            : SuccessService.Ok(StringRes.OfferCreated);
-    }
-
-    [HttpGet("current")]
-    public async Task<ActionResult<Offer>> GetCurrentOffer()
-    {
-        var offer = await _offerProvider.GetCurrentOffer();
-        if (offer == null)
-        {
-            return ErrorService.BadRequest(StringRes.OfferNotFound);
-        }
-
-        return offer;
+        return await _offerProvider.CreateOffer(offer);
     }
 
     [HttpGet("dashboard")]

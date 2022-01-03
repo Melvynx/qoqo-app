@@ -14,6 +14,7 @@ public class OfferDto
     public string ImageUrl { get; set; } = "";
     public bool IsDraft { get; set; } = true;
     public bool IsOver { get; set; } = false;
+    public string? WinnerText { get; set; } = "";
     public DateTime? StartAt { get; set; } 
     public DateTime? EndAt { get; set; }
     public DateTime CreatedAt { get; set; }
