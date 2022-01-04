@@ -1,12 +1,12 @@
-<div class="flex gap-8 flex-col">
+<div class="flex gap-8 flex-col max-w-2xl m-auto">
   <p class="text-5xl text-center">Register</p>
-  <div class="flex gap-4 items-start flex-wrap">
+  <div class="flex gap-4 items-start flex-wrap w-full">
     <app-input
       #firstname
       [error]="errors.firstname"
       value=""
       label="First name"
-      class="w-full sm:w-fit"
+      class="w-full sm:flex-1"
     ></app-input>
     <app-input
       #lastname
@@ -14,7 +14,7 @@
       [inputAttr]="{ type: 'lastname' }"
       value=""
       label="Last name"
-      class="w-full sm:w-fit"
+      class="w-full sm:flex-1"
     ></app-input>
   </div>
   <div class="flex gap-4 items-start flex-wrap">
@@ -24,7 +24,7 @@
       helper="Username must be between 3 and 30 characters and only contain letters, numbers and underscores."
       value=""
       label="Username"
-      class="w-full sm:w-fit"
+      class="w-full sm:flex-1"
     ></app-input>
     <app-input
       #email
@@ -32,7 +32,7 @@
       [inputAttr]="{ type: 'email' }"
       value=""
       label="Email"
-      class="w-full sm:w-fit"
+      class="w-full sm:flex-1"
     ></app-input>
   </div>
   <div class="flex gap-4 items-start flex-wrap">
@@ -43,7 +43,7 @@
       helper="Password must be at least 8 characters and contain at least one lowercase letter, one uppercase letter and one number."
       value=""
       label="Password"
-      class="w-full sm:w-fit"
+      class="w-full sm:flex-1"
     ></app-input>
     <app-input
       #confirmPassword
@@ -51,16 +51,10 @@
       [inputAttr]="{ type: 'password' }"
       value=""
       label="Confirm password"
-      class="w-full sm:w-fit"
+      class="w-full sm:flex-1"
     ></app-input>
   </div>
-  <div class="flex items-baseline gap-4 justify-between">
-    <a
-      routerLink="/auth/login"
-      class="text-lg font-bold underline text-white cursor-pointer focus:outline"
-    >
-      Already an account?
-    </a>
-    <button (click)="onSubmit()" class="btn primary">Submit</button>
-  </div>
+  <button class="ml-auto" (click)="onSubmit()" class="btn primary">
+    Submit
+  </button>
 </div>

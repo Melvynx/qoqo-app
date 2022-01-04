@@ -1,11 +1,9 @@
-using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using qoqo.DataTransferObjects;
 using qoqo.Model;
 using qoqo.Ressources;
-using qoqo.Services;
 
 namespace qoqo.Providers;
 
@@ -15,12 +13,12 @@ public class UserProvider
     private static readonly Regex PasswordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,1000}$");
     private static readonly Regex UsernameRegex = new Regex(@"^[a-zA-Z0-9_]{3,30}$");
     private static readonly Regex EmailRegex = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-    
+
     public UserProvider(QoqoContext context)
     {
         _context = context;
     }
-    
+
     // update user function
     public async Task<ActionResult<UserDto>> UpdateUser(UserDto userDto, int userId)
     {
@@ -28,7 +26,7 @@ public class UserProvider
 
         if (user == null)
         {
-            return new BadRequestObjectResult(new {message= "User not found."});
+            return new BadRequestObjectResult(new {message = "User not found."});
         }
 
         var errors = new UserErrorDto
@@ -41,7 +39,7 @@ public class UserProvider
         {
             return new BadRequestObjectResult(errors);
         }
-        
+
         user.UserName = userDto.UserName;
         user.Email = userDto.Email;
         user.FirstName = userDto.FirstName;
@@ -50,16 +48,6 @@ public class UserProvider
 
         await _context.SaveChangesAsync();
         return UserDto.FromUser(user);
-    }
-    
-
-    public async Task<UserDto?> GetUserByToken(string value)
-    {
-        var token = await _context.Tokens
-            .Include(t => t.User)
-            .Where(t => t.ExpiredAt == null)
-            .FirstOrDefaultAsync(t => t.Value == value);
-        return token == null ? null : UserDto.FromUser(token.User);
     }
 
     public async Task<bool> Logout(string value)
@@ -98,7 +86,7 @@ public class UserProvider
         userDto.Token = await GenerateToken(user.Id);
         return userDto;
     }
-    
+
     public async Task<ActionResult<UserDto?>> Register(RegisterDto registerDto)
     {
         var userError = ValidateUser(registerDto);
@@ -128,7 +116,7 @@ public class UserProvider
         userDto.Token = await GenerateToken(userDto.UserId);
         return userDto;
     }
-    
+
     private async Task<string> GenerateToken(int userId)
     {
         var token = await _context.Tokens.AddAsync(Token.GenerateToken(userId));
@@ -147,40 +135,44 @@ public class UserProvider
 
         return errors;
     }
-    
+
     private string? CheckUserName(string? userName, int? userId = null)
     {
         if (userName == null)
         {
             return StringRes.UserNameRequired;
         }
+
         if (_context.Users.Any(u => u.UserName == userName && u.UserId != userId))
         {
             return StringRes.UsernameAlreadyExist;
         }
-        
+
         return !UsernameRegex.IsMatch(userName) ? StringRes.UserNameRegexError : null;
     }
-    
+
     private string? CheckPassword(string? password)
     {
         if (password == null)
         {
             return StringRes.PasswordRequired;
         }
+
         return !PasswordRegex.IsMatch(password) ? StringRes.PasswordRegexError : null;
     }
-    
+
     private string? CheckEmail(string? email, int? userId = null)
     {
         if (email == null)
         {
             return StringRes.EmailRequired;
         }
+
         if (_context.Users.Any(u => u.Email == email && u.UserId != userId))
         {
             return StringRes.EmailAlreadyExist;
         }
+
         return !EmailRegex.IsMatch(email) ? StringRes.EmailRegexError : null;
     }
 }

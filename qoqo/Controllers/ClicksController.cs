@@ -144,7 +144,7 @@ public class ClicksController : ControllerBase
         var click = await _clickProvider.Add(user.UserId, id);
         clickCount += 1;
 
-        var clickDto = ClickDto.FromUserClick(userDto, clickCount);
+        var clickDto = ClickDto.FromUserClick(userDto, clickCount, offer.ClickObjective);
         try
         {
             return Ok(clickCount == offer.ClickObjective

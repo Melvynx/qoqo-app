@@ -33,8 +33,7 @@ export class OfferService {
               console.error('err', err);
             });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
           router.navigateByUrl('/');
         });
     });
