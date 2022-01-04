@@ -1,13 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
-import { AuthService } from 'src/app/services/auth.service';
-import { OfferService } from 'src/app/services/offer.service';
-import { getBaseUrl } from 'src/main';
-import { Click, ClickFinishResult, ClickState } from 'src/types/click';
-import { client } from 'src/utils/client';
-import { ClickButtonComponent } from '../click-button/click-button.component';
-import { ClickHubService } from '../../services/click-hub.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {AuthService} from 'src/app/services/auth.service';
+import {OfferService} from 'src/app/services/offer.service';
+import {Click, ClickFinishResult, ClickState} from 'src/types/click';
+import {client} from 'src/utils/client';
+import {ClickButtonComponent} from '../click-button/click-button.component';
+import {ClickHubService} from '../../services/click-hub.service';
 
 @Component({
   selector: 'app-click',
@@ -100,7 +98,7 @@ export class ClickComponent implements OnInit {
 
   handleClick() {
     client<{ confetti: boolean }>(
-      `clicks/offers/${this.offerService.offer?.id}`,
+      `clicks/offers/${this.offerService.offer?.offerId}`,
       {
         method: 'POST',
       }
