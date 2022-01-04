@@ -4,7 +4,7 @@ namespace qoqo.DataTransferObjects;
 
 public class OfferDto
 {
-    public int Id { get; set; }
+    public int OfferId { get; set; }
     public string Title { get; set; } = "";
     public string Description { get; set; } = "";
     public double BarredPrice { get; set; } = 0.0;
@@ -35,20 +35,33 @@ public class OfferOrderDto
 
 public class DashboardDto
 {
-    public int? OfferId { get; set; }
-    public string? OfferTitle { get; set; }
-    public bool? IsOver { get; set; }
+    public int OfferId { get; set; }
+    public string OfferTitle { get; set; }
+    public bool IsOver { get; set; }
     public int? ClickCount { get; set; }
     public int? ClickObjective { get; set; }
     public int? CountOfActiveUser { get; set; }
     public DateTime? EndAt { get; set; }
     public OrderDashboardDto? Order { get; set; }
-    public int currentUserCount { get; set; }
+    public bool IsNextOffer { get; set; }
+
+    public static DashboardDto FromOfferDto(OfferDto offer, bool isNextOffer)
+    {
+        return new DashboardDto
+        {
+            OfferId = offer.OfferId,
+            OfferTitle = offer.Title,
+            IsOver = offer.IsOver,
+            EndAt = offer.EndAt,
+            ClickObjective = offer.ClickObjective,
+            IsNextOffer = isNextOffer
+        };
+    }
 }
 
 public class OfferIndex
 {
-    public int Id { get; set; }
+    public int OfferId { get; set; }
     public string Title { get; set; }
     public int ClickObjective { get; set; }
     public bool IsOver { get; set; }

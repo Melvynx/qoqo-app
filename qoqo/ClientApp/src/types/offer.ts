@@ -1,8 +1,7 @@
 import { OrderDashboard } from './order';
 
 export type Offer = {
-  offerId?: number;
-  id?: number;
+  offerId: number;
   title: string;
   description: string;
   barredPrice: number;
@@ -20,7 +19,7 @@ export type Offer = {
 };
 
 export const EmptyOffer: Offer = {
-  id: 0,
+  offerId: 0,
   title: '',
   description: '',
   imageUrl: '',
@@ -44,4 +43,5 @@ export type Dashboard = {
   endAt?: string;
   order?: OrderDashboard;
   currentUserCount?: number;
+  isNextOffer: boolean;
 };

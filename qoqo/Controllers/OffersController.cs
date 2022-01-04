@@ -46,7 +46,12 @@ public class OffersController : ControllerBase
         var user = tokenProvider.GetUser(_context);
         var offer = await _offerProvider.GetOffer(offerId);
 
-        if (user is {IsAdmin: false} && (offer?.IsDraft == true || offer?.StartAt < DateTime.Now))
+        if (offer == null)
+        {
+            return ErrorService.BadRequest("Offer not found");
+        }
+
+        if (user is {IsAdmin: false} && (offer.IsDraft || offer.StartAt < DateTime.Now))
         {
             return Unauthorized();
         }

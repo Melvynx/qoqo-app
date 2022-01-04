@@ -13,7 +13,7 @@
   <p class="text-base">Is live</p>
   <ng-container *ngFor="let offer of offers">
     <a
-      [routerLink]="'/admin/offers/' + offer.id"
+      [routerLink]="'/admin/offers/' + offer.offerId"
       class="text-blue-500 text-base m-0"
       >{{ offer.title }}</a
     >

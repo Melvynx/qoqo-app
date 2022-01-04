@@ -18,14 +18,14 @@ export class OfferService {
 
       client<Offer | string>(`offers/${this.offerId}`, { json: false })
         .then((json) => {
-          if (typeof json !== "string") return
-          if (json === "") {
+          if (typeof json !== 'string') return;
+          if (json === '') {
             router.navigateByUrl('nothing');
             return;
           }
 
           this.offer = JSON.parse(json) as Offer;
-          client<ClickState>(`clicks/offers/${this.offer.id}`)
+          client<ClickState>(`clicks/offers/${this.offer.offerId}`)
             .then((result) => {
               this.offerEvent.emit(result);
             })

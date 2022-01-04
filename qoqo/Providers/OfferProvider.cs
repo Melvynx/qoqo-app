@@ -21,7 +21,7 @@ public class OfferProvider
         var today = DateTime.Now;
         return await _context.Offers.Select(o => new OfferIndex
         {
-            Id = o.OfferId,
+            OfferId = o.OfferId,
             Title = o.Title,
             IsDraft = o.IsDraft,
             IsOver = o.IsOver,
@@ -32,45 +32,13 @@ public class OfferProvider
 
     public async Task<OfferDto?> GetOffer(int id)
     {
-        return await _context.Offers.Select(o => new OfferDto
-        {
-            Id = o.OfferId,
-            Title = o.Title,
-            Description = o.Description,
-            IsDraft = o.IsDraft,
-            IsOver = o.IsOver,
-            ClickObjective = o.ClickObjective,
-            SpecificationText = o.SpecificationText,
-            StartAt = o.StartAt,
-            EndAt = o.EndAt,
-            CreatedAt = o.CreatedAt,
-            ImageUrl = o.ImageUrl,
-            Price = o.Price,
-            BarredPrice = o.BarredPrice,
-            WinnerText = o.WinnerText
-        }).FirstOrDefaultAsync(o => o.Id == id);
+        return await GetOfferDto().FirstOrDefaultAsync(o => o.OfferId == id);
     }
 
     public async Task<OfferDto?> GetCurrentOffer()
     {
         var today = DateTime.Today;
-        var offer = await _context.Offers.Select(o => new OfferDto
-        {
-            Id = o.OfferId,
-            Title = o.Title,
-            Description = o.Description,
-            IsDraft = o.IsDraft,
-            IsOver = o.IsOver,
-            ClickObjective = o.ClickObjective,
-            SpecificationText = o.SpecificationText,
-            StartAt = o.StartAt,
-            EndAt = o.EndAt,
-            CreatedAt = o.CreatedAt,
-            ImageUrl = o.ImageUrl,
-            Price = o.Price,
-            BarredPrice = o.BarredPrice,
-            WinnerText = o.WinnerText
-        }).FirstOrDefaultAsync(o =>
+        var offer = await GetOfferDto().FirstOrDefaultAsync(o =>
             o.StartAt <= today && o.EndAt >= today && !o.IsDraft);
 
         return offer;
@@ -81,30 +49,25 @@ public class OfferProvider
         var offer = await GetCurrentOffer();
         if (offer == null)
         {
-            return null;
+            var nextOffer = await GetOfferDto().FirstOrDefaultAsync(o =>
+                o.StartAt > DateTime.Today && !o.IsDraft);
+            return nextOffer == null ? null : DashboardDto.FromOfferDto(nextOffer, true);
         }
 
 
-        var clickCount = await _context.Clicks.Where(o => o.OfferId == offer.Id).CountAsync();
+        var clickCount = await _context.Clicks.Where(o => o.OfferId == offer.OfferId).CountAsync();
         var activeUserCount =
-            await _context.Clicks.Where(o => o.OfferId == offer.Id).GroupBy(c => c.UserId).CountAsync();
+            await _context.Clicks.Where(o => o.OfferId == offer.OfferId).GroupBy(c => c.UserId).CountAsync();
         var order = await _context.Orders
-            .Where(o => o.OfferId == offer.Id)
+            .Where(o => o.OfferId == offer.OfferId)
             .Include(o => o.User)
             .Select(o => OrderDashboardDto.FromOrder(o))
             .FirstOrDefaultAsync();
 
-        var dashboard = new DashboardDto
-        {
-            OfferId = offer.Id,
-            OfferTitle = offer.Title,
-            IsOver = offer.IsOver,
-            ClickObjective = offer.ClickObjective,
-            ClickCount = clickCount,
-            CountOfActiveUser = activeUserCount,
-            EndAt = offer.EndAt,
-            Order = order
-        };
+        var dashboard = DashboardDto.FromOfferDto(offer, false);
+        dashboard.ClickCount = clickCount;
+        dashboard.Order = order;
+        dashboard.CountOfActiveUser = activeUserCount;
 
         return dashboard;
     }
@@ -160,7 +123,8 @@ public class OfferProvider
         var errors = offer.Validate();
         var sameTimeOffer = _context.Offers.FirstOrDefault(o =>
             o.OfferId != offer.OfferId && !o.IsDraft &&
-            (offer.StartAt >= o.StartAt && offer.StartAt <= o.EndAt || offer.EndAt >= o.StartAt && offer.StartAt <= o.EndAt)
+            (offer.StartAt >= o.StartAt && offer.StartAt <= o.EndAt ||
+             offer.EndAt >= o.StartAt && offer.StartAt <= o.EndAt)
         );
         if (sameTimeOffer != null)
         {
@@ -168,5 +132,26 @@ public class OfferProvider
         }
 
         return errors;
+    }
+
+    private IQueryable<OfferDto> GetOfferDto()
+    {
+        return _context.Offers.Select(o => new OfferDto
+        {
+            OfferId = o.OfferId,
+            Title = o.Title,
+            Description = o.Description,
+            IsDraft = o.IsDraft,
+            IsOver = o.IsOver,
+            ClickObjective = o.ClickObjective,
+            SpecificationText = o.SpecificationText,
+            StartAt = o.StartAt,
+            EndAt = o.EndAt,
+            CreatedAt = o.CreatedAt,
+            ImageUrl = o.ImageUrl,
+            Price = o.Price,
+            BarredPrice = o.BarredPrice,
+            WinnerText = o.WinnerText
+        });
     }
 }
