@@ -5,7 +5,6 @@ import { OrderList } from '../../../types/order';
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.css'],
 })
 export class OrdersComponent {
   orders: OrderList = [];

@@ -1,20 +1,19 @@
 <h2 class="text-2xl text-bold">Orders</h2>
 
-<div class="flex align-baseline justify-between gap-8 mt-8">
-  <p class="text-base m-0">Offer title</p>
-  <p class="text-base m-0">Created at</p>
-  <p class="m-0" class="text-base">State</p>
-</div>
-<div
-  *ngFor="let order of orders"
-  class="flex align-baseline justify-between gap-8 border-2 border-gray-500 rounded-sm my-4 p-2"
->
-  <a [routerLink]="'/offers/' + order.offer.offerId" class="text-base">{{
-    order.offer.title
-  }}</a>
-  <p class="text-base">{{ getLocaleDate(order.createdAt) }}</p>
-  <p class="text-base">{{ order.status }}</p>
+<div *ngIf="orders.length !== 0" class="grid-list-container mt-4" style="--items: 3">
+  <p class="title">Offer title</p>
+  <p class="title">Created at</p>
+  <p class="title">Status</p>
+  <ng-container *ngFor="let order of orders">
+    <a
+      [routerLink]="'/offers/' + order.offer?.offerId"
+      class="text-blue-500 text-base m-0"
+      >{{ order.offer?.title }}</a
+    >
+    <p class="text-base">{{ getLocaleDate(order.createdAt) }}</p>
+    <p class="text-base">{{ order.status }}</p>
+  </ng-container>
 </div>
 <div *ngIf="orders.length === 0" class="mt-4">
-  <p class="text-base text-center text-neutral-400">No orders yet</p>
+  <p class="text-base text-neutral-400">No orders yet</p>
 </div>

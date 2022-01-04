@@ -5,11 +5,11 @@
   >
 </div>
 
-<div class="orders-container">
-  <p class="text-base m-0">Id</p>
-  <p class="text-base">Offer</p>
-  <p class="text-base">Status</p>
-  <p class="text-base">Created at</p>
+<div class="grid-list-container" style="--items: 4">
+  <p class="title">OrderId</p>
+  <p class="title">Offer</p>
+  <p class="title">Status</p>
+  <p class="title">Created at</p>
   <ng-container *ngFor="let order of orders">
     <a
       [routerLink]="'/admin/orders/' + order.orderId"

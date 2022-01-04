@@ -38,6 +38,10 @@ html {
   @apply px-4 py-4 rounded-full text-white  transition  outline-offset-2 text-base flex justify-center items-center;
 }
 
+.btn.small {
+  @apply px-2 py-2
+}
+
 .btn.primary {
   @apply bg-pink-600 hover:bg-pink-700 active:bg-pink-900;
 }
@@ -76,6 +80,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -83,4 +88,23 @@ body {
 
 a {
   @apply text-blue-500 m-0;
+}
+
+.grid-list-container {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(var(--items), 1fr);
+  align-items: center;
+}
+
+.grid-list-container > p {
+  text-align: center;
+}
+
+.grid-list-container > .title {
+  @apply border-b-2 border-white text-base;
+}
+
+.live {
+  @apply bg-green-800;
 }

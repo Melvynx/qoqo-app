@@ -5,12 +5,12 @@
   >
 </div>
 
-<div class="offers-container mt-4">
-  <p class="text-base m-0">Offer title</p>
-  <p class="text-base">Click objective</p>
-  <p class="text-base">Is draft</p>
-  <p class="text-base">Is over</p>
-  <p class="text-base">Is live</p>
+<div class="grid-list-container mt-4" style="grid-template-columns: 2fr repeat(4, 1fr)">
+  <p class="title">Offer title</p>
+  <p class="title">Objective</p>
+  <p class="title">Is draft</p>
+  <p class="title">Is over</p>
+  <p class="title">Is live</p>
   <ng-container *ngFor="let offer of offers">
     <a
       [routerLink]="'/admin/offers/' + offer.offerId"
@@ -20,6 +20,6 @@
     <p class="text-base">{{ offer.clickObjective }}</p>
     <p class="text-base">{{ offer.isDraft }}</p>
     <p class="text-base">{{ offer.isOver }}</p>
-    <p class="text-base" [class.live]="offer.isLive">{{ offer.isLive }}</p>
+    <p class="text-base" [class.bg-green-800]="offer.isLive">{{ offer.isLive }}</p>
   </ng-container>
 </div>
