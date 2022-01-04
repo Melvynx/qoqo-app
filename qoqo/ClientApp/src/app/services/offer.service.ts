@@ -2,7 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Offer } from 'src/types/offer';
 import { client } from '../../utils/client';
 import { ClickState } from '../../types/click';
-import {ActivatedRoute, Router, Routes} from '@angular/router';
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 
 @Injectable({
   providedIn: 'platform',
@@ -16,10 +16,16 @@ export class OfferService {
     this.activatedRoute.paramMap.subscribe((paramMap) => {
       this.offerId = paramMap.get('id') || 'current';
 
-      client<Offer>(`offers/${this.offerId}`)
-        .then((offer) => {
-          this.offer = offer;
-          client<ClickState>(`clicks/offers/${offer.id}`)
+      client<Offer | string>(`offers/${this.offerId}`, { json: false })
+        .then((json) => {
+          if (typeof json !== "string") return
+          if (json === "") {
+            router.navigateByUrl('nothing');
+            return;
+          }
+
+          this.offer = JSON.parse(json) as Offer;
+          client<ClickState>(`clicks/offers/${this.offer.id}`)
             .then((result) => {
               this.offerEvent.emit(result);
             })
@@ -28,6 +34,7 @@ export class OfferService {
             });
         })
         .catch((err) => {
+          console.log(err);
           router.navigateByUrl('/');
         });
     });

@@ -35,12 +35,13 @@ export const EmptyOffer: Offer = {
 };
 
 export type Dashboard = {
-  offerId: number;
-  offerTitle: string;
-  isOver: boolean;
-  clickCount: number;
-  clickObjective: number;
-  countOfActiveUser: number;
-  endAt: string;
-  order: OrderDashboard;
+  offerId?: number;
+  offerTitle?: string;
+  isOver?: boolean;
+  clickCount?: number;
+  clickObjective?: number;
+  countOfActiveUser?: number;
+  endAt?: string;
+  order?: OrderDashboard;
+  currentUserCount?: number;
 };

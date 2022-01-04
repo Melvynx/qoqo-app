@@ -158,8 +158,10 @@ public class OfferProvider
         }
 
         var errors = offer.Validate();
-        var sameTimeOffer = _context.Offers.FirstOrDefault(o => o.StartAt < offer.StartAt && o.EndAt < offer.StartAt ||
-                                                                o.StartAt > offer.EndAt && o.EndAt > offer.EndAt);
+        var sameTimeOffer = _context.Offers.FirstOrDefault(o =>
+            o.OfferId != offer.OfferId && !o.IsDraft &&
+            (offer.StartAt >= o.StartAt && offer.StartAt <= o.EndAt || offer.EndAt >= o.StartAt && offer.StartAt <= o.EndAt)
+        );
         if (sameTimeOffer != null)
         {
             errors.Add($"{StringRes.OfferSameTime}( {sameTimeOffer.Id}: {sameTimeOffer.Title} )");

@@ -27,7 +27,7 @@ public class StringRes
     public const string ErrorDuringOfferUpdate = "Error during offer update";
     public const string OfferUpdated = "Offer updated";
     public const string OfferCreated = "Offer created";
-    
+    public const string NoCurrentOffer = "No current offer";
     
     // OfferProvider
     public const string OfferStartAtDateRequired = "Offer start at date is required";

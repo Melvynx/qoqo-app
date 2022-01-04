@@ -34,7 +34,8 @@ export class DashboardComponent {
   }
 
   getPercentage() {
-    if (!this.dashboard) return 0;
+    if (!this.dashboard?.clickCount || !this.dashboard?.clickObjective)
+      return 0;
     return (this.dashboard?.clickCount * 100) / this.dashboard?.clickObjective;
   }
 }

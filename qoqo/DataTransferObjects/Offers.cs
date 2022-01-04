@@ -35,14 +35,15 @@ public class OfferOrderDto
 
 public class DashboardDto
 {
-    public int OfferId { get; set; }
-    public string OfferTitle { get; set; }
-    public bool IsOver { get; set; }
-    public int ClickCount { get; set; }
-    public int ClickObjective { get; set; }
-    public int CountOfActiveUser { get; set; }
+    public int? OfferId { get; set; }
+    public string? OfferTitle { get; set; }
+    public bool? IsOver { get; set; }
+    public int? ClickCount { get; set; }
+    public int? ClickObjective { get; set; }
+    public int? CountOfActiveUser { get; set; }
     public DateTime? EndAt { get; set; }
     public OrderDashboardDto? Order { get; set; }
+    public int currentUserCount { get; set; }
 }
 
 public class OfferIndex

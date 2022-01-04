@@ -36,7 +36,8 @@ public class OffersController : ControllerBase
     {
         if (id == "current")
         {
-            return await _offerProvider.GetCurrentOffer();
+            var currentOffer = await _offerProvider.GetCurrentOffer();
+            return currentOffer == null ? BadRequest() : currentOffer;
         }
 
         if (!int.TryParse(id, out var offerId)) return BadRequest();
@@ -45,13 +46,12 @@ public class OffersController : ControllerBase
         var user = tokenProvider.GetUser(_context);
         var offer = await _offerProvider.GetOffer(offerId);
 
-        if (user is not {IsAdmin: true} && offer?.IsDraft == true)
+        if (user is {IsAdmin: false} && (offer?.IsDraft == true || offer?.StartAt < DateTime.Now))
         {
             return Unauthorized();
         }
 
         return offer;
-
     }
 
     [HttpPatch("{id:int}")]

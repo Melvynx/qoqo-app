@@ -52,7 +52,7 @@ export class OfferCrudComponent implements OnInit {
         this.matSnackBar.open(res.message, 'OK', { duration: 2000 });
       })
       .catch((err) => {
-        this.matSnackBar.open(err.message, 'POK', { duration: 10000 });
+        this.matSnackBar.open(err.message, 'OK', { duration: 10000 });
       });
   }
 }
