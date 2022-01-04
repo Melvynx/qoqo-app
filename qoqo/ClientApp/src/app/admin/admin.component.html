@@ -2,6 +2,9 @@
   <div *ngIf="authService.isAuthenticated" class="">
     <ul class="list-none gap-2 flex flex-col pl-8 pt-8">
       <li class="nav-item" [routerLinkActive]="['active']">
+        <a [routerLink]="['/auth/view']"> <- MyAQount </a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
         <a [routerLink]="['/admin/dashboard']"> Dashboard </a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']">
@@ -12,7 +15,7 @@
       </li>
     </ul>
   </div>
-  <div class="w-full ml-8 pl-8 border-l-2 border-neutral-400 pr-8">
+  <div class="flex-1 ml-8 pl-8 border-l-4 border-red-400 pr-8">
     <router-outlet class="hidden"></router-outlet>
   </div>
 </div>

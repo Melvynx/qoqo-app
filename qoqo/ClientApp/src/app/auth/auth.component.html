@@ -1,31 +1,33 @@
-<div class="flex">
-  <div
-    *ngIf="_authService.isAuthenticated"
-    class="w-fit flex-col nav-menu absolute left-0 hidden sm:flex"
-  >
-    <ul class="list-none gap-2 flex flex-col">
+<div class="w-full flex pb-8">
+  <div class="">
+    <ul class="list-none gap-2 flex flex-col pl-8 pt-8" *ngIf="authService.isAuthenticated">
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a [routerLink]="['/auth/view']"> My AQount </a>
+        <a [routerLink]="['/auth/view']"> MyAQount </a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a [routerLink]="['/auth/click']"> My Qlick </a>
+        <a [routerLink]="['/auth/click']"> Qlick </a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a [routerLink]="['/auth/order']"> My Orders </a>
+        <a [routerLink]="['/auth/order']"> Orders </a>
       </li>
       <li
-        class="nav-item"
+        class="nav-item text-red-400"
         [routerLinkActive]="['active']"
-        *ngIf="_authService.user?.isAdmin"
+        *ngIf="authService.user?.isAdmin"
       >
-        <a [routerLink]="['/admin']"> Admin </a>
+        <a  [routerLink]="['/admin']"> Admin </a>
+      </li>
+    </ul>
+    <ul class="list-none gap-2 flex flex-col pl-8 pt-8" *ngIf="!authService.isAuthenticated">
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a [routerLink]="['/auth/login']"> Login </a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a [routerLink]="['/auth/register']"> Register </a>
       </li>
     </ul>
   </div>
-
-  <div
-    class="bg-neutral-700 flex flex-col gap-8 sm:py-8 py-4 sm:px-16 px-8 rounded-3xl m-auto my-4 sm:my-8 outlet-container"
-  >
+  <div class="flex-1 ml-8 pl-8 border-l-2 border-neutral-400 pr-8">
     <router-outlet class="hidden"></router-outlet>
   </div>
 </div>
