@@ -1,4 +1,4 @@
-<div class="flex gap-8 flex-col">
+<div class="flex gap-8 flex-col max-w-md m-auto">
   <p class="text-5xl text-center">Login</p>
   <app-input
     #username
@@ -13,13 +13,7 @@
     value=""
     label="Password"
   ></app-input>
-  <div class="flex items-baseline gap-4">
-    <a
-      routerLink="/auth/register"
-      class="text-lg font-bold underline text-white cursor-pointer"
-    >
-      Create an account
-    </a>
-    <button (click)="onSubmit()" class="btn primary">Submit</button>
-  </div>
+  <button class="ml-auto" (click)="onSubmit()" class="btn primary">
+    Submit
+  </button>
 </div>

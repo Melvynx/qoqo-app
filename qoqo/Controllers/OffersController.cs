@@ -17,11 +17,13 @@ public class OffersController : ControllerBase
 {
     private readonly QoqoContext _context;
     private readonly OfferProvider _offerProvider;
+    private readonly HubService _hubService;
 
-    public OffersController(QoqoContext qoqoContext, OfferProvider offerProvider)
+    public OffersController(QoqoContext qoqoContext, OfferProvider offerProvider, HubService hubService)
     {
         _context = qoqoContext;
         _offerProvider = offerProvider;
+        _hubService = hubService;
     }
 
     [HttpGet]
@@ -48,7 +50,7 @@ public class OffersController : ControllerBase
 
         if (offer == null)
         {
-            return ErrorService.BadRequest("Offer not found");
+            return ErrorService.BadRequest(StringRes.OfferNotFound);
         }
 
         if (user is {IsAdmin: false} && (offer.IsDraft || offer.StartAt < DateTime.Now))
@@ -81,5 +83,27 @@ public class OffersController : ControllerBase
         }
 
         return dashboard;
+    }
+
+    [HttpPatch("{id:int}/increase_click")]
+    public async Task<ActionResult> IncreaseClick(int id)
+    {
+        var tokenService = new TokenService(HttpContext);
+        var user = tokenService.GetUser(_context);
+
+        if (user == null)
+        {
+            return ErrorService.BadRequest(StringRes.NeedToBeLoggedToClick);
+        }
+
+        var offer = await _context.Offers.FirstOrDefaultAsync(o => o.OfferId == id);
+        if (offer == null) return ErrorService.BadRequest(StringRes.OfferNotFound);
+        offer.ClickObjective++;
+        await _context.SaveChangesAsync();
+
+        var clickDto = ClickDto.FromUserClick(UserClickDto.FromUser(user), 0, offer.ClickObjective);
+
+        await _hubService.Click(clickDto);
+        return SuccessService.Ok(StringRes.OfferUpdated);
     }
 }

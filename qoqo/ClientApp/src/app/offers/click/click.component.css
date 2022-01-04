@@ -16,9 +16,18 @@
   background: linear-gradient(90deg, #c0392b 50%, #ea2027 100%);
 }
 
-.click-container {
-  background-color: var(--background-color);
+.percentage-fill {
+  width: var(--completed-percent);
+  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+  background-color: hsl(0, 0%, 15%);
+  @apply absolute top-0 bottom-0 right-0;
+}
 
+.bg {
+  background-color: var(--background-color);
+}
+
+.click-container {
   display: flex;
   flex-direction: column;
   align-items: center;

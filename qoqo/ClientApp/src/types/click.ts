@@ -4,6 +4,7 @@ export type Click = {
     id: number;
   };
   clickCount: number;
+  clickObjective: number;
 };
 
 export type ClickList = {

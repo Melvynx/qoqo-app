@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {AuthService} from 'src/app/services/auth.service';
-import {OfferService} from 'src/app/services/offer.service';
-import {Click, ClickFinishResult, ClickState} from 'src/types/click';
-import {client} from 'src/utils/client';
-import {ClickButtonComponent} from '../click-button/click-button.component';
-import {ClickHubService} from '../../services/click-hub.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/services/auth.service';
+import { OfferService } from 'src/app/services/offer.service';
+import { Click, ClickFinishResult, ClickState } from 'src/types/click';
+import { client } from 'src/utils/client';
+import { ClickButtonComponent } from '../click-button/click-button.component';
+import { ClickHubService } from '../../services/click-hub.service';
 
 @Component({
   selector: 'app-click',
@@ -90,10 +90,18 @@ export class ClickComponent implements OnInit {
   }
 
   handleNewClick(click: Click) {
+    if (
+      click.clickObjective !== this.offerService.offer?.clickObjective &&
+      this.offerService.offer
+    ) {
+      this.offerService.offer.clickObjective = click.clickObjective;
+    }
     if (click.user.id === this._authService.user?.userId) {
       this.setRemainingTime(10);
     }
-    this.clickCounter = click.clickCount;
+    if (click.clickCount !== 0) {
+      this.clickCounter = click.clickCount;
+    }
   }
 
   handleClick() {

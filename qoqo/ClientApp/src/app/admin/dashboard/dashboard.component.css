@@ -14,3 +14,7 @@
   background: var(--primary-gradiant);
   @apply rounded-md transition;
 }
+
+.gauge-fill.full {
+  background: linear-gradient(to right, rgb(21 128 61), rgb(101 163 13));
+}

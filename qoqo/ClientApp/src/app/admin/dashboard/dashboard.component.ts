@@ -3,6 +3,7 @@ import { Dashboard } from '../../../types/offer';
 import { client } from '../../../utils/client';
 import { ClickHubService } from '../../services/click-hub.service';
 import { Click, ClickFinishResult } from '../../../types/click';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,10 @@ import { Click, ClickFinishResult } from '../../../types/click';
 export class DashboardComponent {
   dashboard?: Dashboard;
 
-  constructor(private clickHubService: ClickHubService) {
+  constructor(
+    private clickHubService: ClickHubService,
+    private matSnackBar: MatSnackBar
+  ) {
     client<Dashboard>('offers/dashboard')
       .then((dashboard) => {
         this.dashboard = dashboard;
@@ -24,12 +28,15 @@ export class DashboardComponent {
     this.clickHubService.hubConnection.on('CLICK', (data) => {
       const click: Click = JSON.parse(data);
       if (!this.dashboard) return;
-      this.dashboard.clickCount = click.clickCount;
+      if (click.clickCount !== 0) {
+        this.dashboard.clickCount = click.clickCount;
+      }
     });
     this.clickHubService.hubConnection.on('FINISH', (data) => {
       const finishInformation: ClickFinishResult = JSON.parse(data);
       if (!this.dashboard) return;
       this.dashboard.clickCount = finishInformation.clickCount;
+      this.dashboard.isOver = true;
     });
   }
 
@@ -41,5 +48,23 @@ export class DashboardComponent {
 
   safeNumber(value?: number) {
     return value || 0;
+  }
+
+  increaseClick() {
+    client<{ message?: string; offerId?: number }>(
+      `offers/${this.dashboard?.offerId}/increase_click`,
+      {
+        method: 'PATCH',
+      }
+    )
+      .then((res) => {
+        if (this.dashboard?.clickObjective) {
+          this.dashboard.clickObjective = 1 + this.dashboard.clickObjective;
+        }
+        this.matSnackBar.open(res.message || '', 'OK', { duration: 2000 });
+      })
+      .catch((err) => {
+        this.matSnackBar.open(err.message, 'OK', { duration: 10000 });
+      });
   }
 }
