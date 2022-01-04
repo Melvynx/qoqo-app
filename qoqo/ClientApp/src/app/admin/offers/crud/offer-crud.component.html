@@ -3,14 +3,17 @@
     {{ isNewOffer() ? "Create" : "Edit" }}
     {{ isNewOffer() ? "" : "Offer " + offerId }}
   </h2>
-  <a class="text-sm text-blue-500 ml-auto" [routerLink]="['/offers/' + offerId]">
+  <a
+    class="text-sm text-blue-500 ml-auto"
+    [routerLink]="['/offers/' + offerId]"
+  >
     Show offer</a
   >
   <a routerLink="/admin/offers" class="btn gray cursor-pointer"><- Back</a>
 </div>
 
 <form [formGroup]="offerForm" (ngSubmit)="onSubmit()" class="mt-4">
-  <div class="flex flex-col w-96 min-w-full gap-4">
+  <div class="flex flex-col w-96 min-w-full">
     <mat-form-field class="w-full" appearance="fill">
       <mat-label>Title</mat-label>
       <input matInput name="title" formControlName="title" />
@@ -30,32 +33,6 @@
       <textarea matInput formControlName="imageUrl" name="imageUrl"></textarea>
     </mat-form-field>
 
-    <div class="flex gap-2">
-      <mat-form-field class="w-full" appearance="fill">
-        <mat-label>Barred price</mat-label>
-        <input
-          matInput
-          type="number"
-          formControlName="barredPrice"
-          name="barredPrice"
-        />
-      </mat-form-field>
-      <mat-form-field class="w-full" appearance="fill">
-        <mat-label>Price</mat-label>
-        <input matInput type="number" formControlName="price" name="price" />
-      </mat-form-field>
-    </div>
-
-    <mat-form-field class="w-full" appearance="fill">
-      <mat-label>Click objective</mat-label>
-      <input
-        matInput
-        type="number"
-        formControlName="clickObjective"
-        name="clickObjective"
-      />
-    </mat-form-field>
-
     <mat-form-field class="w-full" appearance="fill">
       <mat-label>Specification</mat-label>
       <textarea
@@ -65,9 +42,44 @@
       ></textarea>
     </mat-form-field>
 
-    <mat-checkbox name="isDraft" formControlName="isDraft"
-      >Is Draft?
-    </mat-checkbox>
+    <div class="flex items-center gap-4 mb-4">
+      <mat-checkbox name="isDraft" formControlName="isDraft"
+        >IsDraft
+      </mat-checkbox>
+      <mat-checkbox
+        [disabled]="true"
+        name="isDraft"
+        formControlName="isOver"
+        aria-readonly="true"
+        >IsOver
+      </mat-checkbox>
+    </div>
+
+    <div class="flex gap-2 prices">
+      <mat-form-field appearance="fill">
+        <mat-label>Barred price</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="barredPrice"
+          name="barredPrice"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="price" name="price" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Click objective</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="clickObjective"
+          name="clickObjective"
+        />
+      </mat-form-field>
+    </div>
 
     <div class="flex gap-2">
       <mat-form-field appearance="fill">

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { client } from '../../../../utils/client';
 import { EmptyOffer, Offer } from '../../../../types/offer';
 import { FormBuilder } from '@angular/forms';
@@ -20,8 +20,10 @@ export class OfferCrudComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private matSnackBar: MatSnackBar
+    private matSnackBar: MatSnackBar,
+    private router: Router
   ) {}
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
       this.offerId = paramMap.get('id');
@@ -35,6 +37,9 @@ export class OfferCrudComponent implements OnInit {
     }
     client<Offer>(`offers/${this.offerId}`).then((offer) => {
       this.offerForm = this.formBuilder.group(offer);
+    }).catch(err => {
+      this.matSnackBar.open(err.message, 'OK', { duration: 5000 });
+      this.router.navigateByUrl('/admin/offers');
     });
   }
 
@@ -45,11 +50,18 @@ export class OfferCrudComponent implements OnInit {
   onSubmit() {
     const method = this.isNewOffer() ? 'POST' : 'PATCH';
     const url = 'offers' + (this.isNewOffer() ? '' : '/' + this.offerId);
-    console.log(this.offerForm.value);
 
-    client<{ message: string }>(url, { method, data: this.offerForm.value })
+    client<{ message?: string; offerId?: number }>(url, {
+      method,
+      data: this.offerForm.value,
+    })
       .then((res) => {
-        this.matSnackBar.open(res.message, 'OK', { duration: 2000 });
+        if (res.offerId) {
+          this.router.navigateByUrl(`/admin/offers/${res.offerId}`);
+          this.matSnackBar.open("Created successfully", 'OK', { duration: 2000 });
+          return;
+        }
+        this.matSnackBar.open(res.message || '', 'OK', { duration: 2000 });
       })
       .catch((err) => {
         this.matSnackBar.open(err.message, 'OK', { duration: 10000 });
