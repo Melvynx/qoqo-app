@@ -54,7 +54,8 @@ export class ClickButtonComponent implements OnInit {
     }
   }
 
-  handleClick() {
+  handleClick(event: MouseEvent) {
+    if (!event.isTrusted) return;
     this.onClick.emit();
   }
 
