@@ -39,6 +39,7 @@ import { NoOfferComponent } from './offers/no-offer/no-offer.component';
 const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'offers/:id', component: HomeComponent },
+  { path: 'nothing', component: NoOfferComponent },
   { path: 'counter', component: CounterComponent },
   { path: 'users', component: UsersComponent },
   {

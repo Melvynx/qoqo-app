@@ -36,6 +36,8 @@ type config = {
 
   TODO: You can see example in `client.test.tsx`
 */
+
+
 async function client<T>(
   endpoint: string,
   {
@@ -70,7 +72,7 @@ async function client<T>(
       const data = json ? await response.json() : await response.text();
 
       if (response.ok) {
-        return data;
+        return Promise.resolve(data);
       } else {
         return Promise.reject(data);
       }

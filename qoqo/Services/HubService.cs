@@ -1,6 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using qoqo.DataTransferObjects;
 using qoqo.Hubs;
 using qoqo.Model;
@@ -53,7 +54,7 @@ public class HubService
         return new ClickEventResult(false);
     }
 
-    public async Task<string> GetWinnerSentence(int userId, int offerId, int clickObjective, string userName)
+    private async Task<string> GetWinnerSentence(int userId, int offerId, int clickObjective, string userName)
     {
         var winnerClickCount = await _context.Clicks
             .Where(c => c.UserId == userId && c.OfferId == offerId)
