@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using qoqo.Model;
 
@@ -6,12 +7,12 @@ namespace qoqo.Services;
 public class TokenService
 {
     private readonly HttpContext _httpContext;
-    
+
     public TokenService(HttpContext httpContext)
     {
         _httpContext = httpContext;
     }
-    
+
     private const string TokenKey = "Token";
 
     public void SetToken(string? token)
@@ -21,7 +22,14 @@ public class TokenService
             return;
         }
 
-        _httpContext.Response.Cookies.Append(TokenKey, token);
+        var now = DateTime.Now;
+
+        var option = new CookieOptions
+        {
+            Expires = now.AddMonths(3)
+        };
+
+        _httpContext.Response.Cookies.Append(TokenKey, token, option);
     }
 
     public string? GetToken()
