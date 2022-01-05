@@ -16,7 +16,20 @@
         dashboard?.offerTitle
       }}</a>
     </h3>
-    <button *ngIf="!dashboard?.isOver" (click)="increaseClick()" class="btn primary small">+ click</button>
+    <button
+      *ngIf="dashboard?.isOver"
+      (click)="increaseClick()"
+      class="btn primary small"
+    >
+      End offer
+    </button>
+    <button
+      *ngIf="!dashboard?.isOver"
+      (click)="increaseClick()"
+      class="btn primary small"
+    >
+      + click
+    </button>
     <p
       class="bg-red-900 px-0.5 py-1 border-l-2 border-red-500 block"
       *ngIf="dashboard?.isOver"
@@ -35,7 +48,7 @@
     "
   >
     <p>
-      Warning: The offer is over but the click count not correspond to the click
+      ⚠️ The offer is over but the click count not correspond to the click
       objective.
     </p>
   </div>
@@ -51,6 +64,10 @@
         {{ dashboard?.clickObjective }} clicks
       </p>
     </div>
+    <p>
+      From <b>{{ getLocaleDate(dashboard?.startAt) }}</b> to
+      <b>{{ getLocaleDate(dashboard?.endAt) }}</b>
+    </p>
     <p>
       Active user: <b>{{ dashboard?.countOfActiveUser || 0 }}</b>
     </p>

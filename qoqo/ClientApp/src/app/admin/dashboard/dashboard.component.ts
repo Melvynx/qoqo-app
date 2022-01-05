@@ -3,7 +3,8 @@ import { Dashboard } from '../../../types/offer';
 import { client } from '../../../utils/client';
 import { ClickHubService } from '../../services/click-hub.service';
 import { Click, ClickFinishResult } from '../../../types/click';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ClientMessage } from '../../../types/api';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +16,7 @@ export class DashboardComponent {
 
   constructor(
     private clickHubService: ClickHubService,
-    private matSnackBar: MatSnackBar
+    private snackbar: SnackbarService
   ) {
     client<Dashboard>('offers/dashboard')
       .then((dashboard) => {
@@ -51,7 +52,7 @@ export class DashboardComponent {
   }
 
   increaseClick() {
-    client<{ message?: string; offerId?: number }>(
+    client<ClientMessage & { offerId?: number }>(
       `offers/${this.dashboard?.offerId}/increase_click`,
       {
         method: 'PATCH',
@@ -61,10 +62,27 @@ export class DashboardComponent {
         if (this.dashboard?.clickObjective) {
           this.dashboard.clickObjective = 1 + this.dashboard.clickObjective;
         }
-        this.matSnackBar.open(res.message || '', 'OK', { duration: 2000 });
+        this.snackbar.openMessage(res.message);
       })
       .catch((err) => {
-        this.matSnackBar.open(err.message, 'OK', { duration: 10000 });
+        this.snackbar.openError(err.message);
       });
+  }
+
+  endTheOffer() {
+    client<ClientMessage>(`offers/${this.dashboard?.offerId}/end_offer`, {
+      method: 'PATCH',
+    })
+      .then((res) => {
+        this.snackbar.openMessage(res.message);
+      })
+      .catch((err) => {
+        this.snackbar.openError(err.message);
+      });
+  }
+
+  getLocaleDate(date?: string) {
+    if (!date) return 'unknown';
+    return new Date(date).toLocaleDateString();
   }
 }

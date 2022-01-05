@@ -42,6 +42,7 @@ public class DashboardDto
     public int? ClickObjective { get; set; }
     public int? CountOfActiveUser { get; set; }
     public DateTime? EndAt { get; set; }
+    public DateTime? StartAt { get; set; }
     public OrderDashboardDto? Order { get; set; }
     public bool IsNextOffer { get; set; }
 
@@ -53,6 +54,7 @@ public class DashboardDto
             OfferTitle = offer.Title,
             IsOver = offer.IsOver,
             EndAt = offer.EndAt,
+            StartAt = offer.StartAt,
             ClickObjective = offer.ClickObjective,
             IsNextOffer = isNextOffer
         };
