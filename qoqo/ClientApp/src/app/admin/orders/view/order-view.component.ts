@@ -3,6 +3,7 @@ import { client } from '../../../../utils/client';
 import { Order, OrderStatusKeys } from '../../../../types/order';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {SnackbarService} from "../../../services/snackbar.service";
 
 @Component({
   selector: 'app-view',
@@ -15,7 +16,7 @@ export class OrderViewComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private matSnackBar: MatSnackBar
+    private snackbar: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -40,10 +41,10 @@ export class OrderViewComponent {
         if (this.order) {
           this.order.status = status;
         }
-        this.matSnackBar.open(r.message, 'OK', { duration: 2000 });
+        this.snackbar.openMessage(r.message);
       })
       .catch((e) => {
-        this.matSnackBar.open(e.message, 'OK', { duration: 2000 });
+        this.snackbar.openMessage(e.message);
       });
   }
 }

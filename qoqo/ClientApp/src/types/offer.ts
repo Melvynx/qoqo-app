@@ -41,6 +41,7 @@ export type Dashboard = {
   clickObjective?: number;
   countOfActiveUser?: number;
   endAt?: string;
+  startAt?: string;
   order?: OrderDashboard;
   currentUserCount?: number;
   isNextOffer: boolean;

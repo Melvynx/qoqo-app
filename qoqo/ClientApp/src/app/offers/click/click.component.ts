@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
 import { OfferService } from 'src/app/services/offer.service';
 import { Click, ClickFinishResult, ClickState } from 'src/types/click';
 import { client } from 'src/utils/client';
 import { ClickButtonComponent } from '../click-button/click-button.component';
 import { ClickHubService } from '../../services/click-hub.service';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-click',
@@ -25,7 +25,7 @@ export class ClickComponent implements OnInit {
   constructor(
     public offerService: OfferService,
     public clickHubService: ClickHubService,
-    private _matSnackBar: MatSnackBar,
+    private snackbar: SnackbarService,
     private _authService: AuthService
   ) {
     this.sentence = this.offerService.offer?.winnerText;
@@ -115,7 +115,7 @@ export class ClickComponent implements OnInit {
         confetti && this.clickButton?.runConfetti();
       })
       .catch(({ message }) => {
-        this._matSnackBar.open(message, 'Close', { duration: 5000 });
+        this.snackbar.openMessage(message);
       });
   }
 }

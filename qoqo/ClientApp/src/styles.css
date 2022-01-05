@@ -21,7 +21,13 @@ code {
 }
 
 :root {
-  --primary-gradiant: linear-gradient(90deg, #eb008d, #fb0a66, #fc383e, #f15c08);
+  --primary-gradiant: linear-gradient(
+    90deg,
+    #eb008d,
+    #fb0a66,
+    #fc383e,
+    #f15c08
+  );
   --background-color: hsl(0, 0%, 16%);
   --tw-ring-offset-shadow: 4px;
   --tw-ring-shadow: 4px;
@@ -39,7 +45,7 @@ html {
 }
 
 .btn.small {
-  @apply px-2 py-2
+  @apply px-2 py-2;
 }
 
 .btn.primary {
@@ -107,4 +113,18 @@ a {
 
 .live {
   @apply bg-green-800;
+}
+
+.mat-snack-bar-container {
+  border-radius: 1px 4px 4px 1px !important;
+  @apply border-l-pink-600 border-l-4 bg-neutral-700 text-white;
+}
+
+.mat-snack-bar-container button {
+  outline: 2px solid;
+  @apply outline-neutral-500;
+}
+
+.error-snackbar {
+  @apply border-l-4 border-red-500;
 }
