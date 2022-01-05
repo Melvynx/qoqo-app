@@ -16,10 +16,10 @@ public class OfferProvider
         _context = context;
     }
 
-    public async Task<List<OfferIndex>> GetOffers()
+    public async Task<List<OfferIndexDto>> GetOffers()
     {
         var today = DateTime.Now;
-        return await _context.Offers.Select(o => new OfferIndex
+        return await _context.Offers.Select(o => new OfferIndexDto
         {
             OfferId = o.OfferId,
             Title = o.Title,

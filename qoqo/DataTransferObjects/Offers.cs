@@ -59,7 +59,7 @@ public class DashboardDto
     }
 }
 
-public class OfferIndex
+public class OfferIndexDto
 {
     public int OfferId { get; set; }
     public string Title { get; set; }

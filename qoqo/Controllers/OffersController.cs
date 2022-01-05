@@ -27,7 +27,7 @@ public class OffersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<OfferIndex>> Get()
+    public async Task<List<OfferIndexDto>> Get()
     {
         return await _offerProvider.GetOffers();
     }
