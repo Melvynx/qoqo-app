@@ -18,7 +18,7 @@ export class DashboardComponent {
     private clickHubService: ClickHubService,
     private snackbar: SnackbarService
   ) {
-    client<Dashboard>('offers/dashboard')
+    client<Dashboard>('admin/offers/dashboard')
       .then((dashboard) => {
         this.dashboard = dashboard;
       })
@@ -53,7 +53,7 @@ export class DashboardComponent {
 
   increaseClick() {
     client<ClientMessage & { offerId?: number }>(
-      `offers/${this.dashboard?.offerId}/increase_click`,
+      `admin/offers/${this.dashboard?.offerId}/increase_click`,
       {
         method: 'PATCH',
       }
@@ -70,7 +70,7 @@ export class DashboardComponent {
   }
 
   endTheOffer() {
-    client<ClientMessage>(`offers/${this.dashboard?.offerId}/end`, {
+    client<ClientMessage>(`admin/offers/${this.dashboard?.offerId}/end`, {
       method: 'PATCH',
     })
       .then((res) => {

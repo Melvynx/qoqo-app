@@ -33,7 +33,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("me")]
-    public async Task<ActionResult<UserDto?>> Me()
+    public ActionResult<UserDto?> Me()
     {
         var user = new TokenService(HttpContext).GetUser(_context);
         return user == null ? ErrorService.BadRequest("Invalid Token") : UserDto.FromUser(user);

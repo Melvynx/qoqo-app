@@ -62,3 +62,8 @@ public class UserErrorDto
         return UserName == null && Password == null && Email == null;
     }
 }
+
+public class UserPatchDto
+{
+    public bool IsAdmin { get; set; }
+}

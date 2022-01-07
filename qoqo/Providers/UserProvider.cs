@@ -18,8 +18,13 @@ public class UserProvider
     {
         _context = context;
     }
+    
+    // get user from userId
+    public async Task<User?> GetUser(int userId)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+    }
 
-    // update user function
     public async Task<ActionResult<UserDto>> UpdateUser(UserDto userDto, int userId)
     {
         var user = await _context.Users.FindAsync(userId);
@@ -128,7 +133,7 @@ public class UserProvider
         return !UsernameRegex.IsMatch(userName) ? StringRes.UserNameRegexError : null;
     }
 
-    private string? CheckPassword(string? password)
+    private static string? CheckPassword(string? password)
     {
         if (password == null) return StringRes.PasswordRequired;
 
