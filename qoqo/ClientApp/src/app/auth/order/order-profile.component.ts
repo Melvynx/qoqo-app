@@ -4,10 +4,10 @@ import { client } from 'src/utils/client';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-auth-click',
-  templateUrl: './auth-order.component.html',
+  selector: 'profile-order',
+  templateUrl: './order-profile.component.html',
 })
-export class AuthOrderComponent {
+export class OrderProfileComponent {
   orders: OrderList = [];
 
   constructor(private authService: AuthService) {

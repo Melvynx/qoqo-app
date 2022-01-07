@@ -3,10 +3,10 @@ import { ClickList } from 'src/types/click';
 import { client } from 'src/utils/client';
 
 @Component({
-  selector: 'app-auth-click',
-  templateUrl: './auth-click.component.html',
+  selector: 'profile-click',
+  templateUrl: './click-profile.component.html',
 })
-export class AuthClickComponent {
+export class ClickProfileComponent {
   clicks: ClickList = [];
 
   constructor() {
