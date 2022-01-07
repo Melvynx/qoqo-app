@@ -8,8 +8,6 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
-import { UsersComponent } from './users/users.component';
-import { ClickComponent } from './offers/click/click.component';
 import { ClickButtonComponent } from './offers/click-button/click-button.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -21,8 +19,8 @@ import { AuthButtonComponent } from './auth/button/auth-button.component';
 import { AuthGuard } from './guard/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { AuthClickComponent } from './auth/auth-click/auth-click.component';
-import { AuthOrderComponent } from './auth/auth-order/auth-order.component';
+import { ClickProfileComponent } from './auth/click/click-profile.component';
+import { OrderProfileComponent } from './auth/order/order-profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminGuard } from './guard/admin.guard';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
@@ -35,6 +33,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { OrdersComponent } from './admin/orders/orders.component';
 import { OrderViewComponent } from './admin/orders/view/order-view.component';
 import { NoOfferComponent } from './offers/no-offer/no-offer.component';
+import { UsersComponent } from './admin/users/users.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ClickComponent } from './offers/click/click.component';
+import { MatIconModule } from '@angular/material/icon';
 
 const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -58,12 +60,12 @@ const ROUTES: Routes = [
       },
       {
         path: 'click',
-        component: AuthClickComponent,
+        component: ClickProfileComponent,
         canActivate: [AuthGuard],
       },
       {
         path: 'order',
-        component: AuthOrderComponent,
+        component: OrderProfileComponent,
         canActivate: [AuthGuard],
       },
     ],
@@ -91,6 +93,10 @@ const ROUTES: Routes = [
         path: 'orders',
         component: OrdersComponent,
       },
+      {
+        path: 'users',
+        component: UsersComponent,
+      },
     ],
   },
 ];
@@ -102,7 +108,7 @@ const ROUTES: Routes = [
     HomeComponent,
     CounterComponent,
     UsersComponent,
-    ClickComponent,
+    ClickProfileComponent,
     ClickButtonComponent,
     FooterComponent,
     InputComponent,
@@ -111,8 +117,8 @@ const ROUTES: Routes = [
     LoginComponent,
     RegisterComponent,
     AuthButtonComponent,
-    AuthClickComponent,
-    AuthOrderComponent,
+    ClickProfileComponent,
+    OrderProfileComponent,
     AdminComponent,
     DashboardComponent,
     OffersComponent,
@@ -120,6 +126,7 @@ const ROUTES: Routes = [
     OrdersComponent,
     OrderViewComponent,
     NoOfferComponent,
+    ClickComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -133,6 +140,8 @@ const ROUTES: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    MatExpansionModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

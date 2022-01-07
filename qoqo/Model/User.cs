@@ -21,8 +21,12 @@ public class User
 
     public int Id => UserId;
 
-    public string GetFullAddress()
+    public string? GetFullAddress()
     {
+        if (Street == null || Npa == null || City == null)
+        {
+            return null;
+        }
         return $"{Street} {Npa} {City}";
     }
 }

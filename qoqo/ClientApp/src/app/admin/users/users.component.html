@@ -1,0 +1,60 @@
+<div class="flex items-center justify-between">
+  <h2 class="text-2xl text-bold">Users</h2>
+</div>
+
+<div class="flex items-center gap-4 mb-4">
+  <mat-checkbox [checked]="adminOnly" (change)="onAdminChange($event)">
+    Admin only
+  </mat-checkbox>
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>UserName</mat-label>
+    <input
+      matInput
+      name="title"
+      (click)="test()"
+      (change)="onUserNameChange($event)"
+      [value]="username"
+    />
+  </mat-form-field>
+</div>
+
+<div class="flex flex-col gap-4">
+  <mat-expansion-panel *ngFor="let user of users">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ user.userName }} ({{ user.userId }}) {{ user.isAdmin ? "⭐️" : "" }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ user.firstName }} {{ user.lastName }} - {{ user.email }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div
+      class="my-4 border-l-4 p-4 max-w-fit"
+      [class.bg-red-900]="!user.fullAddress"
+      [class.border-l-red-600]="!user.fullAddress"
+      [class.bg-green-900]="user.fullAddress"
+      [class.border-l-green-600]="user.fullAddress"
+    >
+      <p>Address</p>
+      <p>
+        {{ user.fullAddress || "No address" }}
+      </p>
+    </div>
+    <div class="flex items-center gap-4">
+      <div
+        class="p-2 max-w-fit"
+        [class.bg-red-900]="!user.isAdmin"
+        [class.border-l-red-600]="!user.isAdmin"
+        [class.bg-green-900]="user.isAdmin"
+        [class.border-l-green-600]="user.isAdmin"
+      >
+        ADMIN: {{ user.isAdmin ? "Yes" : "No" }}
+      </div>
+      <button class="btn small primary" (click)="onHandleAdmin(user.userId)">
+        Set to {{ user.isAdmin ? "no" : "" }} admin
+      </button>
+    </div>
+  </mat-expansion-panel>
+</div>
+
+<div *ngIf="!users.length">Nothing</div>

@@ -18,6 +18,8 @@ public class StringRes
     public const string Logout = "Logout";
     public const string LogoutFailed = "Logout failed";
     public const string LoginFailed = "Invalid username or password";
+    public const string UserNotFound = "User not found";
+    public const string UserUpdated = "User updated";
 
     // ClickController
     public const string ClickMinimum10Seconds = "You can't click this offer more than once every 10 seconds";
