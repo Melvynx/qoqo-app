@@ -2,8 +2,15 @@
   <div class="flex justify-between w-full items-center">
     <p class="text-4xl">Hi {{ authService.user?.userName }}</p>
     <button
-      class="text-md font-bold underline text-white cursor-pointer focus:outline"
       (click)="onLogout()"
+      class="
+        text-md
+        font-bold
+        underline
+        text-white
+        cursor-pointer
+        focus:outline
+      "
     >
       Logout
     </button>
@@ -13,16 +20,16 @@
       #firstname
       [error]="errors.firstname"
       [value]="authService.user?.firstName || ''"
-      label="First name"
       class="w-full sm:w-fit"
+      label="First name"
     ></app-input>
     <app-input
       #lastname
       [error]="errors.lastname"
       [value]="authService.user?.lastName || ''"
-      value=""
-      label="Last name"
       class="w-full sm:w-fit"
+      label="Last name"
+      value=""
     ></app-input>
   </div>
   <div class="flex gap-4 items-start flex-wrap">
@@ -31,15 +38,23 @@
       [error]="errors.email"
       [inputAttr]="{ type: 'email' }"
       [value]="authService.user?.email || ''"
-      value=""
-      label="Email"
       class="w-full sm:w-fit"
+      label="Email"
+      value=""
     ></app-input>
   </div>
   <div class="flex items-baseline gap-4 justify-between flex-wrap">
     <a
+      class="
+        text-md
+        font-bold
+        underline
+        text-white
+        cursor-pointer
+        focus:outline
+        mr-auto
+      "
       tabindex="0"
-      class="text-md font-bold underline text-white cursor-pointer focus:outline mr-auto"
     >
       Send password reset email
     </a>

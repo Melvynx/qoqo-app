@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ClickList } from 'src/types/click';
 import { OrderList } from 'src/types/order';
 import { client } from 'src/utils/client';
 import { AuthService } from '../../services/auth.service';

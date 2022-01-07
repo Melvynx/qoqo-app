@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { client } from '../../../../utils/client';
 import { Order, OrderStatusKeys } from '../../../../types/order';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {SnackbarService} from "../../../services/snackbar.service";
+import { SnackbarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-view',

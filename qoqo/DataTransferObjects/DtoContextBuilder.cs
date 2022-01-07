@@ -1,5 +1,4 @@
 using qoqo.Model;
-using SQLitePCL;
 
 namespace qoqo.DataTransferObjects;
 
@@ -13,7 +12,6 @@ public class DtoContextBuilder
         _context = context;
         Offer = new OfferDtoBuilder(context);
     }
-
 }
 
 public class OfferDtoBuilder

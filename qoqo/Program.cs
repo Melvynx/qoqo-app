@@ -36,13 +36,9 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
-{
     app.UseDeveloperExceptionPage();
-}
 else
-{
     app.UseHsts();
-}
 
 using (var scope = app.Services.CreateScope())
 {
@@ -59,8 +55,8 @@ app.UseAuthorization();
 app.UseResponseCaching();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+    "default",
+    "{controller}/{action=Index}/{id?}");
 
 app.MapFallbackToFile("index.html");
 

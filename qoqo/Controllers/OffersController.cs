@@ -13,8 +13,8 @@ namespace qoqo.Controllers;
 public class OffersController : ControllerBase
 {
     private readonly QoqoContext _context;
-    private readonly OfferProvider _offerProvider;
     private readonly HubService _hubService;
+    private readonly OfferProvider _offerProvider;
 
     public OffersController(QoqoContext qoqoContext, OfferProvider offerProvider, HubService hubService)
     {
@@ -45,15 +45,9 @@ public class OffersController : ControllerBase
         var user = tokenProvider.GetUser(_context);
         var offer = await _offerProvider.GetOffer(offerId);
 
-        if (offer == null)
-        {
-            return ErrorService.BadRequest(StringRes.OfferNotFound);
-        }
+        if (offer == null) return ErrorService.BadRequest(StringRes.OfferNotFound);
 
-        if (user is {IsAdmin: false} && (offer.IsDraft || offer.StartAt < DateTime.Now))
-        {
-            return Unauthorized();
-        }
+        if (user is {IsAdmin: false} && (offer.IsDraft || offer.StartAt < DateTime.Now)) return Unauthorized();
 
         return offer;
     }
@@ -74,10 +68,7 @@ public class OffersController : ControllerBase
     public async Task<ActionResult<DashboardDto>> GetDashboard()
     {
         var dashboard = await _offerProvider.GetDashboard();
-        if (dashboard == null)
-        {
-            return ErrorService.BadRequest(StringRes.OfferNotFound);
-        }
+        if (dashboard == null) return ErrorService.BadRequest(StringRes.OfferNotFound);
 
         return dashboard;
     }

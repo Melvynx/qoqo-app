@@ -1,4 +1,3 @@
-using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using qoqo.DataTransferObjects;
 using qoqo.Model;
@@ -44,10 +43,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<UserDto?>> Login(LoginDto loginDto)
     {
         var user = await _userProvider.Login(loginDto);
-        if (user == null)
-        {
-            return NotFound(StringRes.LoginFailed);
-        }
+        if (user == null) return NotFound(StringRes.LoginFailed);
 
         new TokenService(HttpContext).SetToken(user.Token);
 
@@ -68,10 +64,7 @@ public class UsersController : ControllerBase
         var tokenService = new TokenService(HttpContext);
         var token = tokenService.GetToken();
 
-        if (token == null)
-        {
-            return BadRequest("No token found");
-        }
+        if (token == null) return BadRequest("No token found");
 
         tokenService.DeleteToken();
 

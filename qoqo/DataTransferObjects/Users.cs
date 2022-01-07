@@ -31,7 +31,7 @@ public class UserDto
     public string? Token { get; set; }
     public string? FullAddress { get; set; }
     public bool? IsAdmin { get; set; }
-    
+
     public static UserDto FromUser(User user, bool configureFullAddress = false)
     {
         var userDto = new UserDto
@@ -45,10 +45,7 @@ public class UserDto
             IsAdmin = user.IsAdmin
         };
 
-        if (configureFullAddress)
-        {
-            userDto.FullAddress = user.GetFullAddress();
-        }
+        if (configureFullAddress) userDto.FullAddress = user.GetFullAddress();
 
         return userDto;
     }
@@ -59,7 +56,7 @@ public class UserErrorDto
     public string? UserName { get; set; }
     public string? Password { get; set; }
     public string? Email { get; set; }
-    
+
     public bool IsValid()
     {
         return UserName == null && Password == null && Email == null;

@@ -76,10 +76,7 @@ public class OfferProvider
     {
         var offer = Offer.FromOfferBody(offerBody);
         var errors = Validate(offer);
-        if (errors.Any())
-        {
-            return ErrorService.BadRequest(string.Join(", ", errors));
-        }
+        if (errors.Any()) return ErrorService.BadRequest(string.Join(", ", errors));
 
         var entity = await _context.Offers.AddAsync(offer);
         await _context.SaveChangesAsync();
@@ -104,10 +101,7 @@ public class OfferProvider
         offer.SpecificationText = offerBody.SpecificationText;
 
         var errors = Validate(offer);
-        if (errors.Any())
-        {
-            return ErrorService.BadRequest(string.Join(", ", errors));
-        }
+        if (errors.Any()) return ErrorService.BadRequest(string.Join(", ", errors));
 
         await _context.SaveChangesAsync();
         return SuccessService.Ok(StringRes.OfferUpdated);
@@ -115,10 +109,7 @@ public class OfferProvider
 
     private List<string> Validate(Offer offer)
     {
-        if (offer.IsDraft)
-        {
-            return new List<string>();
-        }
+        if (offer.IsDraft) return new List<string>();
 
         var errors = offer.Validate();
         var sameTimeOffer = _context.Offers.FirstOrDefault(o =>
@@ -127,9 +118,7 @@ public class OfferProvider
              offer.EndAt >= o.StartAt && offer.StartAt <= o.EndAt)
         );
         if (sameTimeOffer != null)
-        {
             errors.Add($"{StringRes.OfferSameTime}( {sameTimeOffer.Id}: {sameTimeOffer.Title} )");
-        }
 
         return errors;
     }

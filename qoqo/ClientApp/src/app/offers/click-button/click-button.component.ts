@@ -5,7 +5,6 @@ import {
   Input,
   OnInit,
   Output,
-  SimpleChange,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';

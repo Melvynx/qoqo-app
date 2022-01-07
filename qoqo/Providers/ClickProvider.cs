@@ -19,12 +19,12 @@ public class ClickProvider
             UserId = userId,
             OfferId = offerId
         };
-        
+
         var click = await _context.Clicks.AddAsync(newClick);
         await _context.SaveChangesAsync();
         return click.Entity;
     }
-    
+
     public async Task<int> GetCountForOffer(int offerId)
     {
         var click = await _context.Clicks.CountAsync(c => c.OfferId == offerId);

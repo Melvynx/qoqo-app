@@ -6,7 +6,16 @@
 </div>
 <div
   *ngFor="let click of clicks"
-  class="flex align-baseline justify-between gap-8 border-2 border-gray-500 rounded-sm my-4 p-2"
+  class="
+    flex
+    align-baseline
+    justify-between
+    gap-8
+    border-2 border-gray-500
+    rounded-sm
+    my-4
+    p-2
+  "
 >
   <a
     [routerLink]="'/offers/' + click.offerId"

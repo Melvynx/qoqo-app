@@ -43,21 +43,16 @@ public class UserClick
 
 public class ClickEventResult
 {
-    public bool Confetti { get; set; }
-
     public ClickEventResult(bool confetti)
     {
         Confetti = confetti;
     }
+
+    public bool Confetti { get; set; }
 }
 
 public class ClickEventFinishResult
 {
-    public int UserId { get; set; }
-    public string UserName { get; set; }
-    public string FinishSentence { get; set; }
-    public int ClickCount { get; set; }
-
     public ClickEventFinishResult(int userId, string userName, string finishSentence, int count)
     {
         UserId = userId;
@@ -65,4 +60,9 @@ public class ClickEventFinishResult
         FinishSentence = finishSentence;
         ClickCount = count;
     }
+
+    public int UserId { get; set; }
+    public string UserName { get; set; }
+    public string FinishSentence { get; set; }
+    public int ClickCount { get; set; }
 }

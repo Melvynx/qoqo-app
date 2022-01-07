@@ -1,4 +1,3 @@
-using System.Net;
 using Microsoft.EntityFrameworkCore;
 using qoqo.Model;
 
@@ -6,6 +5,7 @@ namespace qoqo.Services;
 
 public class TokenService
 {
+    private const string TokenKey = "Token";
     private readonly HttpContext _httpContext;
 
     public TokenService(HttpContext httpContext)
@@ -13,14 +13,9 @@ public class TokenService
         _httpContext = httpContext;
     }
 
-    private const string TokenKey = "Token";
-
     public void SetToken(string? token)
     {
-        if (token == null)
-        {
-            return;
-        }
+        if (token == null) return;
 
         var now = DateTime.Now;
 
@@ -46,10 +41,7 @@ public class TokenService
     {
         var token = GetToken();
 
-        if (token == null)
-        {
-            return null;
-        }
+        if (token == null) return null;
 
         var userToken = context.Tokens
             .Include(t => t.User)

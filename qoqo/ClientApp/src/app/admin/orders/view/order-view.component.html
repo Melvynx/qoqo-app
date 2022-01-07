@@ -7,10 +7,10 @@
     <p>
       Status: <b>{{ order?.status }}</b>
     </p>
-    <button class="btn success" (click)="setStatus('DELIVERED')">
+    <button (click)="setStatus('DELIVERED')" class="btn success">
       Set to delivered
     </button>
-    <button class="btn error" (click)="setStatus('CANCELLED')">Cancel</button>
+    <button (click)="setStatus('CANCELLED')" class="btn error">Cancel</button>
   </div>
   <div class="my-4 border-l-pink-600 border-l-4 p-4 bg-pink-900 max-w-fit">
     <p>Offer: {{ order?.offer?.offerId }}</p>

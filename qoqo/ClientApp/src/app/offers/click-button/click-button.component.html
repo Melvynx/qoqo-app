@@ -1,17 +1,17 @@
 <button
-  class="click-btn"
-  [class.disabled]="disabled"
-  (click)="!disabled && !loading && handleClick($event)"
   #root
+  (click)="!disabled && !loading && handleClick($event)"
+  [class.disabled]="disabled"
+  class="click-btn"
 >
-  <canvas class="confetti-canvas" #canvas></canvas>
+  <canvas #canvas class="confetti-canvas"></canvas>
   <span class="click-shadow"></span>
   <span class="click-edge"></span>
-  <span class="click-main" #main>
-    <span class="value current" #current>
+  <span #main class="click-main">
+    <span #current class="value current">
       {{ localValue }}
     </span>
-    <span class="value next" #next>
+    <span #next class="value next">
       {{ value }}
     </span>
   </span>

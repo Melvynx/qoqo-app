@@ -1,11 +1,14 @@
 <div class="flex items-center justify-between">
   <h2 class="text-2xl text-bold">Offers</h2>
-  <a routerLink="/admin/offers/new" class="btn primary cursor-pointer"
+  <a class="btn primary cursor-pointer" routerLink="/admin/offers/new"
     >Create</a
   >
 </div>
 
-<div class="grid-list-container mt-4" style="grid-template-columns: 2fr repeat(4, 1fr)">
+<div
+  class="grid-list-container mt-4"
+  style="grid-template-columns: 2fr repeat(4, 1fr)"
+>
   <p class="title">Offer title</p>
   <p class="title">Objective</p>
   <p class="title">Is draft</p>
@@ -20,6 +23,8 @@
     <p class="text-base">{{ offer.clickObjective }}</p>
     <p class="text-base">{{ offer.isDraft }}</p>
     <p class="text-base">{{ offer.isOver }}</p>
-    <p class="text-base" [class.bg-green-800]="offer.isLive">{{ offer.isLive }}</p>
+    <p [class.bg-green-800]="offer.isLive" class="text-base">
+      {{ offer.isLive }}
+    </p>
   </ng-container>
 </div>

@@ -1,17 +1,28 @@
 <div *ngIf="!_offerService.offer">Loading...</div>
-<div class="pt-4 mb-16" *ngIf="_offerService.offer">
+<div *ngIf="_offerService.offer" class="pt-4 mb-16">
   <h1 class="font-sans text-5xl font-bold text-center px-2 mb-4 sm:mb-8">
     {{ _offerService.offer?.title }}
   </h1>
 
-  <img alt="product cover" class="cover-image" [src]="_offerService.offer?.imageUrl" />
+  <img
+    [src]="_offerService.offer?.imageUrl"
+    alt="product cover"
+    class="cover-image"
+  />
   <div class="px-2 my-2 sm:my-4 gap-8 sm:gap-16 flex flex-col max-w-4xl m-auto">
     <div class="flex items-baseline justify-end my-2 sm:my-4">
       <p class="primary-text-gradiant text-center text-6xl sm:text-7xl">
         Free 0.-
       </p>
       <p
-        class="text-xl sm:text-2xl text-center ml-2 line-through text-neutral-400"
+        class="
+          text-xl
+          sm:text-2xl
+          text-center
+          ml-2
+          line-through
+          text-neutral-400
+        "
       >
         {{ _offerService.offer?.barredPrice }}.-
       </p>
@@ -26,10 +37,10 @@
       <h2 class="text-4xl font-bold">Specification</h2>
       <ul class="list-disc pl-4 mt-4">
         <li
-          class="text-base"
           *ngFor="
             let item of _offerService.offer?.specificationText?.split(',')
           "
+          class="text-base"
         >
           {{ item }}
         </li>

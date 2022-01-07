@@ -4,53 +4,53 @@
     {{ isNewOffer() ? "" : "Offer " + offerId }}
   </h2>
   <a
-    class="text-sm text-blue-500 ml-auto"
     [routerLink]="['/offers/' + offerId]"
+    class="text-sm text-blue-500 ml-auto"
   >
     Show offer</a
   >
-  <a routerLink="/admin/offers" class="btn gray cursor-pointer"><- Back</a>
+  <a class="btn gray cursor-pointer" routerLink="/admin/offers"><- Back</a>
 </div>
 
-<form [formGroup]="offerForm" (ngSubmit)="onSubmit()" class="mt-4">
+<form (ngSubmit)="onSubmit()" [formGroup]="offerForm" class="mt-4">
   <div class="flex flex-col w-96 min-w-full">
-    <mat-form-field class="w-full" appearance="fill">
+    <mat-form-field appearance="fill" class="w-full">
       <mat-label>Title</mat-label>
-      <input matInput name="title" formControlName="title" />
+      <input formControlName="title" matInput name="title" />
     </mat-form-field>
 
-    <mat-form-field class="w-full" appearance="fill">
+    <mat-form-field appearance="fill" class="w-full">
       <mat-label>Description</mat-label>
       <textarea
+        formControlName="description"
         matInput
         name="description"
-        formControlName="description"
       ></textarea>
     </mat-form-field>
 
-    <mat-form-field class="w-full" appearance="fill">
+    <mat-form-field appearance="fill" class="w-full">
       <mat-label>Image url</mat-label>
-      <textarea matInput formControlName="imageUrl" name="imageUrl"></textarea>
+      <textarea formControlName="imageUrl" matInput name="imageUrl"></textarea>
     </mat-form-field>
 
-    <mat-form-field class="w-full" appearance="fill">
+    <mat-form-field appearance="fill" class="w-full">
       <mat-label>Specification</mat-label>
       <textarea
-        matInput
         formControlName="specificationText"
+        matInput
         name="specificationText"
       ></textarea>
     </mat-form-field>
 
     <div class="flex items-center gap-4 mb-4">
-      <mat-checkbox name="isDraft" formControlName="isDraft"
+      <mat-checkbox formControlName="isDraft" name="isDraft"
         >IsDraft
       </mat-checkbox>
       <mat-checkbox
         [disabled]="true"
-        name="isDraft"
-        formControlName="isOver"
         aria-readonly="true"
+        formControlName="isOver"
+        name="isDraft"
         >IsOver
       </mat-checkbox>
     </div>
@@ -59,24 +59,24 @@
       <mat-form-field appearance="fill">
         <mat-label>Barred price</mat-label>
         <input
-          matInput
-          type="number"
           formControlName="barredPrice"
+          matInput
           name="barredPrice"
+          type="number"
         />
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Price</mat-label>
-        <input matInput type="number" formControlName="price" name="price" />
+        <input formControlName="price" matInput name="price" type="number" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Click objective</mat-label>
         <input
-          matInput
-          type="number"
           formControlName="clickObjective"
+          matInput
           name="clickObjective"
+          type="number"
         />
       </mat-form-field>
     </div>
@@ -85,30 +85,30 @@
       <mat-form-field appearance="fill">
         <mat-label>Start at</mat-label>
         <input
-          matInput
-          formControlName="startAt"
           [matDatepicker]="startPicker"
+          formControlName="startAt"
+          matInput
         />
         <mat-datepicker-toggle
-          matSuffix
           [for]="startPicker"
+          matSuffix
         ></mat-datepicker-toggle>
         <mat-datepicker #startPicker></mat-datepicker>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>End at</mat-label>
-        <input matInput formControlName="endAt" [matDatepicker]="endPicker" />
+        <input [matDatepicker]="endPicker" formControlName="endAt" matInput />
         <mat-datepicker-toggle
-          matSuffix
           [for]="endPicker"
+          matSuffix
         ></mat-datepicker-toggle>
         <mat-datepicker #endPicker></mat-datepicker>
       </mat-form-field>
     </div>
 
     <div class="flex justify-between">
-      <a routerLink="/admin/offers" class="btn gray cursor-pointer"><- Back</a>
-      <button type="submit" class="btn primary">Save</button>
+      <a class="btn gray cursor-pointer" routerLink="/admin/offers"><- Back</a>
+      <button class="btn primary" type="submit">Save</button>
     </div>
   </div>
 </form>

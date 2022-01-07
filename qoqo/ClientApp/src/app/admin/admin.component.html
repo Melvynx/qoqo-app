@@ -1,16 +1,16 @@
 <div class="w-full flex pb-8">
   <div *ngIf="authService.isAuthenticated" class="">
     <ul class="list-none gap-2 flex flex-col pl-8 pt-8">
-      <li class="nav-item" [routerLinkActive]="['active']">
+      <li [routerLinkActive]="['active']" class="nav-item">
         <a [routerLink]="['/auth/view']"> <- MyAQount </a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
+      <li [routerLinkActive]="['active']" class="nav-item">
         <a [routerLink]="['/admin/dashboard']"> Dashboard </a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
+      <li [routerLinkActive]="['active']" class="nav-item">
         <a [routerLink]="['/admin/offers']"> Offers </a>
       </li>
-      <li class="nav-item" [routerLinkActive]="['active']">
+      <li [routerLinkActive]="['active']" class="nav-item">
         <a [routerLink]="['/admin/orders']"> Orders </a>
       </li>
     </ul>

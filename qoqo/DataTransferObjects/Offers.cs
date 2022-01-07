@@ -1,5 +1,3 @@
-using qoqo.Model;
-
 namespace qoqo.DataTransferObjects;
 
 public class OfferDto
@@ -15,7 +13,7 @@ public class OfferDto
     public bool IsDraft { get; set; } = true;
     public bool IsOver { get; set; } = false;
     public string? WinnerText { get; set; } = "";
-    public DateTime? StartAt { get; set; } 
+    public DateTime? StartAt { get; set; }
     public DateTime? EndAt { get; set; }
     public DateTime CreatedAt { get; set; }
 }
@@ -81,6 +79,6 @@ public class OfferBody
     public string SpecificationText { get; set; }
     public string ImageUrl { get; set; }
     public bool IsDraft { get; set; }
-    public DateTime? StartAt { get; set; } 
+    public DateTime? StartAt { get; set; }
     public DateTime? EndAt { get; set; }
 }

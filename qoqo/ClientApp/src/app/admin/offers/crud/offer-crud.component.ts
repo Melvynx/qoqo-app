@@ -32,20 +32,6 @@ export class OfferCrudComponent implements OnInit {
     });
   }
 
-  private getOffer() {
-    if (this.isNewOffer()) {
-      return;
-    }
-    client<Offer>(`offers/${this.offerId}`)
-      .then((offer) => {
-        this.offerForm = this.formBuilder.group(offer);
-      })
-      .catch((err) => {
-        this.snackbar.openError(err.message);
-        this.router.navigateByUrl('/admin/offers');
-      });
-  }
-
   isNewOffer() {
     return this.offerId === 'new';
   }
@@ -68,6 +54,20 @@ export class OfferCrudComponent implements OnInit {
       })
       .catch((err) => {
         this.snackbar.openError(err.message);
+      });
+  }
+
+  private getOffer() {
+    if (this.isNewOffer()) {
+      return;
+    }
+    client<Offer>(`offers/${this.offerId}`)
+      .then((offer) => {
+        this.offerForm = this.formBuilder.group(offer);
+      })
+      .catch((err) => {
+        this.snackbar.openError(err.message);
+        this.router.navigateByUrl('/admin/offers');
       });
   }
 }

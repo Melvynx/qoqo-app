@@ -57,10 +57,7 @@ public class OrderProvider
     {
         var order = await _context.Orders.FindAsync(id);
 
-        if (order == null)
-        {
-            return ErrorService.BadRequest(StringRes.ErrorDuringOrderUpdate);
-        }
+        if (order == null) return ErrorService.BadRequest(StringRes.ErrorDuringOrderUpdate);
 
         order.Status = orderBody.Status;
 

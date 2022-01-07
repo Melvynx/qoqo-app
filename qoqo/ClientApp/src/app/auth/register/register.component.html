@@ -4,35 +4,35 @@
     <app-input
       #firstname
       [error]="errors.firstname"
-      value=""
-      label="First name"
       class="w-full sm:flex-1"
+      label="First name"
+      value=""
     ></app-input>
     <app-input
       #lastname
       [error]="errors.lastname"
       [inputAttr]="{ type: 'lastname' }"
-      value=""
-      label="Last name"
       class="w-full sm:flex-1"
+      label="Last name"
+      value=""
     ></app-input>
   </div>
   <div class="flex gap-4 items-start flex-wrap">
     <app-input
       #username
       [error]="errors.userName"
-      helper="Username must be between 3 and 30 characters and only contain letters, numbers and underscores."
-      value=""
-      label="Username"
       class="w-full sm:flex-1"
+      helper="Username must be between 3 and 30 characters and only contain letters, numbers and underscores."
+      label="Username"
+      value=""
     ></app-input>
     <app-input
       #email
       [error]="errors.email"
       [inputAttr]="{ type: 'email' }"
-      value=""
-      label="Email"
       class="w-full sm:flex-1"
+      label="Email"
+      value=""
     ></app-input>
   </div>
   <div class="flex gap-4 items-start flex-wrap">
@@ -40,21 +40,21 @@
       #password
       [error]="errors.password"
       [inputAttr]="{ type: 'password' }"
-      helper="Password must be at least 8 characters and contain at least one lowercase letter, one uppercase letter and one number."
-      value=""
-      label="Password"
       class="w-full sm:flex-1"
+      helper="Password must be at least 8 characters and contain at least one lowercase letter, one uppercase letter and one number."
+      label="Password"
+      value=""
     ></app-input>
     <app-input
       #confirmPassword
       [error]="errors.confirmPassword"
       [inputAttr]="{ type: 'password' }"
-      value=""
-      label="Confirm password"
       class="w-full sm:flex-1"
+      label="Confirm password"
+      value=""
     ></app-input>
   </div>
-  <button class="ml-auto" (click)="onSubmit()" class="btn primary">
+  <button (click)="onSubmit()" class="ml-auto" class="btn primary">
     Submit
   </button>
 </div>

@@ -3,17 +3,17 @@
   <app-input
     #username
     [error]="errors.username"
-    value=""
     label="Username"
+    value=""
   ></app-input>
   <app-input
     #password
     [error]="errors.password"
     [inputAttr]="{ type: 'password' }"
-    value=""
     label="Password"
+    value=""
   ></app-input>
-  <button class="ml-auto" (click)="onSubmit()" class="btn primary">
+  <button (click)="onSubmit()" class="ml-auto" class="btn primary">
     Submit
   </button>
 </div>

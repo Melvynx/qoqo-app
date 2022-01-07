@@ -17,35 +17,35 @@
       }}</a>
     </h3>
     <button
-      *ngIf="dashboard?.isOver"
       (click)="increaseClick()"
+      *ngIf="dashboard?.isOver"
       class="btn primary small"
     >
       End offer
     </button>
     <button
-      *ngIf="!dashboard?.isOver"
       (click)="increaseClick()"
+      *ngIf="!dashboard?.isOver"
       class="btn primary small"
     >
       + click
     </button>
     <p
-      class="bg-red-900 px-0.5 py-1 border-l-2 border-red-500 block"
       *ngIf="dashboard?.isOver"
+      class="bg-red-900 px-0.5 py-1 border-l-2 border-red-500 block"
     >
       OVER
     </p>
     <p class="text-base">Id: {{ dashboard?.offerId }}</p>
   </div>
   <div
-    class="my-4 border-l-orange-500 border-l-4 p-4 bg-orange-900 max-w-fit"
     *ngIf="
       dashboard?.isOver &&
       safeNumber(dashboard?.clickObjective) -
         safeNumber(dashboard?.clickCount) !==
         0
     "
+    class="my-4 border-l-orange-500 border-l-4 p-4 bg-orange-900 max-w-fit"
   >
     <p>
       ⚠️ The offer is over but the click count not correspond to the click
@@ -55,9 +55,9 @@
   <div class="flex flex-col gap-2">
     <div class="gauge">
       <div
+        [class.full]="getPercentage() >= 100"
         [style]="{ '--percentage': getPercentage() + '%' }"
         class="gauge-fill"
-        [class.full]="getPercentage() >= 100"
       ></div>
       <p class="relative">
         {{ dashboard?.clickCount || 0 }} /

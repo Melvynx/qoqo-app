@@ -9,13 +9,13 @@ namespace qoqo.Authorization;
 
 public class AuthorizationService : IAuthenticationService
 {
-    private QoqoContext _qoqoContext;
-    
+    private readonly QoqoContext _qoqoContext;
+
     public AuthorizationService(QoqoContext qoqoContext)
     {
         _qoqoContext = qoqoContext;
     }
-    
+
     public Task<AuthenticateResult> AuthenticateAsync(HttpContext context, string scheme)
     {
         throw new NotImplementedException();
@@ -41,15 +41,15 @@ public class AuthorizationService : IAuthenticationService
             context.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
             return Task.CompletedTask;
         }
-        
+
         var claims = new List<Claim>
         {
-            new("UserId", userToken.User.UserId.ToString()),
+            new("UserId", userToken.User.UserId.ToString())
         };
-        
+
         // get with: context.User.Claims.First(d => d.Type == "Id").Value;
         context.User = new ClaimsPrincipal(new ClaimsIdentity(claims, scheme));
-        
+
         return Task.FromResult(0);
     }
 

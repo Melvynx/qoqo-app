@@ -1,14 +1,14 @@
 <div
-  class="border-container"
   [class.disabled]="variant === 'disabled'"
-  [class.wine]="variant === 'wine'"
   [class.lose]="variant === 'lose'"
+  [class.wine]="variant === 'wine'"
   [style]="{
     '--completed-percent':
       100 -
       (clickCounter * 100) / (offerService.offer?.clickObjective || 0) +
       '%'
   }"
+  class="border-container"
 >
   <div class="relative overflow-hidden bg">
     <div class="percentage-fill"></div>
@@ -25,8 +25,8 @@
         innerHTML="{{ sentence }}"
       ></p>
       <p
-        class="text-lg text-center"
         *ngIf="variant === 'enabled' || variant === 'disabled'"
+        class="text-lg text-center"
       >
         Pour le gagné il te suffit d'être la personne qui cliquera lorsque le
         compteur sera a
@@ -35,16 +35,16 @@
         }}</span>
       </p>
       <app-click-button
-        *ngIf="variant === 'enabled' || variant === 'disabled'"
-        (onClick)="handleClick()"
-        [value]="clickCounter"
-        [disabled]="variant === 'disabled'"
         #clickButton
+        (onClick)="handleClick()"
+        *ngIf="variant === 'enabled' || variant === 'disabled'"
+        [disabled]="variant === 'disabled'"
+        [value]="clickCounter"
       ></app-click-button>
 
       <p
-        class="text-base text-neutral-500"
         *ngIf="variant === 'disabled' && remainingTime > 0"
+        class="text-base text-neutral-500"
       >
         You can retry in {{ remainingTime }} seconds!
       </p>

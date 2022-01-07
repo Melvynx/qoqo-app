@@ -37,7 +37,6 @@ type config = {
   TODO: You can see example in `client.test.tsx`
 */
 
-
 async function client<T>(
   endpoint: string,
   {

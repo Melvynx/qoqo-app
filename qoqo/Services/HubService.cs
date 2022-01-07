@@ -1,7 +1,5 @@
-using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol;
 using qoqo.DataTransferObjects;
 using qoqo.Hubs;
 using qoqo.Model;
@@ -21,7 +19,8 @@ public class HubService
 
     public async Task<ClickEventResult> Finish(ClickDto clickDto, Click click)
     {
-        var order = new Order {
+        var order = new Order
+        {
             OfferId = click.OfferId,
             UserId = click.UserId,
             Status = OrderStatus.PENDING
@@ -29,11 +28,8 @@ public class HubService
         await _context.Orders.AddAsync(order);
 
         var offer = await _context.Offers.FindAsync(click.OfferId);
-        if (offer == null)
-        {
-            return new ClickEventResult(false);
-        }
-        
+        if (offer == null) return new ClickEventResult(false);
+
         var user = await _context.Users
             .Select(u => new {u.UserId, u.UserName})
             .FirstAsync(u => u.UserId == click.UserId);
@@ -47,7 +43,7 @@ public class HubService
         await SendAsync("FINISH", result);
         return new ClickEventResult(true);
     }
-    
+
     public async Task<ClickEventResult> Click(ClickDto clickDto)
     {
         await SendAsync("CLICK", clickDto);
@@ -59,12 +55,13 @@ public class HubService
         var winnerClickCount = await _context.Clicks
             .Where(c => c.UserId == userId && c.OfferId == offerId)
             .CountAsync();
-        
+
         var winnerPercentage = winnerClickCount * 100 / clickObjective;
-        
-        return $"<b>@{userName}</b> has wine the challenge! He is the <b>{clickObjective}</b> to click on the button. The click <b>{winnerClickCount} time</b>, so he reach <b>{winnerPercentage}%</b> of the total click.";
+
+        return
+            $"<b>@{userName}</b> has wine the challenge! He is the <b>{clickObjective}</b> to click on the button. The click <b>{winnerClickCount} time</b>, so he reach <b>{winnerPercentage}%</b> of the total click.";
     }
-    
+
     private async Task SendAsync(string key, object obj)
     {
         await _hubContext.Clients.All.SendAsync(key, JsonService.Serialize(obj));
