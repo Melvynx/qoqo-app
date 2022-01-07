@@ -70,7 +70,7 @@ export class DashboardComponent {
   }
 
   endTheOffer() {
-    client<ClientMessage>(`offers/${this.dashboard?.offerId}/end_offer`, {
+    client<ClientMessage>(`offers/${this.dashboard?.offerId}/end`, {
       method: 'PATCH',
     })
       .then((res) => {

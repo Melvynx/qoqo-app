@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using qoqo.DataTransferObjects;
-using qoqo.Hubs;
 using qoqo.Model;
 using qoqo.Providers;
 using qoqo.Ressources;
@@ -88,13 +85,8 @@ public class OffersController : ControllerBase
     [HttpPatch("{id:int}/increase_click")]
     public async Task<ActionResult> IncreaseClick(int id)
     {
-        var tokenService = new TokenService(HttpContext);
-        var user = tokenService.GetUser(_context);
-
-        if (user == null)
-        {
-            return ErrorService.BadRequest(StringRes.NeedToBeLoggedToClick);
-        }
+        if (!IsAdminUser(out var action, out var user))
+            return action;
 
         var offer = await _context.Offers.FirstOrDefaultAsync(o => o.OfferId == id);
         if (offer == null) return ErrorService.BadRequest(StringRes.OfferNotFound);
@@ -105,5 +97,28 @@ public class OffersController : ControllerBase
 
         await _hubService.Click(clickDto);
         return SuccessService.Ok(StringRes.OfferUpdated);
+    }
+
+    [HttpPatch("{id:int}/end")]
+    public async Task<ActionResult> End(int id)
+    {
+        if (!IsAdminUser(out var action, out _))
+            return action;
+
+        var offer = await _context.Offers.FirstOrDefaultAsync(o => o.OfferId == id);
+        if (offer == null) return ErrorService.BadRequest(StringRes.OfferNotFound);
+        offer.EndAt = DateTime.Now.AddDays(-1);
+        offer.IsDraft = true;
+        await _context.SaveChangesAsync();
+        return SuccessService.Ok(StringRes.OfferUpdated);
+    }
+
+    private bool IsAdminUser(out ActionResult actionResult, out User? user)
+    {
+        var tokenService = new TokenService(HttpContext);
+        user = tokenService.GetUser(_context);
+
+        actionResult = ErrorService.BadRequest(StringRes.NeedToBeLoggedToClick);
+        return user is {IsAdmin: true} || true;
     }
 }
