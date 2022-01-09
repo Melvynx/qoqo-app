@@ -13,14 +13,12 @@ namespace qoqo.Controllers;
 public class OffersController : ControllerBase
 {
     private readonly QoqoContext _context;
-    private readonly HubService _hubService;
     private readonly OfferProvider _offerProvider;
 
-    public OffersController(QoqoContext qoqoContext, OfferProvider offerProvider, HubService hubService)
+    public OffersController(QoqoContext qoqoContext, OfferProvider offerProvider)
     {
         _context = qoqoContext;
         _offerProvider = offerProvider;
-        _hubService = hubService;
     }
 
     [HttpGet]
