@@ -9,11 +9,10 @@ const target = env.ASPNETCORE_HTTPS_PORT
 const PROXY_CONFIG = [
   {
     context: [
-      "/weatherforecast",
       "/api",
       "/offerHub",
       "/offerHub/negotiate",
-      "/offerHub/negotiate?negotiateVersion=1",
+      "/offerHub/negotiate",
     ],
     target: target,
     secure: false,
