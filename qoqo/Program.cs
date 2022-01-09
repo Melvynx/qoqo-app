@@ -9,8 +9,6 @@ using qoqo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -21,18 +19,25 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
     }
 );
 
+// injection
 builder.Services.AddDbContext<QoqoContext>();
+
 builder.Services.AddTransient<UserProvider>();
 builder.Services.AddTransient<ClickProvider>();
 builder.Services.AddTransient<OfferProvider>();
 builder.Services.AddTransient<OrderProvider>();
+
 builder.Services.AddTransient<HubService>();
 builder.Services.AddTransient<IAuthenticationService, AuthorizationService>();
 
+// libraries
 builder.Services.AddSignalR();
 builder.Services.AddResponseCaching();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseSwagger();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -61,5 +66,11 @@ app.MapControllerRoute(
 app.MapFallbackToFile("index.html");
 
 app.MapHub<OfferHub>("/offerHub");
+
+app.MapSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.InjectJavascript("/swagger-ui/swagger.js");
+});
 
 app.Run();
