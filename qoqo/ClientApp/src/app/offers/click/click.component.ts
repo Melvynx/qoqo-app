@@ -96,11 +96,11 @@ export class ClickComponent implements OnInit {
     ) {
       this.offerService.offer.clickObjective = click.clickObjective;
     }
-    if (click.user.id === this._authService.user?.userId) {
-      this.setRemainingTime(10);
-    }
     if (click.clickCount !== 0) {
       this.clickCounter = click.clickCount;
+      if (click.user.id === this._authService.user?.userId) {
+        this.setRemainingTime(10);
+      }
     }
   }
 
