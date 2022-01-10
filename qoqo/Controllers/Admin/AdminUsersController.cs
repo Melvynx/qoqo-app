@@ -53,6 +53,12 @@ public class AdminUsersController : ControllerBase
     [HttpPatch("{id:int}")]
     public async Task<ActionResult<UserDto>> PatchUser(int id, [FromBody] UserPatchDto userPatch)
     {
+        var currentUser = new TokenService(HttpContext).GetUser(_context);
+        if (currentUser == null || currentUser.Id == id)
+        {
+            return Unauthorized();
+        }
+
         var user = await _userProvider.GetUser(id);
         if (user == null) return ErrorService.BadRequest(StringRes.UserNotFound);
         user.IsAdmin = userPatch.IsAdmin;

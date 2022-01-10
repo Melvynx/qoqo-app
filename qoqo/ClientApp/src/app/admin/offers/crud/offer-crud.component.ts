@@ -1,10 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { client } from '../../../../utils/client';
-import { EmptyOffer, Offer } from '../../../../types/offer';
-import { FormBuilder } from '@angular/forms';
-import { ClientMessage } from '../../../../types/api';
-import { SnackbarService } from '../../../services/snackbar.service';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {client} from '../../../../utils/client';
+import {EmptyOffer, Offer} from '../../../../types/offer';
+import {FormBuilder} from '@angular/forms';
+import {ClientMessage} from '../../../../types/api';
+import {SnackbarService} from '../../../services/snackbar.service';
 
 @Component({
   selector: 'app-crud',
@@ -23,7 +23,8 @@ export class OfferCrudComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackbar: SnackbarService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -55,6 +56,19 @@ export class OfferCrudComponent implements OnInit {
       .catch((err) => {
         this.snackbar.openError(err.message);
       });
+  }
+
+  setTodayDate(event: Event) {
+    event.preventDefault();
+
+    const today = new Date();
+    const msInOneDay = 60 * 60 * 24 * 1000;
+
+    this.offerForm.setValue({
+      ...this.offerForm.value,
+      "startAt": today,
+      "endAt": new Date(today.getTime() + msInOneDay)
+    })
   }
 
   private getOffer() {

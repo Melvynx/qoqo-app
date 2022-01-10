@@ -43,6 +43,8 @@ export class UsersComponent {
   }
 
   onUserNameChange(event: Event) {
+    console.log("CHANGE", event.target)
+
     this.username = (<HTMLInputElement>event.target).value;
     this.handleTimeout();
   }

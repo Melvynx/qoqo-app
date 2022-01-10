@@ -55,7 +55,7 @@
       </mat-checkbox>
     </div>
 
-    <div class="flex gap-2 prices">
+    <div class="flex sm:gap-2 prices flex-col sm:flex-row flex-wrap">
       <mat-form-field appearance="fill">
         <mat-label>Barred price</mat-label>
         <input
@@ -81,7 +81,7 @@
       </mat-form-field>
     </div>
 
-    <div class="flex gap-2">
+    <div class="flex sm:gap-2 items-start flex-col sm:flex-row">
       <mat-form-field appearance="fill">
         <mat-label>Start at</mat-label>
         <input
@@ -104,6 +104,7 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #endPicker></mat-datepicker>
       </mat-form-field>
+      <button class="btn small gray" (click)="setTodayDate($event)">Today</button>
     </div>
 
     <div class="flex justify-between">

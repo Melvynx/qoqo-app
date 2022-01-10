@@ -2,8 +2,8 @@
   <h2 class="text-2xl text-bold">Users</h2>
 </div>
 
-<div class="flex items-center gap-4 mb-4">
-  <mat-checkbox [checked]="adminOnly" (change)="onAdminChange($event)">
+<div class="flex items-start gap-4 mb-4">
+  <mat-checkbox class="self-center" [checked]="adminOnly" (change)="onAdminChange($event)">
     Admin only
   </mat-checkbox>
   <mat-form-field appearance="fill" class="w-full">
@@ -11,11 +11,11 @@
     <input
       matInput
       name="title"
-      (click)="test()"
       (change)="onUserNameChange($event)"
       [value]="username"
     />
   </mat-form-field>
+  <button class="btn primary">Search</button>
 </div>
 
 <div class="flex flex-col gap-4">
@@ -51,7 +51,7 @@
         ADMIN: {{ user.isAdmin ? "Yes" : "No" }}
       </div>
       <button class="btn small primary" (click)="onHandleAdmin(user.userId)">
-        Set to {{ user.isAdmin ? "no" : "" }} admin
+        {{ user.isAdmin ? "Desadmin" : "Setadmin" }}
       </button>
     </div>
   </mat-expansion-panel>

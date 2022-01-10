@@ -75,6 +75,7 @@ export class DashboardComponent {
     })
       .then((res) => {
         this.snackbar.openMessage(res.message);
+        this.dashboard = undefined;
       })
       .catch((err) => {
         this.snackbar.openError(err.message);
