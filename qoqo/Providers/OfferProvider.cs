@@ -54,7 +54,6 @@ public class OfferProvider
             return nextOffer == null ? null : DashboardDto.FromOfferDto(nextOffer, true);
         }
 
-
         var clickCount = await _context.Clicks.Where(o => o.OfferId == offer.OfferId).CountAsync();
         var activeUserCount =
             await _context.Clicks.Where(o => o.OfferId == offer.OfferId).GroupBy(c => c.UserId).CountAsync();
@@ -75,6 +74,7 @@ public class OfferProvider
     public async Task<ActionResult> CreateOffer(OfferBody offerBody)
     {
         var offer = Offer.FromOfferBody(offerBody);
+        offer.IsDraft = true;
         var errors = Validate(offer);
         if (errors.Any()) return ErrorService.BadRequest(string.Join(", ", errors));
 
