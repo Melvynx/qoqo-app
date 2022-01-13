@@ -38,7 +38,7 @@ export class OfferCrudComponent implements OnInit {
   }
 
   onSubmit() {
-    const method = this.isNewOffer() ? 'POST' : 'PATCH';
+    const method = this.isNewOffer() ? 'POST' : 'PUT';
     const url = 'offers' + (this.isNewOffer() ? '' : '/' + this.offerId);
 
     client<ClientMessage & { offerId?: number }>(url, {

@@ -78,8 +78,23 @@ public class IntegrationFixtures : WebApplicationFactory<Program>
         {
             Title = "Offer 1",
             Description = "Offer 1 description",
-            StartAt = now,
+            StartAt = now.AddDays(-2),
             EndAt = now.AddDays(2),
+            BarredPrice = 100,
+            Price = 0,
+            ClickObjective = 100,
+            SpecificationText = "Specification text",
+            ImageUrl = "https://img.com",
+            IsOver = false,
+            IsDraft = false
+        };
+        
+        var someOffer = new Offer
+        {
+            Title = "Offer 2",
+            Description = "Offer 2 description",
+            StartAt = now.AddDays(4),
+            EndAt = now.AddDays(6),
             BarredPrice = 100,
             Price = 0,
             ClickObjective = 100,
@@ -90,9 +105,26 @@ public class IntegrationFixtures : WebApplicationFactory<Program>
         };
         using var context = Context;
        
-        context.Offers.Add(liveOffer);
-        context.Users.Add(user);
+        var offerCreated = context.Offers.Add(liveOffer);
+        context.Offers.Add(someOffer);
+        var userCreated = context.Users.Add(user);
         context.Users.Add(adminUser);
+        context.SaveChanges();
+
+        var order = new Order
+        {
+            Status = OrderStatus.PENDING,
+            UserId = userCreated.Entity.Id,
+            OfferId = offerCreated.Entity.Id,
+        };
+
+        var click = new Click
+        {
+            UserId = userCreated.Entity.Id,
+            OfferId = offerCreated.Entity.Id,
+        };
+        context.Clicks.Add(click);
+        context.Orders.Add(order);
         context.SaveChanges();
     }
 
