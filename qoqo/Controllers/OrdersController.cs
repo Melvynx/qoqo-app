@@ -12,11 +12,13 @@ public class OrdersController : ControllerBase
 {
     private readonly QoqoContext _context;
     private readonly OrderProvider _orderProvider;
+    private readonly ITokenService _tokenService;
 
-    public OrdersController(QoqoContext qoqoContext, OrderProvider orderProvider)
+    public OrdersController(QoqoContext qoqoContext, OrderProvider orderProvider, ITokenService tokenService)
     {
         _context = qoqoContext;
         _orderProvider = orderProvider;
+        _tokenService = tokenService;
     }
 
     [HttpGet]
@@ -29,8 +31,7 @@ public class OrdersController : ControllerBase
     [HttpGet("users/{userId:int}")]
     public async Task<ActionResult<List<OrderViewDto>>> GetFromUser(int userId)
     {
-        var tokenService = new TokenService(HttpContext);
-        var user = tokenService.GetUser(_context);
+        var user = _tokenService.GetUser(HttpContext, _context);
 
         if (user == null) return BadRequest();
 
@@ -47,7 +48,7 @@ public class OrdersController : ControllerBase
         return order;
     }
 
-    [HttpPatch("{id:int}")]
+    [HttpPut("{id:int}")]
     public async Task<ActionResult> Patch(int id, OrderBody orderBody)
     {
         return await _orderProvider.UpdateOrder(id, orderBody);

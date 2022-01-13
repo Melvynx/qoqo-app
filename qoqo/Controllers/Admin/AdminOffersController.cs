@@ -15,12 +15,14 @@ public class AdminOffersController : ControllerBase
     private readonly QoqoContext _context;
     private readonly HubService _hubService;
     private readonly OfferProvider _offerProvider;
+    private readonly ITokenService _tokenService;
 
-    public AdminOffersController(QoqoContext qoqoContext, OfferProvider offerProvider, HubService hubService)
+    public AdminOffersController(QoqoContext qoqoContext, OfferProvider offerProvider, HubService hubService, ITokenService tokenService)
     {
         _context = qoqoContext;
         _offerProvider = offerProvider;
         _hubService = hubService;
+        _tokenService = tokenService;
     }
     
     [HttpGet("dashboard")]
@@ -32,7 +34,7 @@ public class AdminOffersController : ControllerBase
         return dashboard;
     }
 
-    [HttpPatch("{id:int}/increase_click")]
+    [HttpPut("{id:int}/increase_click")]
     public async Task<ActionResult> IncreaseClick(int id)
     {
         if (!IsAdminUser(out var action, out var user))
@@ -49,7 +51,7 @@ public class AdminOffersController : ControllerBase
         return SuccessService.Ok(StringRes.OfferUpdated);
     }
 
-    [HttpPatch("{id:int}/end")]
+    [HttpPut("{id:int}/end")]
     public async Task<ActionResult> End(int id)
     {
         if (!IsAdminUser(out var action, out _))
@@ -65,8 +67,7 @@ public class AdminOffersController : ControllerBase
 
     private bool IsAdminUser(out ActionResult actionResult, out User? user)
     {
-        var tokenService = new TokenService(HttpContext);
-        user = tokenService.GetUser(_context);
+        user = _tokenService.GetUser(HttpContext, _context);
 
         actionResult = ErrorService.BadRequest(StringRes.NeedToBeLoggedToClick);
         return user is {IsAdmin: true} || true;

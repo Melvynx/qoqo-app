@@ -14,11 +14,13 @@ public class AdminUsersController : ControllerBase
 {
     private readonly QoqoContext _context;
     private readonly UserProvider _userProvider;
-
-    public AdminUsersController(QoqoContext qoqoContext, UserProvider userProvider)
+    private readonly ITokenService _tokenService;
+    
+    public AdminUsersController(QoqoContext qoqoContext, UserProvider userProvider, ITokenService tokenService)
     {
         _context = qoqoContext;
         _userProvider = userProvider;
+        _tokenService = tokenService;
     }
 
     [HttpGet]
@@ -50,10 +52,10 @@ public class AdminUsersController : ControllerBase
     }
 
     // controller to patch user only with the isAdmin body
-    [HttpPatch("{id:int}")]
+    [HttpPut("{id:int}")]
     public async Task<ActionResult<UserDto>> PatchUser(int id, [FromBody] UserPatchDto userPatch)
     {
-        var currentUser = new TokenService(HttpContext).GetUser(_context);
+        var currentUser = _tokenService.GetUser(HttpContext, _context);
         if (currentUser == null || currentUser.Id == id)
         {
             return Unauthorized();

@@ -3,17 +3,11 @@ using qoqo.Model;
 
 namespace qoqo.Services;
 
-public class TokenService
+public class TokenService : ITokenService
 {
     private const string TokenKey = "Token";
-    private readonly HttpContext _httpContext;
 
-    public TokenService(HttpContext httpContext)
-    {
-        _httpContext = httpContext;
-    }
-
-    public void SetToken(string? token)
+    public void SetToken(HttpContext httpContext, string? token)
     {
         if (token == null) return;
 
@@ -24,22 +18,22 @@ public class TokenService
             Expires = now.AddMonths(3)
         };
 
-        _httpContext.Response.Cookies.Append(TokenKey, token, option);
+        httpContext.Response.Cookies.Append(TokenKey, token, option);
     }
 
-    public string? GetToken()
+    public string? GetToken(HttpContext httpContext)
     {
-        return _httpContext.Request.Cookies[TokenKey];
+        return httpContext.Request.Cookies[TokenKey];
     }
 
-    public void DeleteToken()
+    public void DeleteToken(HttpContext httpContext)
     {
-        _httpContext.Response.Cookies.Delete(TokenKey);
+        httpContext.Response.Cookies.Delete(TokenKey);
     }
 
-    public User? GetUser(QoqoContext context)
+    public User? GetUser(HttpContext httpContext, QoqoContext context)
     {
-        var token = GetToken();
+        var token = GetToken(httpContext);
 
         if (token == null) return null;
 

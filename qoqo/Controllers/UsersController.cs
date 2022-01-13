@@ -13,11 +13,13 @@ public class UsersController : ControllerBase
 {
     private readonly QoqoContext _context;
     private readonly UserProvider _userProvider;
+    private readonly ITokenService _tokenService;
 
-    public UsersController(QoqoContext qoqoContext, UserProvider userProvider)
+    public UsersController(QoqoContext qoqoContext, UserProvider userProvider, ITokenService tokenService)
     {
         _context = qoqoContext;
         _userProvider = userProvider;
+        _tokenService = tokenService;
     }
 
     [HttpGet]
@@ -26,16 +28,18 @@ public class UsersController : ControllerBase
         return _context.Users.ToList();
     }
 
-    [HttpPatch("{id:int}")]
+    [HttpPut("{id:int}")]
     public async Task<ActionResult<UserDto>> Patch(int id, [FromBody] UserDto user)
     {
-        return await _userProvider.UpdateUser(user, id);
+        var currentUser = _tokenService.GetUser(HttpContext, _context);
+
+        return currentUser?.UserId == id ? await _userProvider.UpdateUser(user, id) : BadRequest();
     }
 
     [HttpGet("me")]
     public ActionResult<UserDto?> Me()
     {
-        var user = new TokenService(HttpContext).GetUser(_context);
+        var user = _tokenService.GetUser(HttpContext, _context);
         return user == null ? ErrorService.BadRequest("Invalid Token") : UserDto.FromUser(user);
     }
 
@@ -45,7 +49,7 @@ public class UsersController : ControllerBase
         var user = await _userProvider.Login(loginDto);
         if (user == null) return NotFound(StringRes.LoginFailed);
 
-        new TokenService(HttpContext).SetToken(user.Token);
+        _tokenService.SetToken(HttpContext, user.Token);
 
         return user;
     }
@@ -54,19 +58,18 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<UserDto?>> Register(RegisterDto registerDto)
     {
         var result = await _userProvider.Register(registerDto);
-        new TokenService(HttpContext).SetToken(result.Value?.Token);
+        _tokenService.SetToken(HttpContext, result.Value?.Token);
         return result;
     }
 
     [HttpPost("logout")]
     public async Task<ActionResult<User?>> Logout()
     {
-        var tokenService = new TokenService(HttpContext);
-        var token = tokenService.GetToken();
+        var token = _tokenService.GetToken(HttpContext);
 
         if (token == null) return BadRequest("No token found");
 
-        tokenService.DeleteToken();
+        _tokenService.DeleteToken(HttpContext);
 
         return await _userProvider.Logout(token)
             ? SuccessService.Ok(StringRes.Logout)

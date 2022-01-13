@@ -15,19 +15,20 @@ public class ClicksController : ControllerBase
     private readonly ClickProvider _clickProvider;
     private readonly QoqoContext _context;
     private readonly HubService _hubContext;
+    private readonly ITokenService _tokenService;
 
-    public ClicksController(QoqoContext qoqoContext, HubService hubService, ClickProvider clickProvider)
+    public ClicksController(QoqoContext qoqoContext, HubService hubService, ClickProvider clickProvider, ITokenService tokenService)
     {
         _context = qoqoContext;
         _hubContext = hubService;
         _clickProvider = clickProvider;
+        _tokenService = tokenService;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<UserClick>>> Get()
     {
-        var tokenService = new TokenService(HttpContext);
-        var user = tokenService.GetUser(_context);
+        var user = _tokenService.GetUser(HttpContext, _context);
 
         if (user == null) return BadRequest();
 
@@ -64,8 +65,7 @@ public class ClicksController : ControllerBase
 
         var clickCount = await _clickProvider.GetCountForOffer(id);
 
-        var tokenService = new TokenService(HttpContext);
-        var user = tokenService.GetUser(_context);
+        var user = _tokenService.GetUser(HttpContext, _context);
 
         if (user == null) return new OfferClickDto {Click = clickCount};
 
@@ -88,8 +88,7 @@ public class ClicksController : ControllerBase
     [HttpPost("offers/{id:int}")]
     public async Task<ActionResult<ClickDto>> AddOfferClick(int id)
     {
-        var tokenService = new TokenService(HttpContext);
-        var user = tokenService.GetUser(_context);
+        var user = _tokenService.GetUser(HttpContext, _context);
 
         if (user == null) return ErrorService.BadRequest(StringRes.NeedToBeLoggedToClick);
 
