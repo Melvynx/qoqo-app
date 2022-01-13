@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using qoqo.Authorization;
 using qoqo.Hubs;
 using qoqo.Model;
 using qoqo.Providers;
