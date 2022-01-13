@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using qoqo.Authorization;
@@ -19,8 +20,19 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
     }
 );
 
-// injection
-builder.Services.AddDbContext<QoqoContext>();
+if (builder.Environment.EnvironmentName == "Test")
+{
+    builder.Services.AddDbContext<QoqoContext>(options => options.UseInMemoryDatabase("qoqo"));    
+}
+else if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<QoqoContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("App")));
+}
+else
+{
+    builder.Services.AddDbContext<QoqoContext>();
+}
+
 
 builder.Services.AddTransient<UserProvider>();
 builder.Services.AddTransient<ClickProvider>();
@@ -28,7 +40,8 @@ builder.Services.AddTransient<OfferProvider>();
 builder.Services.AddTransient<OrderProvider>();
 
 builder.Services.AddTransient<HubService>();
-builder.Services.AddTransient<IAuthenticationService, AuthorizationService>();
+
+builder.Services.AddTransient<ITokenService, TokenService>();
 
 // libraries
 builder.Services.AddSignalR();
@@ -49,8 +62,11 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<QoqoContext>();
-    context.Database.EnsureCreated();
+    if (builder.Environment.EnvironmentName != "Test")
+    {
+        var context = services.GetRequiredService<QoqoContext>();
+        context.Database.EnsureCreated();
+    }
 }
 
 app.UseHttpsRedirection();
@@ -74,3 +90,6 @@ app.UseSwaggerUI(options =>
 });
 
 app.Run();
+
+// for tests purposes
+public partial class Program { }

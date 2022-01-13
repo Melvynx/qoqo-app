@@ -9,6 +9,11 @@ public class QoqoContext : DbContext
         var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         DbPath = Path.Join(path, "qoqo.db");
     }
+    
+    public QoqoContext(DbContextOptions<QoqoContext> options)
+        : base(options)
+    {
+    }
 
     public DbSet<User> Users { get; set; }
     public DbSet<Offer> Offers { get; set; }
@@ -16,12 +21,16 @@ public class QoqoContext : DbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<Token> Tokens { get; set; }
 
-    private string DbPath { get; }
+    private string? DbPath { get; }
 
     // The following configures EF to create a Sqlite database file in the
     // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
+        if (DbPath == null)
+        {
+            return;
+        }
         options.UseSqlite($"Data Source={DbPath}");
     }
 }
