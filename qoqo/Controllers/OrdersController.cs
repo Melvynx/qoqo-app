@@ -33,7 +33,7 @@ public class OrdersController : ControllerBase
     {
         var user = _tokenService.GetUser(HttpContext, _context);
 
-        if (user == null) return BadRequest();
+        if (user == null) return Unauthorized();
 
         return await _orderProvider.GetOrders(user.Id);
     }
