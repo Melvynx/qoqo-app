@@ -33,7 +33,7 @@ export class OrderViewComponent {
 
   setStatus(status: OrderStatusKeys) {
     client<{ message: string }>(`orders/${this.orderId}`, {
-      method: 'PATCH',
+      method: 'PUT',
       data: { status },
     })
       .then((r) => {

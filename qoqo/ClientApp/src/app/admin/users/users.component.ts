@@ -65,7 +65,7 @@ export class UsersComponent {
     const user = this.users.find((u) => u.userId === userId);
     if (!user) return;
     client<ClientMessage>('admin/users/' + userId, {
-      method: 'PATCH',
+      method: 'PUT',
       data: { isAdmin: !user.isAdmin }
     })
       .then((r) => {

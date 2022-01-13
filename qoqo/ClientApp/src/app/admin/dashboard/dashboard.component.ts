@@ -55,7 +55,7 @@ export class DashboardComponent {
     client<ClientMessage & { offerId?: number }>(
       `admin/offers/${this.dashboard?.offerId}/increase_click`,
       {
-        method: 'PATCH',
+        method: 'PUT',
       }
     )
       .then((res) => {
@@ -71,7 +71,7 @@ export class DashboardComponent {
 
   endTheOffer() {
     client<ClientMessage>(`admin/offers/${this.dashboard?.offerId}/end`, {
-      method: 'PATCH',
+      method: 'PUT',
     })
       .then((res) => {
         this.snackbar.openMessage(res.message);
