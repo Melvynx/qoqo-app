@@ -57,10 +57,7 @@ public class ClicksController : ControllerBase
 
         if (offer.IsOver)
         {
-            var userId = await _context.Orders
-                .Where(o => o.OfferId == offer.Id)
-                .Select(o => o.UserId).FirstOrDefaultAsync();
-            return new OfferClickDto {Click = offer.ClickObjective, UserId = userId};
+            return NotFound();
         }
 
         var clickCount = await _clickProvider.GetCountForOffer(id);
@@ -89,8 +86,8 @@ public class ClicksController : ControllerBase
     public async Task<ActionResult<ClickDto>> AddOfferClick(int id)
     {
         var user = _tokenService.GetUser(HttpContext, _context);
-
-        if (user == null) return ErrorService.BadRequest(StringRes.NeedToBeLoggedToClick);
+        
+        if (user == null) return ErrorService.Unauthorized(StringRes.NeedToBeLoggedToClick);
 
         var userDto = UserClickDto.FromUser(user);
         var offer = await _context.Offers
@@ -113,7 +110,7 @@ public class ClicksController : ControllerBase
         var clickCount = await _clickProvider.GetCountForOffer(id);
 
         if (clickCount == offer.ClickObjective)
-            return ErrorService.BadRequest("The offer has been clicked enough times");
+            return ErrorService.BadRequest(StringRes.OfferClickEnoughTime);
 
         var click = await _clickProvider.Add(user.UserId, id);
         clickCount += 1;
