@@ -31,7 +31,6 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
         var offers = TestHelpers.GetBody<List<Offer>>(response);
 
         await using var context = _fixtures.Context;
-
         Assert.Equal(context.Offers.Count(), offers?.Count);
     }
     

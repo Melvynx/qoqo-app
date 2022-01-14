@@ -34,7 +34,7 @@ public class OrdersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetAllOrderForUserId1()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authentificate(client, 1);
+        _fixtures.Authenticate(client, 1);
         var response = await client.GetAsync("/api/orders/users/1");
         response.EnsureSuccessStatusCode();
         var orders = TestHelpers.GetBody<List<OrderDto>>(response);

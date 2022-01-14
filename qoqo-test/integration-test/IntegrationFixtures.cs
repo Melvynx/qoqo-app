@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using qoqo_test.mock;
@@ -33,21 +34,6 @@ public class IntegrationFixtures : WebApplicationFactory<Program>
         SetupFixture();
         return client;
     }
-    
-    // use WithWebHostBuilder from https://github.com/dotnet/AspNetCore.Docs/issues/12303
-    // public IntegrationFixtures(WebApplicationFactory<Program> factory)
-    // {
-    //     _factory = factory.WithWebHostBuilder(builder =>
-    //     {
-    //         builder.UseSetting("Environment", "Test");
-    //         builder.ConfigureServices(services =>
-    //         {
-    //             services.Replace(ServiceDescriptor.Transient<ITokenService, TokenServiceMock>());
-    //         });
-    //     });
-    //     httpClient = _factory.CreateClient();
-    //     SetupFixture();
-    // }
 
     private void SetupFixture()
     {
@@ -105,6 +91,8 @@ public class IntegrationFixtures : WebApplicationFactory<Program>
         };
         using var context = Context;
        
+        EnsureAllDataIsDeleted(context);
+        
         var offerCreated = context.Offers.Add(liveOffer);
         context.Offers.Add(someOffer);
         var userCreated = context.Users.Add(user);
@@ -128,10 +116,22 @@ public class IntegrationFixtures : WebApplicationFactory<Program>
         context.SaveChanges();
     }
 
+    private void EnsureAllDataIsDeleted(QoqoContext context)
+    {
+        context.Database.EnsureCreated();
+        
+        context.Orders.RemoveRange(context.Orders);
+        context.Clicks.RemoveRange(context.Clicks);
+        context.Offers.RemoveRange(context.Offers);
+        context.Users.RemoveRange(context.Users);
+        context.Tokens.RemoveRange(context.Tokens);
+
+        context.SaveChanges();
+    }
+
     public QoqoContext Context => Services.CreateScope().ServiceProvider.GetRequiredService<QoqoContext>();
 
-
-    public void Authentificate(HttpClient httpClient, int userId = 1)
+    public void Authenticate(HttpClient httpClient, int userId = 1)
     {
         using var context = Context;
         var token = context.Tokens.Add(Token.GenerateToken(userId));
