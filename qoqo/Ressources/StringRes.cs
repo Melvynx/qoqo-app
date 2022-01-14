@@ -25,6 +25,7 @@ public class StringRes
     public const string ClickMinimum10Seconds = "You can't click this offer more than once every 10 seconds";
     public const string OfferNotFound = "Offer not found";
     public const string NeedToBeLoggedToClick = "You can't click this offer if you are not logged in";
+    public const string OfferClickEnoughTime = "The offer has been clicked enough times";
 
     // OfferController
     public const string ErrorDuringOfferCreation = "Error during offer creation";

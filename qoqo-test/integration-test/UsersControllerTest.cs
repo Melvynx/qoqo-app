@@ -39,7 +39,7 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetUserIdWithInvalidEmail()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authentificate(client, 1);
+        _fixtures.Authenticate(client, 1);
 
         const string testString = "TEST";
         var response = await client.PutAsJsonAsync("api/users/1", new UserDto
@@ -61,7 +61,7 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetUserIdWithInvalidAlreadyExistUsername()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authentificate(client, 1);
+        _fixtures.Authenticate(client, 1);
 
         await using var context = _fixtures.Context;
         var usernameExist = await context.Users
@@ -89,7 +89,7 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetUserIdValid()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authentificate(client, 1);
+        _fixtures.Authenticate(client, 1);
 
         var userDto = new UserDto
         {
@@ -115,7 +115,7 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetMe()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authentificate(client, 1);
+        _fixtures.Authenticate(client, 1);
         
         var response = await client.GetAsync("api/users/me");
         response.EnsureSuccessStatusCode();
