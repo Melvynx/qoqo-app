@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using qoqo.DataTransferObjects;
 using qoqo.Model;
 using qoqo.Ressources;
+using qoqo.Services;
 
 namespace qoqo.Providers;
 
@@ -130,14 +131,14 @@ public class UserProvider
         if (_context.Users.Any(u => u.UserName == userName && u.UserId != userId))
             return StringRes.UsernameAlreadyExist;
 
-        return !UsernameRegex.IsMatch(userName) ? StringRes.UserNameRegexError : null;
+        return RegexService.CheckUserName(userName) ? null : StringRes.UserNameRegexError;
     }
 
     private static string? CheckPassword(string? password)
     {
         if (password == null) return StringRes.PasswordRequired;
 
-        return !PasswordRegex.IsMatch(password) ? StringRes.PasswordRegexError : null;
+        return RegexService.CheckPassword(password) ? null : StringRes.PasswordRegexError;
     }
 
     private string? CheckEmail(string? email, int? userId = null)
@@ -146,6 +147,6 @@ public class UserProvider
 
         if (_context.Users.Any(u => u.Email == email && u.UserId != userId)) return StringRes.EmailAlreadyExist;
 
-        return !EmailRegex.IsMatch(email) ? StringRes.EmailRegexError : null;
+        return RegexService.CheckEmail(email) ? null : StringRes.EmailRegexError;
     }
 }
