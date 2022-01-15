@@ -10,20 +10,11 @@ namespace qoqo.Providers;
 
 public class UserProvider
 {
-    private static readonly Regex PasswordRegex = new(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,1000}$");
-    private static readonly Regex UsernameRegex = new(@"^[a-zA-Z0-9_]{3,30}$");
-    private static readonly Regex EmailRegex = new(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
     private readonly QoqoContext _context;
 
     public UserProvider(QoqoContext context)
     {
         _context = context;
-    }
-    
-    // get user from userId
-    public async Task<User?> GetUser(int userId)
-    {
-        return await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
     }
 
     public async Task<ActionResult<UserDto>> UpdateUser(UserDto userDto, int userId)

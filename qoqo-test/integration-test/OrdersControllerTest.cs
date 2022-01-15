@@ -26,7 +26,7 @@ public class OrdersControllerTest : IClassFixture<IntegrationFixtures>
         response.EnsureSuccessStatusCode();
         var orders = TestHelpers.GetBody<List<OrderDto>>(response);
         await using var context = _fixtures.Context;
-        
+
         Assert.Equal(context.Orders.Count(), orders?.Count);
     }
 
@@ -34,16 +34,16 @@ public class OrdersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetAllOrderForUserId1()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authenticate(client, 1);
+        _fixtures.Authenticate(client);
         var response = await client.GetAsync("/api/orders/users/1");
         response.EnsureSuccessStatusCode();
         var orders = TestHelpers.GetBody<List<OrderDto>>(response);
         await using var context = _fixtures.Context;
-        
+
         Assert.Equal(context.Orders.Count(o => o.UserId == 1), orders?.Count);
     }
-    
-    
+
+
     [Fact]
     public async Task GetAllOrderForUserUnauthentificated()
     {
@@ -60,7 +60,7 @@ public class OrdersControllerTest : IClassFixture<IntegrationFixtures>
         response.EnsureSuccessStatusCode();
         var order = TestHelpers.GetBody<OrderDto>(response);
         await using var context = _fixtures.Context;
-        
+
         Assert.Equal(context.Orders.First(o => o.OrderId == 1).OrderId, order?.OrderId);
     }
 

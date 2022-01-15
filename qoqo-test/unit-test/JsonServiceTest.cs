@@ -10,15 +10,17 @@ public class JsonServiceTest
     [Fact]
     public void SerializeTest()
     {
-        var json = JsonService.Serialize(new {
-            a = 4, 
-            b = "test", 
+        var json = JsonService.Serialize(new
+        {
+            a = 4,
+            b = "test",
             c = DateTime.MinValue,
-            d = new { e = "test" },
-            f = new[] { 1, 2, 3 }
+            d = new {e = "test"},
+            f = new[] {1, 2, 3}
         });
-        
-        const string expected = "{  \"a\": 4,  \"b\": \"test\",  \"c\": \"0001-01-01T00:00:00\",  \"d\": {    \"e\": \"test\"  },  \"f\": [    1,    2,    3  ]}";
+
+        const string expected =
+            "{  \"a\": 4,  \"b\": \"test\",  \"c\": \"0001-01-01T00:00:00\",  \"d\": {    \"e\": \"test\"  },  \"f\": [    1,    2,    3  ]}";
         Assert.Equal(expected, json.Replace("\n", ""));
     }
 

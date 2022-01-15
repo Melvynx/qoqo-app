@@ -24,7 +24,7 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetUsers()
     {
         var client = _fixtures.Setup();
-        
+
         var response = await client.GetAsync("api/users");
         response.EnsureSuccessStatusCode();
 
@@ -39,7 +39,7 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetUserIdWithInvalidEmail()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authenticate(client, 1);
+        _fixtures.Authenticate(client);
 
         const string testString = "TEST";
         var response = await client.PutAsJsonAsync("api/users/1", new UserDto
@@ -50,18 +50,18 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
             LastName = testString,
             AvatarUrl = testString
         });
-        
+
         var error = TestHelpers.GetBody<UserErrorDto>(response);
-        
+
         Assert.NotNull(error?.Email);
         Assert.NotNull(error?.UserName);
     }
-    
+
     [Fact]
     public async Task GetUserIdWithInvalidAlreadyExistUsername()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authenticate(client, 1);
+        _fixtures.Authenticate(client);
 
         await using var context = _fixtures.Context;
         var usernameExist = await context.Users
@@ -78,9 +78,9 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
             LastName = testString,
             AvatarUrl = testString
         });
-        
+
         var error = TestHelpers.GetBody<UserErrorDto>(response);
-        
+
         Assert.Null(error?.Email);
         Assert.NotNull(error?.UserName);
     }
@@ -89,7 +89,7 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetUserIdValid()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authenticate(client, 1);
+        _fixtures.Authenticate(client);
 
         var userDto = new UserDto
         {
@@ -99,11 +99,11 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
             LastName = "test_lastname",
             AvatarUrl = "https://img.com"
         };
-        
+
         var response = await client.PutAsJsonAsync("api/users/1", userDto);
         response.EnsureSuccessStatusCode();
         var user = TestHelpers.GetBody<UserDto>(response);
-        
+
         Assert.Equal(user?.UserName, userDto.UserName);
         Assert.Equal(user?.Email, userDto.Email);
         Assert.Equal(user?.FirstName, userDto.FirstName);
@@ -115,60 +115,60 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task GetMe()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authenticate(client, 1);
-        
+        _fixtures.Authenticate(client);
+
         var response = await client.GetAsync("api/users/me");
         response.EnsureSuccessStatusCode();
-        
+
         var user = TestHelpers.GetBody<UserDto>(response);
 
         Assert.Equal(1, user?.UserId);
     }
-    
+
     [Fact]
     public async Task GetMeWithoutAuth()
     {
         var client = _fixtures.Setup();
-        
+
         var response = await client.GetAsync("api/users/me");
-        
+
         var message = TestHelpers.GetBody<RequestMessage>(response);
 
         Assert.NotNull(message?.Message);
     }
-    
+
     [Fact]
     public async Task LoginWithNoValidValues()
     {
         var client = _fixtures.Setup();
-        
+
         var loginDto = new LoginDto
         {
             UserName = "test",
             Password = "test"
         };
-        
+
         var response = await client.PostAsJsonAsync("api/users/login", loginDto);
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
-    
+
     [Fact]
     public async Task LoginWithValues()
     {
         var client = _fixtures.Setup();
-        
+
         var loginDto = new LoginDto
         {
             UserName = "Jean",
             Password = "123456"
         };
-        
+
         var response = await client.PostAsJsonAsync("api/users/login", loginDto);
         response.EnsureSuccessStatusCode();
-        
+
         var user = TestHelpers.GetBody<UserDto>(response);
-        
+
         Assert.Equal(1, user?.UserId);
     }
 
@@ -176,22 +176,78 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
     public async Task RegisterWrongPassword()
     {
         var client = _fixtures.Setup();
-        
-        var registerDto = new RegisterDto {
+
+        var registerDto = new RegisterDto
+        {
             UserName = "Didier",
             Email = "didier@gmail.com",
             FirstName = "Didier",
             LastName = "Dupont",
-            Password = "123456",
+            Password = "123456"
         };
-        
+
         var response = await client.PostAsJsonAsync("api/users/register", registerDto);
 
         var errorDto = TestHelpers.GetBody<UserErrorDto>(response);
-        
+
         Assert.NotNull(errorDto?.Password);
     }
-    
+
+    [Fact]
+    public async Task RegisterUserNameExist()
+    {
+        var client = _fixtures.Setup();
+
+        await using var context = _fixtures.GetContext();
+
+        var usernameExist = await context.Users
+            .Select(u => u.UserName)
+            .FirstAsync();
+
+        var registerDto = new RegisterDto
+        {
+            UserName = usernameExist,
+            Email = "didier@gmail.com",
+            FirstName = "Didier",
+            LastName = "Dupont",
+            Password = "BigPassword1234"
+        };
+
+        var response = await client.PostAsJsonAsync("api/users/register", registerDto);
+
+        var errorDto = TestHelpers.GetBody<UserErrorDto>(response);
+
+        Assert.NotNull(errorDto?.UserName);
+    }
+
+
+    [Fact]
+    public async Task RegisterEmailExist()
+    {
+        var client = _fixtures.Setup();
+
+        await using var context = _fixtures.GetContext();
+
+        var emailExist = await context.Users
+            .Select(u => u.Email)
+            .FirstAsync();
+
+        var registerDto = new RegisterDto
+        {
+            UserName = "didierrr",
+            Email = emailExist,
+            FirstName = "Didier",
+            LastName = "Dupont",
+            Password = "BigPassword1234"
+        };
+
+        var response = await client.PostAsJsonAsync("api/users/register", registerDto);
+
+        var errorDto = TestHelpers.GetBody<UserErrorDto>(response);
+
+        Assert.NotNull(errorDto?.Email);
+    }
+
     [Fact]
     public async Task Register()
     {
@@ -199,24 +255,25 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
 
         await using var context = _fixtures.Context;
         var count = context.Users.Count();
-        
-        var registerDto = new RegisterDto {
+
+        var registerDto = new RegisterDto
+        {
             UserName = "Didier",
             Email = "didier@gmail.com",
             FirstName = "Didier",
             LastName = "Dupont",
-            Password = "123456ABcd",
+            Password = "123456ABcd"
         };
-        
+
         var response = await client.PostAsJsonAsync("api/users/register", registerDto);
 
         var errorDto = TestHelpers.GetBody<UserDto>(response);
-        
+
         Assert.Equal(errorDto?.UserName, registerDto.UserName);
         Assert.Equal(errorDto?.Email, registerDto.Email);
         Assert.Equal(errorDto?.FirstName, registerDto.FirstName);
         Assert.Equal(errorDto?.LastName, registerDto.LastName);
-        
+
         var countAfter = context.Users.Count();
         Assert.Equal(count + 1, countAfter);
     }

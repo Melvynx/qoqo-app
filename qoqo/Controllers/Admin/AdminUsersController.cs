@@ -61,8 +61,9 @@ public class AdminUsersController : ControllerBase
             return Unauthorized();
         }
 
-        var user = await _userProvider.GetUser(id);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
         if (user == null) return ErrorService.BadRequest(StringRes.UserNotFound);
+
         user.IsAdmin = userPatch.IsAdmin;
         await _context.SaveChangesAsync();
         return SuccessService.Ok(StringRes.UserUpdated);

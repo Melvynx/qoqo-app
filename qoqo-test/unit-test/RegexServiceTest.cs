@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using qoqo.Services;
 using Xunit;
 
@@ -6,7 +5,6 @@ namespace qoqo_test.unit_test;
 
 public class RegexServiceTest
 {
-    
     [Theory]
     [InlineData("jean@gmail.com")]
     [InlineData("di.di.eu@ppppp.ccc")]
@@ -16,7 +14,7 @@ public class RegexServiceTest
     {
         Assert.True(RegexService.CheckEmail(value));
     }
-      
+
     [Theory]
     [InlineData("didier")]
     [InlineData("jeanA.gmail.com")]
@@ -26,7 +24,7 @@ public class RegexServiceTest
     {
         Assert.False(RegexService.CheckEmail(value));
     }
-    
+
     [Theory]
     [InlineData("Didier")]
     [InlineData("DansLeSouth")]
@@ -38,7 +36,7 @@ public class RegexServiceTest
     {
         Assert.True(RegexService.CheckUserName(value));
     }
-    
+
     [Theory]
     [InlineData("dd")]
     [InlineData("1234567890123456789012345678901234567890")]
@@ -51,7 +49,7 @@ public class RegexServiceTest
     {
         Assert.False(RegexService.CheckUserName(value));
     }
-    
+
     [Theory]
     [InlineData("Jean1234")]
     [InlineData("M9r-5baz@utB<qC[/?")]
@@ -63,7 +61,7 @@ public class RegexServiceTest
     {
         Assert.True(RegexService.CheckPassword(value));
     }
-    
+
     [Theory]
     [InlineData("didierJeanPascal")]
     [InlineData("jeanA.gmail.com")]
@@ -77,5 +75,4 @@ public class RegexServiceTest
     {
         Assert.False(RegexService.CheckPassword(value));
     }
-
 }

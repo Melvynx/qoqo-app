@@ -33,7 +33,7 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
         await using var context = _fixtures.Context;
         Assert.Equal(context.Offers.Count(), offers?.Count);
     }
-    
+
     [Fact]
     public async Task GetOfferById()
     {
@@ -46,7 +46,7 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
 
         Assert.Equal(context.Offers.First().OfferId, offer?.OfferId);
     }
-    
+
     // getCurrentOffer
     [Fact]
     public async Task GetCurrentOffer()
@@ -71,7 +71,7 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
 
         await using var context = _fixtures.Context;
         var count = context.Offers.Count();
-        
+
         var offerBody = new OfferBody
         {
             BarredPrice = 100,
@@ -83,12 +83,12 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
             SpecificationText = "Specification",
             ImageUrl = "https://prout.png",
             StartAt = DateTime.Today,
-            EndAt = DateTime.Today.AddDays(1),
+            EndAt = DateTime.Today.AddDays(1)
         };
-        
+
         var response = await client.PostAsJsonAsync("/api/offers", offerBody);
         var offer = TestHelpers.GetBody<Offer>(response);
-        
+
         var afterCount = context.Offers.Count();
         Assert.Equal(count + 1, afterCount);
         Assert.Equal(offer?.Title, offerBody.Title);
@@ -124,14 +124,14 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
             StartAt = DateTime.Today.AddDays(100),
             EndAt = DateTime.Today.AddDays(102)
         };
-        
+
         var response = await client.PutAsJsonAsync("/api/offers/2", offerBody);
-        
+
         var msg = TestHelpers.GetBody<RequestMessage>(response);
         Assert.Equal(msg?.Message, StringRes.OfferUpdated);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
-    
+
     [Fact]
     public async Task PutOfferWithDateSameAsOtherOffer()
     {
@@ -150,14 +150,14 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
             SpecificationText = "Specification",
             ImageUrl = "https://prout.png",
             StartAt = DateTime.Today,
-            EndAt = DateTime.Today.AddDays(1),
+            EndAt = DateTime.Today.AddDays(1)
         };
-        
+
         var response = await client.PutAsJsonAsync("/api/offers/2", offerBody);
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
-    
+
     [Fact]
     public async Task PutOfferWithWrongDate()
     {
@@ -176,16 +176,16 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
             SpecificationText = "Specification",
             ImageUrl = "https://prout.png",
             StartAt = DateTime.Today.AddDays(6),
-            EndAt = DateTime.Today.AddDays(4),
+            EndAt = DateTime.Today.AddDays(4)
         };
-        
+
         var response = await client.PutAsJsonAsync("/api/offers/2", offerBody);
         var msg = TestHelpers.GetBody<RequestMessage>(response);
-        
+
         Assert.Equal(msg?.Message, StringRes.OfferEndAtBeforeStartAt);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
-    
+
     [Fact]
     public async Task PutOfferWithNoDate()
     {
@@ -204,9 +204,9 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
             SpecificationText = "Specification",
             ImageUrl = "https://prout.png",
             StartAt = null,
-            EndAt = DateTime.Today.AddDays(6),
+            EndAt = DateTime.Today.AddDays(6)
         };
-        
+
         var response = await client.PutAsJsonAsync("/api/offers/2", offerBody);
         var msg = TestHelpers.GetBody<RequestMessage>(response);
 
