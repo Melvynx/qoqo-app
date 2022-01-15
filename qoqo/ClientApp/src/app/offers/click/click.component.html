@@ -4,14 +4,11 @@
   [class.wine]="variant === 'wine'"
   [style]="{
     '--completed-percent':
-      100 -
-      (clickCounter * 100) / (offerService.offer?.clickObjective || 0) +
-      '%'
+      (clickCounter * 100) / (offerService.offer?.clickObjective || 0) + '%'
   }"
   class="border-container"
 >
-  <div class="relative overflow-hidden bg">
-    <div class="percentage-fill"></div>
+  <div class="bg">
     <div class="click-container p-4 relative">
       <p *ngIf="variant === 'wine'" class="text-2xl sm:text-4xl text-green-400">
         You won!
@@ -20,14 +17,11 @@
         You lose!
       </p>
       <p
-        *ngIf="variant === 'lose' || variant === 'wine'"
+        *ngIf="!isOn"
         class="text-lg text-neutral-400 text-center"
         innerHTML="{{ sentence }}"
       ></p>
-      <p
-        *ngIf="variant === 'enabled' || variant === 'disabled'"
-        class="text-lg text-center"
-      >
+      <p *ngIf="isOn" class="text-lg text-center">
         Pour le gagné il te suffit d'être la personne qui cliquera lorsque le
         compteur sera a
         <span class="primary-text-gradiant">{{
@@ -37,7 +31,7 @@
       <app-click-button
         #clickButton
         (onClick)="handleClick()"
-        *ngIf="variant === 'enabled' || variant === 'disabled'"
+        *ngIf="isOn"
         [disabled]="variant === 'disabled'"
         [value]="clickCounter"
       ></app-click-button>
@@ -49,5 +43,6 @@
         You can retry in {{ remainingTime }} seconds!
       </p>
     </div>
+    <div *ngIf="isOn" class="percentage-fill"></div>
   </div>
 </div>

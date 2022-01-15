@@ -8,8 +8,12 @@ import { OfferService } from '../services/offer.service';
     `
       .cover-image {
         width: 100%;
-        max-height: 480px;
+        max-height: 800px;
         object-fit: contain;
+        border-radius: 4px;
+      }
+      .shadow-medium {
+        box-shadow: var(--shadow-elevation-medium);
       }
     `,
   ],

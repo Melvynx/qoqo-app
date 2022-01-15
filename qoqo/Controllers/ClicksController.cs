@@ -51,10 +51,18 @@ public class ClicksController : ControllerBase
     public async Task<ActionResult<OfferClickDto>> GetOfferClick(int id)
     {
         var offer = await _context.Offers
-            .Select(o => new {Id = o.OfferId, o.ClickObjective, WinnerSentence = o.WinnerText})
+            .Select(o => new {Id = o.OfferId, o.ClickObjective, WinnerSentence = o.WinnerText, o.IsOver})
             .FirstOrDefaultAsync(o => o.Id == id);
 
         if (offer == null) return NotFound();
+
+        if (offer.IsOver)
+        {
+            var userId = await _context.Orders
+                .Where(o => o.OfferId == offer.Id)
+                .Select(o => o.UserId).FirstOrDefaultAsync();
+            return new OfferClickDto {Click = offer.ClickObjective, UserId = userId};
+        }
 
         var clickCount = await _clickProvider.GetCountForOffer(id);
 
@@ -70,7 +78,7 @@ public class ClicksController : ControllerBase
         if (lastClick == null) return new OfferClickDto {Click = clickCount};
 
         var totalSeconds = DateTime.Now.Subtract(lastClick.CreatedAt).TotalSeconds;
-        // if lastClick was created less than 10 seconds ago then return BadRequest
+        
         return new OfferClickDto
         {
             Click = clickCount,

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using qoqo.DataTransferObjects;
+using qoqo.Model;
 using qoqo.Ressources;
 using qoqo.Services;
 using Xunit;
@@ -83,6 +84,27 @@ public class ClicksControllerTest : IClassFixture<IntegrationFixtures>
 
         var response = await client.GetAsync("/api/clicks/offers/99999");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetOfferClickWithOverOffer()
+    {
+        var client = _fixtures.Setup();
+
+        await using var context = _fixtures.Context;
+        context.Offers.Find(1)!.IsOver = true;
+        context.Orders.Add(new Order
+        {
+            OfferId = 1,
+            UserId = 1
+        });
+        await context.SaveChangesAsync();
+
+        var response = await client.GetAsync("/api/clicks/offers/1");
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var click = TestHelpers.GetBody<OfferClickDto>(response);
+        Assert.Equal(0, click?.RemainingTime);
+        Assert.Equal(1, click?.UserId);
     }
 
     [Fact]

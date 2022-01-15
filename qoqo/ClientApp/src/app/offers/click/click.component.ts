@@ -22,6 +22,10 @@ export class ClickComponent implements OnInit {
   remainingTime = 0;
   loading = true;
 
+  get isOn() {
+    return this.variant === 'enabled' || this.variant === 'disabled';
+  }
+
   constructor(
     public offerService: OfferService,
     public clickHubService: ClickHubService,
@@ -98,6 +102,7 @@ export class ClickComponent implements OnInit {
     }
     if (click.clickCount !== 0) {
       this.clickCounter = click.clickCount;
+      console.log(click.user.id, this._authService.user);
       if (click.user.id === this._authService.user?.userId) {
         this.setRemainingTime(10);
       }
