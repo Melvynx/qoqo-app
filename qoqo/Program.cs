@@ -19,18 +19,13 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 );
 
 if (builder.Environment.EnvironmentName == "Test")
-{
-    // builder.Services.AddDbContext<QoqoContext>(options => options.UseSqlite("Data Source=:memory:"));
-    builder.Services.AddDbContext<QoqoContext>(options => options.UseInMemoryDatabase("qoqo"));    
-}
+// builder.Services.AddDbContext<QoqoContext>(options => options.UseSqlite("Data Source=:memory:"));
+    builder.Services.AddDbContext<QoqoContext>(options => options.UseInMemoryDatabase("qoqo"));
 else if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDbContext<QoqoContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("App")));
-}
+    builder.Services.AddDbContext<QoqoContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("App")));
 else
-{
     builder.Services.AddDbContext<QoqoContext>();
-}
 
 
 builder.Services.AddTransient<UserProvider>();
@@ -83,12 +78,11 @@ app.MapFallbackToFile("index.html");
 app.MapHub<OfferHub>("/offerHub");
 
 app.MapSwagger();
-app.UseSwaggerUI(options =>
-{
-    options.InjectJavascript("/swagger-ui/swagger.js");
-});
+app.UseSwaggerUI(options => { options.InjectJavascript("/swagger-ui/swagger.js"); });
 
 app.Run();
 
 // for tests purposes
-public partial class Program { }
+public partial class Program
+{
+}

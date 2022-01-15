@@ -9,13 +9,12 @@ public static class ErrorService
         var err = new RequestMessage {Message = message};
         return new BadRequestObjectResult(err);
     }
-    
+
     public static ActionResult Unauthorized(string message)
     {
         var err = new RequestMessage {Message = message};
         return new UnauthorizedObjectResult(err);
     }
-    
 }
 
 public static class SuccessService

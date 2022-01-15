@@ -17,7 +17,8 @@ public class ClicksController : ControllerBase
     private readonly HubService _hubContext;
     private readonly ITokenService _tokenService;
 
-    public ClicksController(QoqoContext qoqoContext, HubService hubService, ClickProvider clickProvider, ITokenService tokenService)
+    public ClicksController(QoqoContext qoqoContext, HubService hubService, ClickProvider clickProvider,
+        ITokenService tokenService)
     {
         _context = qoqoContext;
         _hubContext = hubService;
@@ -81,7 +82,7 @@ public class ClicksController : ControllerBase
     public async Task<ActionResult<ClickDto>> AddOfferClick(int id)
     {
         var user = _tokenService.GetUser(HttpContext, _context);
-        
+
         if (user == null) return ErrorService.Unauthorized(StringRes.NeedToBeLoggedToClick);
 
         var userDto = UserClickDto.FromUser(user);

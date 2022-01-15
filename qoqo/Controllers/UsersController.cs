@@ -12,8 +12,8 @@ namespace qoqo.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly QoqoContext _context;
-    private readonly UserProvider _userProvider;
     private readonly ITokenService _tokenService;
+    private readonly UserProvider _userProvider;
 
     public UsersController(QoqoContext qoqoContext, UserProvider userProvider, ITokenService tokenService)
     {

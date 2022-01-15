@@ -9,7 +9,7 @@ public class QoqoContext : DbContext
         var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         DbPath = Path.Join(path, "qoqo.db");
     }
-    
+
     public QoqoContext(DbContextOptions<QoqoContext> options)
         : base(options)
     {
@@ -27,10 +27,7 @@ public class QoqoContext : DbContext
     // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        if (DbPath == null)
-        {
-            return;
-        }
+        if (DbPath == null) return;
         options.UseSqlite($"Data Source={DbPath}");
     }
 }

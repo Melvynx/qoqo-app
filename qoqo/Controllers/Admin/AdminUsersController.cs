@@ -13,9 +13,9 @@ namespace qoqo.Controllers.Admin;
 public class AdminUsersController : ControllerBase
 {
     private readonly QoqoContext _context;
-    private readonly UserProvider _userProvider;
     private readonly ITokenService _tokenService;
-    
+    private readonly UserProvider _userProvider;
+
     public AdminUsersController(QoqoContext qoqoContext, UserProvider userProvider, ITokenService tokenService)
     {
         _context = qoqoContext;
@@ -29,16 +29,10 @@ public class AdminUsersController : ControllerBase
         var isAdminString = GetQueryValue("isAdmin");
 
         var query = _context.Users.Take(10);
-        if (bool.TryParse(isAdminString, out var isAdmin))
-        {
-            query = query.Where(u => u.IsAdmin == isAdmin);
-        }
-        
+        if (bool.TryParse(isAdminString, out var isAdmin)) query = query.Where(u => u.IsAdmin == isAdmin);
+
         var userName = GetQueryValue("username");
-        if (userName != null)
-        {
-            query = query.Where(u => u.UserName.ToLower().Contains(userName.ToLower()));
-        }
+        if (userName != null) query = query.Where(u => u.UserName.ToLower().Contains(userName.ToLower()));
 
         return await query
             .Select(u => UserDto.FromUser(u, true))
@@ -56,10 +50,7 @@ public class AdminUsersController : ControllerBase
     public async Task<ActionResult<UserDto>> PatchUser(int id, [FromBody] UserPatchDto userPatch)
     {
         var currentUser = _tokenService.GetUser(HttpContext, _context);
-        if (currentUser == null || currentUser.UserId == id)
-        {
-            return Unauthorized();
-        }
+        if (currentUser == null || currentUser.UserId == id) return Unauthorized();
 
         var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
         if (user == null) return ErrorService.BadRequest(StringRes.UserNotFound);

@@ -17,14 +17,15 @@ public class AdminOffersController : ControllerBase
     private readonly OfferProvider _offerProvider;
     private readonly ITokenService _tokenService;
 
-    public AdminOffersController(QoqoContext qoqoContext, OfferProvider offerProvider, HubService hubService, ITokenService tokenService)
+    public AdminOffersController(QoqoContext qoqoContext, OfferProvider offerProvider, HubService hubService,
+        ITokenService tokenService)
     {
         _context = qoqoContext;
         _offerProvider = offerProvider;
         _hubService = hubService;
         _tokenService = tokenService;
     }
-    
+
     [HttpGet("dashboard")]
     public async Task<ActionResult<DashboardDto>> GetDashboard()
     {

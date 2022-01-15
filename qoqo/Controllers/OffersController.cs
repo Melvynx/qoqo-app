@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using qoqo.DataTransferObjects;
 using qoqo.Model;
 using qoqo.Providers;
