@@ -90,7 +90,7 @@ public class ClicksController : ControllerBase
             .Select(o => new {Id = o.OfferId, o.ClickObjective, o.IsDraft, o.StartAt, o.EndAt})
             .FirstOrDefaultAsync(o => o.Id == id);
 
-        var now = DateTime.Now;
+        var now = DateTime.Today;
         if (offer is not {IsDraft: false} || offer.StartAt > now || offer.EndAt < now)
             return ErrorService.BadRequest(StringRes.OfferNotFound);
 

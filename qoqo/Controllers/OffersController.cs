@@ -28,7 +28,6 @@ public class OffersController : ControllerBase
         return await _offerProvider.GetOffers();
     }
 
-    // TODO: Add authorization
     [HttpGet("{id}")]
     public async Task<ActionResult<OfferDto?>> Get(string id)
     {
