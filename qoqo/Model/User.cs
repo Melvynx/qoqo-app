@@ -19,8 +19,6 @@ public class User
     public List<Order> Orders { get; set; }
     public List<Token> Tokens { get; set; }
 
-    public int Id => UserId;
-
     public string? GetFullAddress()
     {
         if (Street == null || Npa == null || City == null)

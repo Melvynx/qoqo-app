@@ -74,7 +74,7 @@ public class UserProvider
 
         var userDto = UserDto.FromUser(user);
 
-        userDto.Token = await GenerateToken(user.Id);
+        userDto.Token = await GenerateToken(user.UserId);
         return userDto;
     }
 

@@ -20,7 +20,7 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 
 if (builder.Environment.EnvironmentName == "Test")
 {
-    //     builder.Services.AddDbContext<QoqoContext>(options => options.UseSqlite("Data Source=:memory:"));
+    // builder.Services.AddDbContext<QoqoContext>(options => options.UseSqlite("Data Source=:memory:"));
     builder.Services.AddDbContext<QoqoContext>(options => options.UseInMemoryDatabase("qoqo"));    
 }
 else if (builder.Environment.IsDevelopment())

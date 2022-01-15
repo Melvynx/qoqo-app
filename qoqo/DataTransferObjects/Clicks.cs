@@ -28,7 +28,7 @@ public class UserClickDto
     {
         return new UserClickDto
         {
-            Id = user.Id,
+            Id = user.UserId,
             UserName = user.UserName
         };
     }

@@ -10,6 +10,4 @@ public class Click
 
     public int UserId { get; set; }
     public User User { get; set; }
-
-    public int Id => ClickId;
 }

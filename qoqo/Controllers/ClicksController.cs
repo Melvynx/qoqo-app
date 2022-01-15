@@ -34,7 +34,7 @@ public class ClicksController : ControllerBase
 
         var clicks = await _context.Clicks
             .Include(c => c.Offer)
-            .Where(c => c.UserId == user.Id)
+            .Where(c => c.UserId == user.UserId)
             .GroupBy(c => new {c.Offer.Title, c.OfferId})
             .Select(g => new UserClick
             {
@@ -50,15 +50,10 @@ public class ClicksController : ControllerBase
     public async Task<ActionResult<OfferClickDto>> GetOfferClick(int id)
     {
         var offer = await _context.Offers
-            .Select(o => new {Id = o.OfferId, o.ClickObjective, WinnerSentence = o.WinnerText, o.IsOver})
+            .Select(o => new {Id = o.OfferId, o.ClickObjective, WinnerSentence = o.WinnerText})
             .FirstOrDefaultAsync(o => o.Id == id);
 
         if (offer == null) return NotFound();
-
-        if (offer.IsOver)
-        {
-            return NotFound();
-        }
 
         var clickCount = await _clickProvider.GetCountForOffer(id);
 

@@ -23,8 +23,6 @@ public class Offer
     public List<Click> Clicks { get; set; }
     public List<Order> Orders { get; set; }
 
-    public int Id => OfferId;
-
     public static Offer FromOfferBody(OfferBody offerBody)
     {
         return new Offer

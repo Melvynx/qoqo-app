@@ -29,7 +29,7 @@ public class OrderDashboardDto
     {
         return new OrderDashboardDto
         {
-            OrderId = order.Id,
+            OrderId = order.OrderId,
             Status = order.Status,
             user = UserDto.FromUser(order.User),
             CreatedAt = order.CreatedAt

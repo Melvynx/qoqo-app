@@ -17,8 +17,6 @@ namespace qoqo_test.integration_test;
 
 public class IntegrationFixtures : WebApplicationFactory<Program>
 {
-    private readonly WebApplicationFactory<Program> _factory;
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseSetting("Environment", "Test");
@@ -30,6 +28,15 @@ public class IntegrationFixtures : WebApplicationFactory<Program>
 
     public HttpClient Setup()
     {
+        // configure the test database
+        // var serviceScope = Server.Host.Services.CreateScope();
+        // var serviceProvider = serviceScope.ServiceProvider;
+        // var context = serviceProvider.GetRequiredService<QoqoContext>();
+        using (var context = Context)
+        {
+            context.Database.EnsureDeleted();
+        }
+        
         var client = CreateClient();
         SetupFixture();
         return client;
@@ -90,9 +97,9 @@ public class IntegrationFixtures : WebApplicationFactory<Program>
             IsDraft = false
         };
         using var context = Context;
-       
-        EnsureAllDataIsDeleted(context);
-        
+
+        context.Database.EnsureCreated();
+
         var offerCreated = context.Offers.Add(liveOffer);
         context.Offers.Add(someOffer);
         var userCreated = context.Users.Add(user);
@@ -102,34 +109,39 @@ public class IntegrationFixtures : WebApplicationFactory<Program>
         var order = new Order
         {
             Status = OrderStatus.PENDING,
-            UserId = userCreated.Entity.Id,
-            OfferId = offerCreated.Entity.Id,
+            UserId = userCreated.Entity.UserId,
+            OfferId = offerCreated.Entity.OfferId,
         };
 
         var click = new Click
         {
-            UserId = userCreated.Entity.Id,
-            OfferId = offerCreated.Entity.Id,
+            UserId = userCreated.Entity.UserId,
+            OfferId = offerCreated.Entity.OfferId,
         };
         context.Clicks.Add(click);
         context.Orders.Add(order);
         context.SaveChanges();
     }
 
-    private void EnsureAllDataIsDeleted(QoqoContext context)
-    {
-        context.Database.EnsureCreated();
-        
-        context.Orders.RemoveRange(context.Orders);
-        context.Clicks.RemoveRange(context.Clicks);
-        context.Offers.RemoveRange(context.Offers);
-        context.Users.RemoveRange(context.Users);
-        context.Tokens.RemoveRange(context.Tokens);
-
-        context.SaveChanges();
-    }
+    // private void EnsureAllDataIsDeleted(QoqoContext context)
+    // {
+    //     context.Database.EnsureCreated();
+    //     
+    //     context.Orders.RemoveRange(context.Orders);
+    //     context.Clicks.RemoveRange(context.Clicks);
+    //     context.Offers.RemoveRange(context.Offers);
+    //     context.Users.RemoveRange(context.Users);
+    //     context.Tokens.RemoveRange(context.Tokens);
+    //
+    //     context.SaveChanges();
+    // }
 
     public QoqoContext Context => Services.CreateScope().ServiceProvider.GetRequiredService<QoqoContext>();
+
+    public QoqoContext GetContext()
+    {
+        return Services.CreateScope().ServiceProvider.GetRequiredService<QoqoContext>();
+    }
 
     public void Authenticate(HttpClient httpClient, int userId = 1)
     {

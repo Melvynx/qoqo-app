@@ -36,7 +36,7 @@ public class UserDto
     {
         var userDto = new UserDto
         {
-            UserId = user.Id,
+            UserId = user.UserId,
             UserName = user.UserName,
             Email = user.Email,
             FirstName = user.FirstName,

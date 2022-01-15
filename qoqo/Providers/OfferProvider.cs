@@ -118,7 +118,7 @@ public class OfferProvider
              offer.EndAt >= o.StartAt && offer.StartAt <= o.EndAt)
         );
         if (sameTimeOffer != null)
-            errors.Add($"{StringRes.OfferSameTime}( {sameTimeOffer.Id}: {sameTimeOffer.Title} )");
+            errors.Add($"{StringRes.OfferSameTime}( {sameTimeOffer.OfferId}: {sameTimeOffer.Title} )");
 
         return errors;
     }

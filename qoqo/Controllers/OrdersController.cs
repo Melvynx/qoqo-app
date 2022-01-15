@@ -35,7 +35,7 @@ public class OrdersController : ControllerBase
 
         if (user == null) return Unauthorized();
 
-        return await _orderProvider.GetOrders(user.Id);
+        return await _orderProvider.GetOrders(user.UserId);
     }
 
     [HttpGet("{id:int}")]

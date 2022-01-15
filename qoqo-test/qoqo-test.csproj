@@ -26,8 +26,4 @@
       <ProjectReference Include="..\qoqo\qoqo.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="unit-test" />
-    </ItemGroup>
-
 </Project>

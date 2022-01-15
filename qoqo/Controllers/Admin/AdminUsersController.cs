@@ -56,7 +56,7 @@ public class AdminUsersController : ControllerBase
     public async Task<ActionResult<UserDto>> PatchUser(int id, [FromBody] UserPatchDto userPatch)
     {
         var currentUser = _tokenService.GetUser(HttpContext, _context);
-        if (currentUser == null || currentUser.Id == id)
+        if (currentUser == null || currentUser.UserId == id)
         {
             return Unauthorized();
         }

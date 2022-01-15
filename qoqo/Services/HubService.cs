@@ -35,7 +35,7 @@ public class HubService
             .FirstAsync(u => u.UserId == click.UserId);
 
         offer.IsOver = true;
-        offer.WinnerText = await GetWinnerSentence(user.UserId, offer.Id, offer.ClickObjective, user.UserName);
+        offer.WinnerText = await GetWinnerSentence(user.UserId, offer.OfferId, offer.ClickObjective, user.UserName);
 
         await _context.SaveChangesAsync();
 

@@ -5,7 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using qoqo.DataTransferObjects;
-using qoqo.Model;
 using qoqo.Ressources;
 using qoqo.Services;
 using Xunit;
@@ -32,9 +31,9 @@ public class ClicksControllerTest : IClassFixture<IntegrationFixtures>
         var response = await client.GetAsync("/api/clicks");
         response.EnsureSuccessStatusCode();
         
-        var clicks = TestHelpers.GetBody<List<Click>>(response);
+        var clicks = TestHelpers.GetBody<List<UserClick>>(response);
         Assert.Equal(context.Clicks.Count(), clicks?.Count);
-        Assert.True(clicks?.Any(c => c.UserId == 1));
+        Assert.Equal(context.Clicks.Where(u => u.UserId == 1).GroupBy(c => c.OfferId).Count(), clicks?.Count);
     }
 
     [Fact]
@@ -84,16 +83,7 @@ public class ClicksControllerTest : IClassFixture<IntegrationFixtures>
     {
         var client = _fixtures.Setup();
 
-        await using var context = _fixtures.Context;
-
-        var today = DateTime.Now;
-        var offer = await context.Offers.FirstOrDefaultAsync(o =>
-            o.StartAt <= today && o.EndAt >= today && !o.IsDraft);
-        Assert.NotNull(offer);
-        offer.IsDraft = true;
-        await context.SaveChangesAsync();
-    
-        var response = await client.GetAsync("/api/clicks/offers/1");
+        var response = await client.GetAsync("/api/clicks/offers/99999");
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
@@ -128,7 +118,6 @@ public class ClicksControllerTest : IClassFixture<IntegrationFixtures>
         _fixtures.Authenticate(client, 1);
 
         var response = await client.PostAsync("api/clicks/offers/1", null);
-        response.EnsureSuccessStatusCode();
         var msg = TestHelpers.GetBody<RequestMessage>(response);
         Assert.Equal(StringRes.ClickMinimum10Seconds, msg?.Message);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -139,14 +128,13 @@ public class ClicksControllerTest : IClassFixture<IntegrationFixtures>
     public async Task AddOfferClickEnoughTime()
     {
         var client = _fixtures.Setup();
-        _fixtures.Authenticate(client, 1);
+        _fixtures.Authenticate(client, 2);
         
         await using var context = _fixtures.Context;
         context.Offers.Find(1)!.ClickObjective = context.Clicks.Count(c => c.OfferId == 1);
         await context.SaveChangesAsync();
 
         var response = await client.PostAsync("api/clicks/offers/1", null);
-        response.EnsureSuccessStatusCode();
         var msg = TestHelpers.GetBody<RequestMessage>(response);
         Assert.Equal(StringRes.OfferClickEnoughTime, msg?.Message);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
