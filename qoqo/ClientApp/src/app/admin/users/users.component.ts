@@ -43,7 +43,7 @@ export class UsersComponent {
   }
 
   onUserNameChange(event: Event) {
-    console.log("CHANGE", event.target)
+    console.log('CHANGE', event.target);
 
     this.username = (<HTMLInputElement>event.target).value;
     this.handleTimeout();
@@ -66,7 +66,7 @@ export class UsersComponent {
     if (!user) return;
     client<ClientMessage>('admin/users/' + userId, {
       method: 'PUT',
-      data: { isAdmin: !user.isAdmin }
+      data: { isAdmin: !user.isAdmin },
     })
       .then((r) => {
         user.isAdmin = !user.isAdmin;

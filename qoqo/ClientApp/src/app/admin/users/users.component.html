@@ -3,7 +3,11 @@
 </div>
 
 <div class="flex items-start gap-4 mb-4">
-  <mat-checkbox class="self-center" [checked]="adminOnly" (change)="onAdminChange($event)">
+  <mat-checkbox
+    class="self-center"
+    [checked]="adminOnly"
+    (change)="onAdminChange($event)"
+  >
     Admin only
   </mat-checkbox>
   <mat-form-field appearance="fill" class="w-full">

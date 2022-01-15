@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -15,7 +16,7 @@ import * as confetti from 'canvas-confetti';
   templateUrl: './click-button.component.html',
   styleUrls: ['./click-button.component.css'],
 })
-export class ClickButtonComponent implements OnInit {
+export class ClickButtonComponent implements OnInit, AfterViewInit {
   @ViewChild('next') next?: ElementRef;
   @ViewChild('current') curr?: ElementRef;
   @ViewChild('main') main?: ElementRef;
