@@ -2,6 +2,11 @@
 
 ## To run the application
 
+Go on `qoqo/appsettings.json` and change the db file path if needed.
+
+Currently is `Data Source='/Users/Shared/db/qoqo.db'` and it's work only on MacOS and Linux.
+
+Then run the app:
 ```bash
 cd qoqo
 dotnet run
@@ -38,9 +43,9 @@ await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Hello from the server
 To get the websocket connection, you need to add this in TypeScript:
 
 ```ts
- const hubConnection = new HubConnectionBuilder()
-      .withUrl(`${baseUrl}offerHub`)
-      .build();
+const hubConnection = new HubConnectionBuilder()
+  .withUrl(`${baseUrl}offerHub`)
+  .build();
 
 hubConnection.start();
 
