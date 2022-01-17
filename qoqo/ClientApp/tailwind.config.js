@@ -12,7 +12,7 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        "fade-in": "fadeIn 2000ms cubic-bezier(0.2, 0.2, 0.2, 0.9) backwards",
+        "fade-in": "fadeIn 200ms cubic-bezier(0.2, 0.2, 0.2, 0.9) backwards",
       },
       keyframes: {
         fadeIn: {
