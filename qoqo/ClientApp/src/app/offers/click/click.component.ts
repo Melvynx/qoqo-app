@@ -6,6 +6,13 @@ import { client } from 'src/utils/client';
 import { ClickButtonComponent } from '../click-button/click-button.component';
 import { ClickHubService } from '../../services/click-hub.service';
 import { SnackbarService } from '../../services/snackbar.service';
+import { getLocalStorage, setLocalStorage } from '../../../utils/localStorage';
+
+const Sounds = {
+  click: new Audio('assets/sounds/arcade.wav'),
+  ready: new Audio('assets/sounds/ready.mp3'),
+  soundon: new Audio('assets/sounds/soundon.wav'),
+};
 
 @Component({
   selector: 'app-click',
@@ -21,6 +28,7 @@ export class ClickComponent implements OnInit {
   clickCounter = 0;
   remainingTime = 0;
   loading = true;
+  isSoundEnable = getLocalStorage('isSoundEnable', true);
 
   get isOn() {
     return this.variant === 'enabled' || this.variant === 'disabled';
@@ -78,6 +86,7 @@ export class ClickComponent implements OnInit {
     this.remainingTime--;
     if (this.remainingTime === 0 && this.variant === 'disabled') {
       this.variant = 'enabled';
+      this.playSound('ready');
     } else {
       setTimeout(() => {
         this.decreaseRemainingTime();
@@ -110,6 +119,7 @@ export class ClickComponent implements OnInit {
   }
 
   handleClick() {
+    this.playSound('click');
     client<{ confetti: boolean }>(
       `clicks/offers/${this.offerService.offer?.offerId}`,
       {
@@ -122,6 +132,24 @@ export class ClickComponent implements OnInit {
       .catch(({ message }) => {
         this.snackbar.openMessage(message);
       });
+  }
+
+  playSound(name: keyof typeof Sounds) {
+    if (!this.isSoundEnable) {
+      return;
+    }
+    Sounds[name].volume = 0.5;
+    Sounds[name].play().then(() => console.log('PLAYED'));
+  }
+
+  handleSound() {
+    this.isSoundEnable = !this.isSoundEnable;
+    this.playSound('soundon');
+    setLocalStorage('isSoundEnable', this.isSoundEnable);
+  }
+
+  get soundIcon() {
+    return `assets/icon/sound-${this.isSoundEnable ? 'on' : 'off'}.svg`;
   }
 }
 

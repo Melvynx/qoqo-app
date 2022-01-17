@@ -6,6 +6,17 @@ import { Component } from '@angular/core';
 })
 export class CounterComponent {
   public currentCount = 0;
+  state: 'waiting' | 'running' | 'finished' = 'waiting';
+
+  get isWaiting() {
+    return this.state === 'waiting';
+  }
+  get isFinished() {
+    return this.state === 'finished';
+  }
+  get isRunning() {
+    return this.state === 'running';
+  }
 
   public incrementCounter() {
     this.currentCount++;

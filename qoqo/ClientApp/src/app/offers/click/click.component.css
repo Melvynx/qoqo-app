@@ -48,7 +48,22 @@
   @apply gap-6 sm:gap-8;
 }
 
-.animated-user {
-  position: absolute;
-  top: var(--random);
+.sound-btn {
+  width: 32px;
+  height: 32px;
+  top: -32px;
+  left: 0px;
+  filter: brightness(0.5);
+  transition: filter 150ms var(--ease-in);
+  @apply border-2 border-neutral-200 rounded;
+}
+.sound-btn:hover {
+  filter: brightness(1);
+}
+
+.sound-btn img {
+  padding: 4px;
+  width: 100%;
+  height: 100%;
+  display: block;
 }

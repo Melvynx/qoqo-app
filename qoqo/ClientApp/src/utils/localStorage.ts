@@ -5,7 +5,11 @@ export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
   }
 
   try {
-    return JSON.parse(value);
+    const json = JSON.parse(value);
+    if (typeof json !== typeof defaultValue) {
+      return defaultValue;
+    }
+    return json as T;
   } catch (e) {
     return defaultValue;
   }
