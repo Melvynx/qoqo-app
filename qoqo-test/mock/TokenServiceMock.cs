@@ -15,7 +15,6 @@ public class TokenServiceMock : ITokenService
     public string? GetToken(HttpContext httpContext)
     {
         httpContext.Request.Headers.TryGetValue("Authorization", out var token);
-        // Take only the token from "Bearer d584ca25-a6d9-4788-8922-4617d39fa780"
         var tokenString = token.ToString().Split();
         return tokenString.Length > 1 ? tokenString[1] : null;
     }
