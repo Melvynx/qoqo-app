@@ -130,7 +130,6 @@ public class ClicksControllerTest : IClassFixture<IntegrationFixtures>
         Assert.Equal(StringRes.OfferNotFound, msg?.Message);
     }
 
-    // by default the user just click in the fixture
     [Fact]
     public async Task AddOfferClickToFast()
     {
@@ -143,7 +142,6 @@ public class ClicksControllerTest : IClassFixture<IntegrationFixtures>
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
-    // by default the user just click in the fixture
     [Fact]
     public async Task AddOfferClickEnoughTime()
     {

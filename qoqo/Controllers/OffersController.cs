@@ -34,7 +34,7 @@ public class OffersController : ControllerBase
         if (id == "current")
         {
             var currentOffer = await _offerProvider.GetCurrentOffer();
-            return currentOffer == null ? BadRequest() : currentOffer;
+            return currentOffer == null ? ErrorService.BadRequest("No current offer") : currentOffer;
         }
 
         if (!int.TryParse(id, out var offerId)) return BadRequest();
