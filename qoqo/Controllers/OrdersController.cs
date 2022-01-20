@@ -27,7 +27,6 @@ public class OrdersController : ControllerBase
         return await _orderProvider.GetOrders();
     }
 
-
     [HttpGet("users/{userId:int}")]
     public async Task<ActionResult<List<OrderViewDto>>> GetFromUser(int userId)
     {

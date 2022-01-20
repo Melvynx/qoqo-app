@@ -51,7 +51,7 @@ public class ClicksControllerTest : IClassFixture<IntegrationFixtures>
         Assert.NotEqual(0, click?.RemainingTime);
         Assert.Equal(context.Clicks.Count(c => c.OfferId == 1), click?.Click);
 
-        // go 10 minutes later
+        // go 10 seconds later
         var lastClick = context.Clicks.OrderBy(c => c.ClickId).LastOrDefault(c => c.UserId == 1 && c.OfferId == 1);
         Assert.NotNull(lastClick);
         lastClick.CreatedAt = lastClick.CreatedAt.AddSeconds(-10);
