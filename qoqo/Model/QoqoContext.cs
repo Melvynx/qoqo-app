@@ -41,13 +41,14 @@ public class QoqoContext : DbContext
         {
             UserId = 1,
             UserName = "Admin",
-            PasswordHash = "$2a$11$ss.H3F2abvWfm6TnZAgKT.Lu6ihbxJbL/Khqlyzi2V/bFtbztzItC", // abcdef
+            PasswordHash = "$2a$11$t.yIE.d.ROvPqmzzWM7v..QdcNkw8i4cqweYMmNNY3bwPkzYiAty6",
             FirstName = "Admin",
             LastName = "Admin",
             Email = "admin@gmail.com",
             Street = "Admin street",
             City = "Admin city",
-            Npa = 1700
+            Npa = 1700,
+            IsAdmin = true
         };
 
         var now = DateTime.Now;
