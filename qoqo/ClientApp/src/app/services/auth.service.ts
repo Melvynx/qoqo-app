@@ -22,7 +22,13 @@ export class AuthService {
           this.user = user;
         })
         .catch(() => {
-          // this.setLoggedIn(false);
+          const numberOfRetry = getLocalStorage("logged-retry", 0)
+          if (numberOfRetry >= 3) {
+            this.setLoggedIn(false);
+          } else {
+            setLocalStorage("logged-retry", numberOfRetry + 1)
+            this.isLoading = false;
+          }
         })
         .finally(() => {
           this.isLoading = false;
