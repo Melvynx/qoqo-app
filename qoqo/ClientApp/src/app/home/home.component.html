@@ -1,4 +1,10 @@
-<div *ngIf="!_offerService.offer">Loading...</div>
+<div *ngIf="!_offerService.offer">
+  <img
+    alt="spinner"
+    class="spinner large center"
+    src="assets/icon/loader.svg"
+  />
+</div>
 <div *ngIf="_offerService.offer" class="pt-4 mb-16">
   <h1 class="font-sans text-5xl font-bold text-center px-2 mb-4 sm:mb-8">
     {{ _offerService.offer?.title }}
@@ -15,14 +21,7 @@
         Free 0.-
       </p>
       <p
-        class="
-          text-xl
-          sm:text-2xl
-          text-center
-          ml-2
-          line-through
-          text-neutral-400
-        "
+        class="text-xl sm:text-2xl text-center ml-2 line-through text-neutral-400"
       >
         {{ _offerService.offer?.barredPrice }}.-
       </p>
