@@ -25,7 +25,8 @@ else if (builder.Environment.IsDevelopment())
     builder.Services.AddDbContext<QoqoContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("App")));
 else
-    builder.Services.AddDbContext<QoqoContext>();
+    builder.Services.AddDbContext<QoqoContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("Prod")));
 
 
 builder.Services.AddTransient<UserProvider>();
