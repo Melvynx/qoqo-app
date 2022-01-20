@@ -44,7 +44,7 @@ public class OffersControllerTest : IClassFixture<IntegrationFixtures>
 
         await using var context = _fixtures.Context;
 
-        Assert.Equal(context.Offers.First().OfferId, offer?.OfferId);
+        Assert.Equal(context.Offers.Find(1)!.OfferId, offer?.OfferId);
     }
 
     // getCurrentOffer
