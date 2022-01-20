@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -6,13 +6,6 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './auth-button.component.html',
   styleUrls: ['./auth-button.component.css'],
 })
-export class AuthButtonComponent implements OnInit {
+export class AuthButtonComponent {
   constructor(public authService: AuthService) {}
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  ngOnInit(): void {}
-
-  getButtonText() {
-    return this.authService.isAuthenticated ? 'Logout' : 'Login';
-  }
 }
