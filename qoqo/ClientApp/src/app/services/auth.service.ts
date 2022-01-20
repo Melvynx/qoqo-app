@@ -9,26 +9,28 @@ import { client } from '../../utils/client';
 export class AuthService {
   user?: User = undefined;
   // keep isLoggedIn in localStorage to avoid useless request
-  isAuthenticated: boolean;
+  isLoggedIn: boolean;
   isLoading = true;
   userLoadFinish = new EventEmitter<User>();
 
+  get isAuthenticated(): boolean {
+    if (this.isLoading) {
+      return this.isLoggedIn;
+    }
+    return Boolean(this.user);
+  }
+
   constructor() {
-    this.isAuthenticated = getLocalStorage<boolean>('isLoggedIn', false);
-    if (this.isAuthenticated) {
+    this.isLoggedIn = getLocalStorage<boolean>('isLoggedIn', false);
+    if (this.isLoggedIn) {
       client<User>('users/me')
         .then((user) => {
           this.userLoadFinish.emit(user);
           this.user = user;
         })
         .catch(() => {
-          const numberOfRetry = getLocalStorage("logged-retry", 0)
-          if (numberOfRetry >= 3) {
-            this.setLoggedIn(false);
-          } else {
-            setLocalStorage("logged-retry", numberOfRetry + 1)
-            this.isLoading = false;
-          }
+          // don't update the local storage to avoid false-positive
+          this.isLoggedIn = false;
         })
         .finally(() => {
           this.isLoading = false;
@@ -49,6 +51,7 @@ export class AuthService {
   }
 
   logout(): Promise<void> {
+    // I can't avoid this, because I use the custom `client`
     return new Promise((resolve, reject) => {
       client('users/logout', { method: 'POST', json: false })
         .then(() => {
@@ -61,7 +64,7 @@ export class AuthService {
   }
 
   private setLoggedIn(loggedIn: boolean) {
-    this.isAuthenticated = loggedIn;
+    this.isLoggedIn = loggedIn;
     setLocalStorage('isLoggedIn', loggedIn);
   }
 }

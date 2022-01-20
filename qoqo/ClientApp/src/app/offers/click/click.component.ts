@@ -9,7 +9,7 @@ import { SnackbarService } from '../../services/snackbar.service';
 import { getLocalStorage, setLocalStorage } from '../../../utils/localStorage';
 
 const Sounds = {
-  click: new Audio('assets/sounds/arcade.wav'),
+  click: new Audio('assets/sounds/click.mp3'),
   ready: new Audio('assets/sounds/ready.mp3'),
   soundon: new Audio('assets/sounds/soundon.wav'),
 };
@@ -111,10 +111,6 @@ export class ClickComponent implements OnInit {
     }
     if (click.clickCount !== 0) {
       this.clickCounter = click.clickCount;
-      console.log(click.user.id, this._authService.user);
-      if (click.user.id === this._authService.user?.userId) {
-        this.setRemainingTime(10);
-      }
     }
   }
 
@@ -128,6 +124,7 @@ export class ClickComponent implements OnInit {
     )
       .then(({ confetti }) => {
         confetti && this.clickButton?.runConfetti();
+        this.setRemainingTime(10);
       })
       .catch(({ message }) => {
         this.snackbar.openMessage(message);

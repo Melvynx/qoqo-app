@@ -1,7 +1,7 @@
 <div class="w-full flex pb-8">
   <div *ngIf="authService.isAuthenticated" class="">
     <ul class="list-none gap-2 flex flex-col pl-8 pt-8">
-      <li [routerLinkActive]="['active']" class="nav-item">
+      <li [routerLinkActive]="['active']" class="nav-item text-neutral-400">
         <a [routerLink]="['/auth/view']"> <- MyAQount </a>
       </li>
       <li [routerLinkActive]="['active']" class="nav-item">

@@ -9,7 +9,7 @@ export class InputComponent implements OnInit {
   @ViewChild('input') input?: ElementRef;
 
   @Input('label') label = '';
-  @Input('value') value = '';
+  @Input('value') value: string | number = '';
   @Input('error') error = '';
   @Input('helper') helper = '';
   @Input('placeholder') placeholder = '';

@@ -7,4 +7,7 @@ export type User = {
   token?: string;
   isAdmin?: boolean;
   fullAddress?: string;
+  street?: string;
+  city?: string;
+  npa?: number;
 };

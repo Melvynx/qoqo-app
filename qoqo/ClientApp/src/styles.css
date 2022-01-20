@@ -151,3 +151,27 @@ a {
 .error-snackbar {
   @apply border-l-4 border-red-500;
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.spinner {
+  animation: spin 1000ms;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.spinner.large {
+  width: 64px;
+  height: 64px;
+}
+
+.spinner.center {
+  margin: auto;
+}
