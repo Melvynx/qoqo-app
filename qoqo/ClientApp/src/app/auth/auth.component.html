@@ -1,16 +1,28 @@
-<div class="w-full flex pb-8">
-  <div class="">
-    <ul
-      *ngIf="authService.isAuthenticated"
-      class="list-none gap-2 flex flex-col pl-8 pt-8"
-    >
-      <li [routerLinkActive]="['active']" class="nav-item">
+<div class="w-full flex sm:flex-row flex-col pb-8">
+  <div class="mb-4">
+    <ul class="list-none gap-2 flex flex-row sm:flex-col pl-8 pt-8">
+      <li class="nav-item text-neutral-400">
+        <a [routerLink]="['/']"> <- QoQlick </a>
+      </li>
+      <li
+        *ngIf="authService.isAuthenticated"
+        [routerLinkActive]="['active']"
+        class="nav-item"
+      >
         <a [routerLink]="['/auth/view']"> MyAQount </a>
       </li>
-      <li [routerLinkActive]="['active']" class="nav-item">
+      <li
+        *ngIf="authService.isAuthenticated"
+        [routerLinkActive]="['active']"
+        class="nav-item"
+      >
         <a [routerLink]="['/auth/click']"> Qlick </a>
       </li>
-      <li [routerLinkActive]="['active']" class="nav-item">
+      <li
+        *ngIf="authService.isAuthenticated"
+        [routerLinkActive]="['active']"
+        class="nav-item"
+      >
         <a [routerLink]="['/auth/order']"> Orders </a>
       </li>
       <li
@@ -18,22 +30,27 @@
         [routerLinkActive]="['active']"
         class="nav-item text-red-400"
       >
-        <a [routerLink]="['/admin']"> Admin </a>
+        <a [routerLink]="['/admin/dashboard']"> Admin </a>
       </li>
-    </ul>
-    <ul
-      *ngIf="!authService.isAuthenticated"
-      class="list-none gap-2 flex flex-col pl-8 pt-8"
-    >
-      <li [routerLinkActive]="['active']" class="nav-item">
+      <li
+        *ngIf="!authService.isAuthenticated"
+        [routerLinkActive]="['active']"
+        class="nav-item"
+      >
         <a [routerLink]="['/auth/login']"> Login </a>
       </li>
-      <li [routerLinkActive]="['active']" class="nav-item">
+      <li
+        *ngIf="!authService.isAuthenticated"
+        [routerLinkActive]="['active']"
+        class="nav-item"
+      >
         <a [routerLink]="['/auth/register']"> Register </a>
       </li>
     </ul>
   </div>
-  <div class="flex-1 ml-8 pl-8 border-l-2 border-neutral-400 pr-8">
+  <div
+    class="px-2 flex-1 sm:ml-8 sm:pl-8 sm:border-l-2 border-neutral-400 sm:pr-8"
+  >
     <router-outlet class="hidden"></router-outlet>
   </div>
 </div>

@@ -11,7 +11,7 @@ public class User
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string PasswordHash { get; set; }
-    public bool IsAdmin { get; set; } = false;
+    public bool IsAdmin { get; set; }
     public string? Street { get; set; }
     public int? Npa { get; set; }
     public string? City { get; set; }

@@ -31,6 +31,9 @@ public class UserDto
     public string? Token { get; set; }
     public string? FullAddress { get; set; }
     public bool? IsAdmin { get; set; }
+    public string? Street { get; set; }
+    public string? City { get; set; }
+    public int? Npa { get; set; }
 
     public static UserDto FromUser(User user, bool configureFullAddress = false)
     {
@@ -42,7 +45,10 @@ public class UserDto
             FirstName = user.FirstName,
             LastName = user.LastName,
             AvatarUrl = user.AvatarUrl,
-            IsAdmin = user.IsAdmin
+            IsAdmin = user.IsAdmin,
+            Street = user.Street,
+            City = user.City,
+            Npa = user.Npa
         };
 
         if (configureFullAddress) userDto.FullAddress = user.GetFullAddress();

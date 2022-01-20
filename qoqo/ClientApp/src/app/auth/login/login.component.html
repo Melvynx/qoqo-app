@@ -1,19 +1,21 @@
-<div class="flex gap-8 flex-col max-w-md m-auto">
-  <p class="text-5xl text-center">Login</p>
-  <app-input
-    #username
-    [error]="errors.username"
-    label="Username"
-    value=""
-  ></app-input>
-  <app-input
-    #password
-    [error]="errors.password"
-    [inputAttr]="{ type: 'password' }"
-    label="Password"
-    value=""
-  ></app-input>
-  <button (click)="onSubmit()" class="ml-auto" class="btn primary">
-    Submit
-  </button>
-</div>
+<form [formGroup]="loginForm">
+  <div class="flex gap-8 flex-col max-w-md m-auto">
+    <p class="text-5xl text-center">Login</p>
+    <app-input
+      #username
+      [error]="errors.username"
+      label="Username"
+      value=""
+    ></app-input>
+    <app-input
+      #password
+      [error]="errors.password"
+      [inputAttr]="{ type: 'password' }"
+      label="Password"
+      value=""
+    ></app-input>
+    <button (click)="onSubmit()" class="ml-auto" class="btn primary">
+      Submit
+    </button>
+  </div>
+</form>

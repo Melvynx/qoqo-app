@@ -28,19 +28,19 @@ public class UsersController : ControllerBase
         return _context.Users.ToList();
     }
 
+    [HttpGet("me")]
+    public ActionResult<UserDto?> Me()
+    {
+        var user = _tokenService.GetUser(HttpContext, _context);
+        return user == null ? ErrorService.BadRequest("Invalid Token") : UserDto.FromUser(user);
+    }
+
     [HttpPut("{id:int}")]
     public async Task<ActionResult<UserDto>> Patch(int id, [FromBody] UserDto user)
     {
         var currentUser = _tokenService.GetUser(HttpContext, _context);
 
         return currentUser?.UserId == id ? await _userProvider.UpdateUser(user, id) : BadRequest();
-    }
-
-    [HttpGet("me")]
-    public ActionResult<UserDto?> Me()
-    {
-        var user = _tokenService.GetUser(HttpContext, _context);
-        return user == null ? ErrorService.BadRequest("Invalid Token") : UserDto.FromUser(user);
     }
 
     [HttpPost("login")]

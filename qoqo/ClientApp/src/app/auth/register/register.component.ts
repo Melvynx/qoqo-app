@@ -21,7 +21,7 @@ export class RegisterComponent {
   errors: Record<string, string> = {};
 
   constructor(private authService: AuthService, private router: Router) {
-    if (this.authService.isAuthenticated) {
+    if (this.authService.isLoggedIn) {
       this.router.navigate(['/auth/view']);
     }
   }

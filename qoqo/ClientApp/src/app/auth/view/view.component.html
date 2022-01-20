@@ -3,16 +3,10 @@
     <p class="text-4xl">Hi {{ authService.user?.userName }}</p>
     <button
       (click)="onLogout()"
-      class="
-        text-md
-        font-bold
-        underline
-        text-white
-        cursor-pointer
-        focus:outline
-      "
+      class="text-md font-bold underline text-white cursor-pointer focus:outline flex gap-2"
     >
       Logout
+      <img class="w-6" src="assets/icon/logout.svg" alt="logout" />
     </button>
   </div>
   <div class="flex gap-4 items-start flex-wrap">
@@ -43,21 +37,31 @@
       value=""
     ></app-input>
   </div>
-  <div class="flex items-baseline gap-4 justify-between flex-wrap">
-    <a
-      class="
-        text-md
-        font-bold
-        underline
-        text-white
-        cursor-pointer
-        focus:outline
-        mr-auto
-      "
-      tabindex="0"
-    >
-      Send password reset email
-    </a>
-    <button (click)="onSubmit()" class="btn primary">Submit</button>
+  <div class="flex gap-4 items-start flex-wrap">
+    <app-input
+      #city
+      [error]="errors.city"
+      [value]="authService.user?.city || ''"
+      class="w-full sm:w-fit"
+      label="City"
+      value=""
+    ></app-input>
+    <app-input
+      #npa
+      [error]="errors.npa"
+      [value]="authService.user?.npa || ''"
+      class="w-full sm:w-fit"
+      label="Npa"
+      value=""
+    ></app-input>
   </div>
+  <app-input
+    #street
+    [error]="errors.street"
+    [value]="authService.user?.street || ''"
+    class="w-full sm:w-fit"
+    label="Street"
+    value=""
+  ></app-input>
+  <button (click)="onSubmit()" class="max-w-fit btn primary">Submit</button>
 </div>

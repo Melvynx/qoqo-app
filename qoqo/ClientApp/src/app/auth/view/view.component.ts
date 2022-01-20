@@ -14,6 +14,9 @@ export class ViewComponent implements OnInit {
   @ViewChild('firstname') firstname?: InputComponent;
   @ViewChild('lastname') lastname?: InputComponent;
   @ViewChild('email') email?: InputComponent;
+  @ViewChild('street') street?: InputComponent;
+  @ViewChild('npa') npa?: InputComponent;
+  @ViewChild('city') city?: InputComponent;
   errors: Record<string, string> = {};
 
   constructor(public authService: AuthService, private router: Router) {}
@@ -31,6 +34,9 @@ export class ViewComponent implements OnInit {
       lastname: this.lastname?.getValue(),
       email: this.email?.getValue(),
       username: this.authService.user?.userName,
+      street: this.street?.getValue(),
+      npa: this.npa?.getValue(),
+      city: this.city?.getValue(),
     };
 
     client<User>(`users/${this.authService.user?.userId}`, {

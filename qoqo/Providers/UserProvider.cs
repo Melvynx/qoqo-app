@@ -35,6 +35,9 @@ public class UserProvider
         user.FirstName = userDto.FirstName;
         user.LastName = userDto.LastName;
         user.AvatarUrl = userDto.AvatarUrl;
+        user.City = userDto.City;
+        user.Street = userDto.Street;
+        user.Npa = userDto.Npa;
 
         await _context.SaveChangesAsync();
         return UserDto.FromUser(user);
@@ -55,7 +58,7 @@ public class UserProvider
     public async Task<UserDto?> Login(LoginDto loginDto)
     {
         var user = await _context.Users
-            .Where(u => u.UserName == loginDto.UserName)
+            .Where(u => u.UserName.ToLower() == loginDto.UserName.ToLower())
             .FirstOrDefaultAsync();
 
         if (user == null) return null;
@@ -118,7 +121,7 @@ public class UserProvider
     {
         if (userName == null) return StringRes.UserNameRequired;
 
-        if (_context.Users.Any(u => u.UserName == userName && u.UserId != userId))
+        if (_context.Users.Any(u => u.UserName.ToLower() == userName.ToLower() && u.UserId != userId))
             return StringRes.UsernameAlreadyExist;
 
         return RegexService.CheckUserName(userName) ? null : StringRes.UserNameRegexError;
