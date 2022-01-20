@@ -1,3 +1,4 @@
+#nullable disable
 namespace qoqo.Model;
 
 public class Token

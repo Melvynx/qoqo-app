@@ -1,3 +1,4 @@
+#nullable disable
 using qoqo.DataTransferObjects;
 using qoqo.Ressources;
 
