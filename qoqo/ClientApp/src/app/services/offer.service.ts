@@ -1,8 +1,8 @@
-import {EventEmitter, Injectable} from '@angular/core';
-import {Offer} from 'src/types/offer';
-import {client} from '../../utils/client';
-import {ClickState} from '../../types/click';
-import {ActivatedRoute, Router} from '@angular/router';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Offer } from 'src/types/offer';
+import { client } from '../../utils/client';
+import { ClickState } from '../../types/click';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'platform',
