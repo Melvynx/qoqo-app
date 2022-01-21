@@ -169,7 +169,7 @@ public class UsersControllerTest : IClassFixture<IntegrationFixtures>
 
         var user = TestHelpers.GetBody<UserDto>(response);
 
-        Assert.Equal(1, user?.UserId);
+        Assert.Equal(2, user?.UserId);
     }
 
     [Fact]

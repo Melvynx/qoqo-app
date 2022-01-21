@@ -39,40 +39,14 @@ public class TestFixtures
             City = "Gland",
             Npa = 1900
         };
-        var adminUser = new User
-        {
-            UserName = "Admin",
-            PasswordHash = "$2a$11$ss.H3F2abvWfm6TnZAgKT.Lu6ihbxJbL/Khqlyzi2V/bFtbztzItC", // abcdef
-            FirstName = "Admin",
-            LastName = "Admin",
-            Email = "admin@gmail.com",
-            Street = "Admin street",
-            City = "Admin city",
-            Npa = 1700
-        };
         _users.Add(user);
-        _users.Add(adminUser);
-        _context.Users.AddRange(_users);
+        _context.Users.Add(user);
         _context.SaveChanges();
     }
 
     private void SetupOffer()
     {
         var now = DateTime.Now;
-        var liveOffer = new Offer
-        {
-            Title = "Offer 1",
-            Description = "Offer 1 description",
-            StartAt = now.AddDays(-2),
-            EndAt = now.AddDays(2),
-            BarredPrice = 100,
-            Price = 0,
-            ClickObjective = 100,
-            SpecificationText = "Specification text",
-            ImageUrl = "https://img.com",
-            IsOver = false,
-            IsDraft = false
-        };
 
         var someOffer = new Offer
         {
@@ -88,19 +62,19 @@ public class TestFixtures
             IsOver = false,
             IsDraft = false
         };
-        _offers.Add(liveOffer);
         _offers.Add(someOffer);
-        _context.Offers.AddRange(_offers);
+        _context.Offers.Add(someOffer);
         _context.SaveChanges();
     }
 
     private void SetupOrder()
     {
+        // UserId and OfferId come from default values on QoQoContext
         var order = new Order
         {
             Status = OrderStatus.PENDING,
-            UserId = _users[0].UserId,
-            OfferId = _offers[0].OfferId
+            UserId = 1,
+            OfferId = 1
         };
         _orders.Add(order);
         _context.Orders.AddRange(_orders);
@@ -109,10 +83,11 @@ public class TestFixtures
 
     private void SetupClick()
     {
+        // UserId and OfferId come from default values on QoQoContext
         var click = new Click
         {
-            UserId = _users[0].UserId,
-            OfferId = _orders[0].OfferId
+            UserId = 1,
+            OfferId = 1
         };
         _clicks.Add(click);
         _context.Clicks.AddRange(_clicks);
