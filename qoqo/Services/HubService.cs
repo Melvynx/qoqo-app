@@ -59,7 +59,7 @@ public class HubService
         var winnerPercentage = winnerClickCount * 100 / clickObjective;
 
         return
-            $"<b>@{userName}</b> has wine the challenge! He is the <b>{clickObjective}</b> to click on the button. The click <b>{winnerClickCount} time</b>, so he reach <b>{winnerPercentage}%</b> of the total click.";
+            $"<b>@{userName}</b> has won the challenge! He is the <b>{clickObjective}</b> to click on the button. He clicked <b>{winnerClickCount} time</b>, so he reach <b>{winnerPercentage}%</b> of the total click.";
     }
 
     private async Task SendAsync(string key, object obj)

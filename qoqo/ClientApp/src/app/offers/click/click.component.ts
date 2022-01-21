@@ -72,8 +72,8 @@ export class ClickComponent implements OnInit {
 
   handleFinishVariant(userId: number, isSave = false) {
     const newVariant =
-      userId === this._authService.user?.userId ? 'wine' : 'lose';
-    if (newVariant === 'wine' && !isSave) {
+      userId === this._authService.user?.userId ? 'win' : 'lose';
+    if (newVariant === 'win' && !isSave) {
       setTimeout(() => {
         this.variant = newVariant;
       }, 2500);
@@ -150,4 +150,4 @@ export class ClickComponent implements OnInit {
   }
 }
 
-type ClickComponentVariant = 'disabled' | 'enabled' | 'wine' | 'lose';
+type ClickComponentVariant = 'disabled' | 'enabled' | 'win' | 'lose';

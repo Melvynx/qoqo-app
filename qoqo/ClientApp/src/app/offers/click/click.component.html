@@ -1,7 +1,7 @@
 <div
   [class.disabled]="variant === 'disabled'"
   [class.lose]="variant === 'lose'"
-  [class.wine]="variant === 'wine'"
+  [class.win]="variant === 'win'"
   [style]="{
     '--completed-percent':
       (clickCounter * 100) / (offerService.offer?.clickObjective || 0) + '%'
@@ -10,15 +10,12 @@
 >
   <div class="absolute sound-btn">
     <button class="w-full h-full" (click)="handleSound()">
-      <img
-        [src]="soundIcon"
-        alt="sound"
-      />
+      <img [src]="soundIcon" alt="sound" />
     </button>
   </div>
   <div class="bg">
     <div class="click-container p-4 relative">
-      <p *ngIf="variant === 'wine'" class="text-2xl sm:text-4xl text-green-400">
+      <p *ngIf="variant === 'win'" class="text-2xl sm:text-4xl text-green-400">
         You won!
       </p>
       <p *ngIf="variant === 'lose'" class="text-2xl sm:text-4xl text-red-600">
