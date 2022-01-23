@@ -7,7 +7,7 @@ import { ClientMessage } from '../../../types/api';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html'
+  templateUrl: './users.component.html',
 })
 export class UsersComponent {
   users: User[] = [];
