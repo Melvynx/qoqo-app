@@ -25,13 +25,22 @@ cd qoqo
 dotnet run
 ```
 
+⚠️ Please don't run the **fronted** alone, use the run command above.
+
 #### URL 🌐
-- Swagger URL: [https://localhost:7257/swagger/index.html](https://localhost:7257/swagger/index.html)
-- App URL: [https://localhost:44460/](https://localhost:44460/)
+- Local Swagger URL: [https://localhost:7257/swagger/index.html](https://localhost:7257/swagger/index.html)
+- Local app URL: [https://localhost:44460](https://localhost:44460)
+- Prod URL: [https://qoqo.azurewebsites.net](https://qoqo.azurewebsites.net)
 
 ## Test 🚧
 
 Please run the test in coverage mode because parallel test is not supported.
+
+You can also use:
+```bash
+dotnet test
+```
+But some test can fail because of the parallel test.
 
 ## Diagrams
 
