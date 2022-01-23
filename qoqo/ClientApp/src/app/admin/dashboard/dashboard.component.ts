@@ -47,7 +47,7 @@ export class DashboardComponent {
     return (this.dashboard?.clickCount * 100) / this.dashboard?.clickObjective;
   }
 
-  safeNumber(value?: number) {
+  safeNumber(value?: number): number {
     return value || 0;
   }
 

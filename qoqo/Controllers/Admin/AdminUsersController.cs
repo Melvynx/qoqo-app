@@ -14,12 +14,10 @@ public class AdminUsersController : ControllerBase
 {
     private readonly QoqoContext _context;
     private readonly ITokenService _tokenService;
-    private readonly UserProvider _userProvider;
 
-    public AdminUsersController(QoqoContext qoqoContext, UserProvider userProvider, ITokenService tokenService)
+    public AdminUsersController(QoqoContext qoqoContext, ITokenService tokenService)
     {
         _context = qoqoContext;
-        _userProvider = userProvider;
         _tokenService = tokenService;
     }
 

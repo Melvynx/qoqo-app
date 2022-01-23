@@ -7,7 +7,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { ClickButtonComponent } from './offers/click-button/click-button.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -42,7 +41,6 @@ const ROUTES: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'offers/:id', component: HomeComponent },
   { path: 'nothing', component: NoOfferComponent },
-  { path: 'counter', component: CounterComponent },
   { path: 'users', component: UsersComponent },
   {
     path: 'auth',
@@ -106,7 +104,6 @@ const ROUTES: Routes = [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     UsersComponent,
     ClickProfileComponent,
     ClickButtonComponent,

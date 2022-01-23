@@ -7,8 +7,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'auth-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent {
   @ViewChild('username') username?: InputComponent;

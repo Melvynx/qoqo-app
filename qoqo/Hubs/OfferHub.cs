@@ -8,9 +8,4 @@ public class OfferHub : Hub
     {
         await Clients.All.SendAsync("ReceiveMessage", user, message);
     }
-
-    public async Task OnConnected(string user)
-    {
-        await Clients.All.SendAsync("UserConnected", user);
-    }
 }

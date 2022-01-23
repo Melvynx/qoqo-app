@@ -7,7 +7,6 @@ import { SnackbarService } from '../../../services/snackbar.service';
 @Component({
   selector: 'app-view',
   templateUrl: './order-view.component.html',
-  styleUrls: ['./order-view.component.css'],
 })
 export class OrderViewComponent {
   orderId?: string | null;

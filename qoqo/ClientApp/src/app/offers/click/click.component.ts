@@ -11,7 +11,7 @@ import { getLocalStorage, setLocalStorage } from '../../../utils/localStorage';
 const Sounds = {
   click: new Audio('assets/sounds/click.mp3'),
   ready: new Audio('assets/sounds/ready.mp3'),
-  soundon: new Audio('assets/sounds/soundon.wav'),
+  soundOn: new Audio('assets/sounds/soundon.wav'),
 };
 
 @Component({
@@ -32,6 +32,10 @@ export class ClickComponent implements OnInit {
 
   get isOn() {
     return this.variant === 'enabled' || this.variant === 'disabled';
+  }
+
+  get soundIcon() {
+    return `assets/icon/sound-${this.isSoundEnable ? 'on' : 'off'}.svg`;
   }
 
   constructor(
@@ -64,13 +68,13 @@ export class ClickComponent implements OnInit {
     });
   }
 
-  handleFinish(finishInformation: ClickFinishResult) {
+  private handleFinish(finishInformation: ClickFinishResult) {
     this.sentence = finishInformation.finishSentence;
     this.clickCounter = finishInformation.clickCount;
     this.handleFinishVariant(finishInformation.userId);
   }
 
-  handleFinishVariant(userId: number, isSave = false) {
+  private handleFinishVariant(userId: number, isSave = false) {
     const newVariant =
       userId === this._authService.user?.userId ? 'win' : 'lose';
     if (newVariant === 'win' && !isSave) {
@@ -82,7 +86,7 @@ export class ClickComponent implements OnInit {
     }
   }
 
-  decreaseRemainingTime() {
+  private decreaseRemainingTime() {
     this.remainingTime--;
     if (this.remainingTime === 0 && this.variant === 'disabled') {
       this.variant = 'enabled';
@@ -94,7 +98,7 @@ export class ClickComponent implements OnInit {
     }
   }
 
-  setRemainingTime(time: number) {
+  private setRemainingTime(time: number) {
     this.remainingTime = time || 0;
     if (this.remainingTime > 0) {
       this.variant = 'disabled';
@@ -102,7 +106,7 @@ export class ClickComponent implements OnInit {
     }
   }
 
-  handleNewClick(click: Click) {
+  private handleNewClick(click: Click) {
     if (
       click.clickObjective !== this.offerService.offer?.clickObjective &&
       this.offerService.offer
@@ -131,22 +135,18 @@ export class ClickComponent implements OnInit {
       });
   }
 
-  playSound(name: keyof typeof Sounds) {
+  private playSound(name: keyof typeof Sounds) {
     if (!this.isSoundEnable) {
       return;
     }
     Sounds[name].volume = 0.5;
-    Sounds[name].play().then(() => console.log('PLAYED'));
+    Sounds[name].play();
   }
 
   handleSound() {
     this.isSoundEnable = !this.isSoundEnable;
-    this.playSound('soundon');
+    this.playSound('soundOn');
     setLocalStorage('isSoundEnable', this.isSoundEnable);
-  }
-
-  get soundIcon() {
-    return `assets/icon/sound-${this.isSoundEnable ? 'on' : 'off'}.svg`;
   }
 }
 

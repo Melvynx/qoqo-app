@@ -8,8 +8,7 @@ import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'auth-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
   @ViewChild('username') username?: InputComponent;

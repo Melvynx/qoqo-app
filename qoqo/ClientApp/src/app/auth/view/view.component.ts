@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { InputComponent } from 'src/app/ui/input/input.component';
 import { User } from 'src/types/users';
 import { client } from 'src/utils/client';
@@ -8,9 +8,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'auth-view',
   templateUrl: './view.component.html',
-  styleUrls: ['./view.component.css'],
 })
-export class ViewComponent implements OnInit {
+export class ViewComponent {
   @ViewChild('firstname') firstname?: InputComponent;
   @ViewChild('lastname') lastname?: InputComponent;
   @ViewChild('email') email?: InputComponent;
@@ -20,9 +19,6 @@ export class ViewComponent implements OnInit {
   errors: Record<string, string> = {};
 
   constructor(public authService: AuthService, private router: Router) {}
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  ngOnInit(): void {}
 
   onLogout() {
     this.authService.logout().then(() => this.router.navigate(['/auth/login']));

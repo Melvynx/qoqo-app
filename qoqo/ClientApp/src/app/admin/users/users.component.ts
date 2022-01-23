@@ -7,8 +7,7 @@ import { ClientMessage } from '../../../types/api';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css'],
+  templateUrl: './users.component.html'
 })
 export class UsersComponent {
   users: User[] = [];
@@ -19,10 +18,6 @@ export class UsersComponent {
 
   constructor(private snackbar: SnackbarService) {
     this.getUsers();
-  }
-
-  test() {
-    console.log({ adminOnly: this.adminOnly, username: this.username });
   }
 
   getUsers() {
@@ -43,8 +38,6 @@ export class UsersComponent {
   }
 
   onUserNameChange(event: Event) {
-    console.log('CHANGE', event.target);
-
     this.username = (<HTMLInputElement>event.target).value;
     this.handleTimeout();
   }

@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { User } from '../../types/users';
 
@@ -14,10 +9,7 @@ import { User } from '../../types/users';
 export class AdminGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean | Promise<boolean> {
+  canActivate(): boolean | Promise<boolean> {
     if (this.authService.isLoading) {
       return new Promise((r) =>
         this.authService.userLoadFinish.subscribe((user) =>

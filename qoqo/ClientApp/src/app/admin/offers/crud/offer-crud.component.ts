@@ -9,7 +9,13 @@ import { SnackbarService } from '../../../services/snackbar.service';
 @Component({
   selector: 'app-crud',
   templateUrl: './offer-crud.component.html',
-  styleUrls: ['./offer-crud.component.css'],
+  styles: [
+    `
+      .prices > * {
+        width: 31%;
+      }
+    `,
+  ],
 })
 export class OfferCrudComponent implements OnInit {
   @ViewChild('form') form?: ElementRef<HTMLFormElement>;
